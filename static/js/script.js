@@ -25,24 +25,223 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', updateNav, { passive: true });
     }
 
-    const mapContainer = document.getElementById('indiaMap');
-    if (mapContainer && typeof L !== 'undefined') {
-        const indiaMap = L.map('indiaMap', { zoomControl: true }).setView([22.5937, 78.9629], 5);
+    const initMapPreview = (mapId, popupMessage, options = {}) => {
+        const mapContainer = document.getElementById(mapId);
+        if (!mapContainer || typeof L === 'undefined') {
+            return null;
+        }
+
+        const mapInstance = L.map(mapId, {
+            zoomControl: true,
+            scrollWheelZoom: false,
+            minZoom: options.minZoom ?? 3,
+            maxZoom: options.maxZoom ?? 19,
+            maxBounds: options.maxBounds ?? null,
+            maxBoundsViscosity: options.maxBounds ? 1.0 : 0
+        });
+
+        if (options.fitBounds) {
+            mapInstance.fitBounds(options.fitBounds, {
+                padding: options.fitPadding || [20, 20]
+            });
+        } else {
+            mapInstance.setView([22.5937, 78.9629], 5);
+        }
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
+            noWrap: true,
             attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(indiaMap);
+        }).addTo(mapInstance);
 
-        L.marker([22.5937, 78.9629])
-            .addTo(indiaMap)
-            .bindPopup('Cultural uploads across India will appear here.')
-            .openPopup();
+        if (popupMessage) {
+            L.marker([22.5937, 78.9629])
+                .addTo(mapInstance)
+                .bindPopup(popupMessage)
+                .openPopup();
+        }
 
         setTimeout(() => {
-            indiaMap.invalidateSize();
-        }, 150);
-    }
+            mapInstance.invalidateSize();
+        }, 180);
+
+        return mapInstance;
+    };
+
+    initMapPreview('indiaMap', 'Community cultural uploads will appear here.');
+
+    const addNeighborHighlights = (mapInstance) => {
+        if (!mapInstance || typeof L === 'undefined') {
+            return;
+        }
+
+        const neighborLayer = L.layerGroup().addTo(mapInstance);
+        const indiaCenter = [22.5937, 78.9629];
+        const neighbors = [
+            { name: 'Pakistan', lat: 33.6844, lng: 73.0479, caption: 'West neighbour' },
+            { name: 'Nepal', lat: 27.7172, lng: 85.3240, caption: 'Himalayan neighbour' },
+            { name: 'Bhutan', lat: 27.4728, lng: 89.6390, caption: 'Eastern Himalayas' },
+            { name: 'Bangladesh', lat: 23.8103, lng: 90.4125, caption: 'Bay-side neighbour' },
+            { name: 'Myanmar', lat: 19.7633, lng: 96.0785, caption: 'Eastern neighbour' },
+            { name: 'Sri Lanka', lat: 6.9271, lng: 79.8612, caption: 'Southern island neighbour' }
+        ];
+
+        neighbors.forEach((neighbor) => {
+            L.polyline([indiaCenter, [neighbor.lat, neighbor.lng]], {
+                color: '#E09F3E',
+                weight: 1.5,
+                opacity: 0.55,
+                dashArray: '4 5'
+            }).addTo(neighborLayer);
+
+            L.circleMarker([neighbor.lat, neighbor.lng], {
+                radius: 6,
+                color: '#7A1E1E',
+                weight: 2,
+                fillColor: '#FF9933',
+                fillOpacity: 0.92
+            })
+                .addTo(neighborLayer)
+                .bindPopup(`<strong>${neighbor.name}</strong><br><small>${neighbor.caption}</small>`);
+        });
+    };
+
+    const homeMapBounds = L.latLngBounds(
+        [5.0, 60.0],
+        [38.8, 98.5]
+    );
+
+    const homeMap = initMapPreview('homeMap', null, {
+        minZoom: 4,
+        maxZoom: 8,
+        maxBounds: homeMapBounds,
+        fitBounds: homeMapBounds,
+        fitPadding: [16, 16]
+    });
+
+    addNeighborHighlights(homeMap);
+    const mapSection = document.getElementById('map');
+    const culturalGrid = document.getElementById('culturalGrid');
+    const placesDatasetMeta = document.getElementById('placesDatasetMeta');
+
+    let activePlaceMarker = null;
+
+    const buildPlaceCards = () => {
+        if (!culturalGrid || !Array.isArray(window.culturalPlaces)) {
+            return;
+        }
+
+        if (placesDatasetMeta) {
+            placesDatasetMeta.textContent = `${window.culturalPlaces.length} places from your cultural dataset.`;
+        }
+
+        const cardsFragment = document.createDocumentFragment();
+
+        window.culturalPlaces.forEach((place) => {
+            const placeRegion = place.state || place.region || place.location || '';
+            const placeDescription = place.description || '';
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'grid-card grid-scroll-link reveal-card';
+            button.setAttribute('aria-label', placeRegion ? `${place.name}, ${placeRegion}` : place.name);
+            if (placeDescription) {
+                button.setAttribute('title', placeDescription);
+            }
+
+            const image = document.createElement('img');
+            image.className = 'lazy-grid-image';
+            image.src = place.image;
+            image.alt = placeRegion ? `${place.name}, ${placeRegion}` : place.name;
+
+            const overlay = document.createElement('span');
+            overlay.className = 'grid-overlay';
+            overlay.innerHTML = placeRegion
+                ? `<strong>${place.name}</strong> - ${placeRegion}`
+                : `<strong>${place.name}</strong>`;
+
+            button.appendChild(image);
+            button.appendChild(overlay);
+
+            button.addEventListener('click', () => {
+                if (mapSection) {
+                    mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                if (!homeMap) {
+                    return;
+                }
+
+                // Wait for scroll animation
+                setTimeout(() => {
+                    // Force map to recalculate its size
+                    homeMap.invalidateSize({ animate: false });
+                    
+                    // Remove existing marker if any
+                    if (activePlaceMarker) {
+                        homeMap.removeLayer(activePlaceMarker);
+                    }
+
+                    const mapWidth = homeMap.getSize().x;
+                    const mapHeight = homeMap.getSize().y;
+                    
+                    // Use conservative zoom to ensure popup fits
+                    let targetZoom = 5;
+                    if (mapWidth >= 760 && mapHeight >= 600) {
+                        targetZoom = 6;
+                    } else if (mapWidth >= 520 && mapHeight >= 500) {
+                        targetZoom = 5.5;
+                    }
+
+                    // Prepare popup content
+                    const descriptionParts = (place.description || '').split('—');
+                    const popupState = (descriptionParts[0] || placeRegion || '').trim();
+                    const popupDescription = (descriptionParts[1] || place.description || '').trim();
+                    const popupHTML = `
+<div class="map-popup">
+    <img src="${place.image}" class="popup-image" alt="${place.name}">
+
+    <div class="popup-content">
+        <h5 class="popup-title">${place.name}</h5>
+        <div class="popup-state">${popupState}</div>
+        <p class="popup-desc">${popupDescription}</p>
+    </div>
+</div>
+`;
+
+                    // Use setView for immediate positioning, then create marker
+                    homeMap.setView([place.lat, place.lng], targetZoom, {
+                        animate: true,
+                        duration: 1.0
+                    });
+
+                    // Add marker after a short delay
+                    setTimeout(() => {
+                        activePlaceMarker = L.marker([place.lat, place.lng]).addTo(homeMap);
+                        
+                        // Bind and open popup
+                        activePlaceMarker.bindPopup(popupHTML, {
+                            maxWidth: 320,
+                            minWidth: 280,
+                            autoPan: true,
+                            keepInView: true,
+                            autoPanPaddingTopLeft: [20, 20],
+                            autoPanPaddingBottomRight: [20, 300],
+                            autoClose: false,
+                            closeOnClick: false
+                        }).openPopup();
+                    }, 1100);
+                }, 500);
+            });
+
+            cardsFragment.appendChild(button);
+        });
+
+        culturalGrid.innerHTML = '';
+        culturalGrid.appendChild(cardsFragment);
+    };
+
+    buildPlaceCards();
 
     const uploadMapModal = document.getElementById('uploadMapModal');
     const uploadMapEl = document.getElementById('uploadMap');
@@ -56,7 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (uploadMapModal && uploadMapEl && typeof L !== 'undefined') {
         uploadMapModal.addEventListener('shown.bs.modal', () => {
             if (!uploadMap) {
-                uploadMap = L.map('uploadMap').setView([22.5937, 78.9629], 5);
+                uploadMap = L.map('uploadMap', {
+                    scrollWheelZoom: false
+                }).setView([22.5937, 78.9629], 5);
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
@@ -218,6 +419,60 @@ document.addEventListener('DOMContentLoaded', () => {
     bindCapsLockWarning('id_password', 'id_password_caps_warning');
     bindCapsLockWarning('id_password1', 'id_password1_caps_warning');
     bindCapsLockWarning('id_password2', 'id_password2_caps_warning');
+
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    if (revealElements.length) {
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.05,
+                rootMargin: '0px 0px -80px 0px'
+            });
+
+            revealElements.forEach((element) => revealObserver.observe(element));
+        } else {
+            revealElements.forEach((element) => element.classList.add('is-visible'));
+        }
+    }
+
+    const smoothLinks = document.querySelectorAll('a.grid-scroll-link[href^="#"]');
+    smoothLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+            const targetSelector = link.getAttribute('href');
+            const target = targetSelector ? document.querySelector(targetSelector) : null;
+            if (target) {
+                event.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    const revealCards = document.querySelectorAll('.reveal-card');
+    if (revealCards.length) {
+        if ('IntersectionObserver' in window) {
+            const cardObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.02,
+                rootMargin: '0px 0px -60px 0px'
+            });
+
+            revealCards.forEach((card) => cardObserver.observe(card));
+        } else {
+            revealCards.forEach((card) => card.classList.add('is-visible'));
+        }
+    }
 });
 
 

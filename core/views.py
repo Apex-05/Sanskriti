@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -8,6 +9,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import redirect, render
 
 from .forms import CulturalPostForm, RegisterForm, SanskritiAuthenticationForm
+from .models import CulturalPost
 
 
 @method_decorator(never_cache, name="dispatch")
@@ -73,6 +75,12 @@ def upload(request):
             return redirect("upload")
 
     return render(request, "core/upload.html", {"form": form})
+
+
+@login_required(login_url="login")
+def my_posts(request):
+    posts = CulturalPost.objects.filter(author=request.user).order_by("-created_at")
+    return render(request, "core/my_posts.html", {"posts": posts})
 
 
 @require_POST
