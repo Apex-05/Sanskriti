@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<section class="auth-split-page register-page">
+    <div class="container-fluid px-0">
+        <div class="row g-0 min-vh-100">
+            <div class="col-lg-6 d-none d-lg-flex auth-visual">
+                <div class="auth-visual-content text-white">
+                    <h1 class="display-5 fw-bold mb-3">Become a Sanskriti Contributor</h1>
+                    <p class="lead mb-0">Create an account to upload traditions, stories, and cultural memory from your part of India.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5">
+                <div class="card p-4 p-md-5 shadow auth-card glass-card w-100">
+                    <div class="text-center mb-4">
+                        <h2 class="brand-title mb-1">Create Account</h2>
+                        <p class="text-light mb-0">Start preserving India’s living heritage</p>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="auth-error-box mb-3" role="alert">
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" novalidate class="needs-validation auth-form" data-validate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_username">Username</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input class="form-control auth-input" type="text" id="id_username" name="username" value="{{ form.username.value|default:'' }}" placeholder="Choose a username" required>
+                            </div>
+                            <small class="form-text text-light d-block mt-2">4-20 characters. Use letters, numbers, and underscore only.</small>
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.username.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_email">Email</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input class="form-control auth-input" type="email" id="id_email" name="email" value="{{ form.email.value|default:'' }}" placeholder="Enter your email" required>
+                            </div>
+                            {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.email.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_password1">Password</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input class="form-control auth-input js-password-input" type="password" id="id_password1" name="password1" placeholder="Create a password" required>
+                                <button class="btn btn-outline-light password-toggle-btn" type="button" data-toggle-password data-target="id_password1" aria-label="Show password">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div id="id_password1_caps_warning" class="caps-warning mt-1 d-none">Caps Lock is ON.</div>
+                            <small class="form-text text-light d-block mt-2">Min. 8 chars with uppercase, lowercase, number, and one special characters.</small>
+                            {% if form.password1.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password1.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_password2">Confirm Password</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+                                <input class="form-control auth-input js-password-input" type="password" id="id_password2" name="password2" placeholder="Repeat your password" required>
+                                <button class="btn btn-outline-light password-toggle-btn" type="button" data-toggle-password data-target="id_password2" aria-label="Show password">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div id="id_password2_caps_warning" class="caps-warning mt-1 d-none">Caps Lock is ON.</div>
+                            {% if form.password2.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password2.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <button class="btn auth-btn w-100 mt-2" type="submit">Sign Up</button>
+                    </form>
+
+                    <hr class="auth-divider">
+                    <p class="text-center text-light mb-2">Already have an account?</p>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light w-100">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

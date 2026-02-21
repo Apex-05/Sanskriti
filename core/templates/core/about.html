@@ -1,0 +1,127 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="about-hero d-flex align-items-center text-white text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold">What is Sanskriti?</h1>
+        <p class="lead mt-3">
+            A living digital archive of India's culture — created not by institutions,
+            but by the people themselves.
+        </p>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Our Mission</h2>
+                <p>
+                    India is not defined only by monuments or textbooks.
+                    Culture lives in everyday practices — a grandmother’s recipe,
+                    a temple festival, a folk song sung during harvest, or
+                    a craft passed across generations.
+                </p>
+                <p>
+                    Sanskriti aims to preserve these living traditions by allowing
+                    people to document their own culture directly on a shared map
+                    of India.
+                </p>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="{% static 'images/india_map.png' %}" class="img-fluid rounded shadow" alt="India map">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-5">What You Can Do</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card p-4 shadow-sm h-100">
+                    <h4>Explore</h4>
+                    <p>
+                        Click anywhere on the India map and discover stories,
+                        traditions, and cultural practices shared by people
+                        from that region.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card p-4 shadow-sm h-100">
+                    <h4>Contribute</h4>
+                    <p>
+                        Upload photos and write about festivals, food, rituals,
+                        crafts, and local knowledge from your hometown.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card p-4 shadow-sm h-100">
+                    <h4>Preserve</h4>
+                    <p>
+                        Help create a permanent community archive so future
+                        generations can understand the traditions that shaped us.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-5">How Sanskriti Works</h2>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="step-card p-4 h-100">
+                    <h3>1</h3>
+                    <p>Create an account</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="step-card p-4 h-100">
+                    <h3>2</h3>
+                    <p>Select a location on the map</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="step-card p-4 h-100">
+                    <h3>3</h3>
+                    <p>Upload a story and image</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="step-card p-4 h-100">
+                    <h3>4</h3>
+                    <p>Share and explore culture</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section text-white text-center py-5">
+    <div class="container">
+        <h2 class="fw-bold">Be a Part of Preserving Culture</h2>
+        <p class="mb-4">Your hometown traditions deserve to be remembered.</p>
+
+        {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="btn btn-lg btn-light px-4">Create an Account</a>
+        {% else %}
+            <a href="{% url 'upload' %}" class="btn btn-lg btn-light px-4">Upload Your First Story</a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

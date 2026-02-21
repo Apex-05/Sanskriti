@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<section class="dashboard-panel container py-5 mt-4">
+    <div class="dashboard-head text-center mb-5">
+        <h2 class="fw-bold mb-2">Welcome back, {{ user.username }}</h2>
+        <p class="text-muted mb-0">Your personal panel to share and track cultural contributions.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-4" id="upload-section">
+            <div class="card dashboard-card h-100 shadow border-0">
+                <div class="card-body p-4">
+                    <div class="dash-icon mb-3"><i class="bi bi-cloud-arrow-up"></i></div>
+                    <h4 class="card-title mb-2">Upload Cultural Post</h4>
+                    <p class="card-text text-muted">Share a tradition, festival, food, craft, or story from your region.</p>
+                    <a href="{% url 'upload' %}" class="btn dashboard-btn">Upload</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="card dashboard-card h-100 shadow border-0">
+                <div class="card-body p-4">
+                    <div class="dash-icon mb-3"><i class="bi bi-stars"></i></div>
+                    <h4 class="card-title mb-2">Karma Points</h4>
+                    <p class="karma-count mb-2">0</p>
+                    <p class="card-text text-muted mb-0">Keep contributing local stories to strengthen this cultural archive.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="card dashboard-card h-100 shadow border-0">
+                <div class="card-body p-4">
+                    <div class="dash-icon mb-3"><i class="bi bi-collection"></i></div>
+                    <h4 class="card-title mb-2">My Contributions</h4>
+                    <p class="card-text text-muted">Total uploads: {{ user.cultural_posts.count }}</p>
+                    <a href="{% url 'upload' %}" class="btn dashboard-btn">Add New Post</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card dashboard-card border-0 shadow mt-4">
+        <div class="card-body p-4">
+            <h5 class="mb-3"><i class="bi bi-person-badge me-2"></i>Profile</h5>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <p class="mb-1 text-muted">Username</p>
+                    <p class="fw-semibold mb-0">{{ user.username }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1 text-muted">Email</p>
+                    <p class="fw-semibold mb-0">{{ user.email|default:'-' }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-1 text-muted">Date Joined</p>
+                    <p class="fw-semibold mb-0">{{ user.date_joined|date:"M d, Y" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<section class="auth-split-page">
+    <div class="container-fluid px-0">
+        <div class="row g-0 min-vh-100">
+            <div class="col-lg-6 d-none d-lg-flex auth-visual">
+                <div class="auth-visual-content text-white">
+                    <h1 class="display-5 fw-bold mb-3">India's Stories, One Culture at a Time</h1>
+                    <p class="lead mb-0">Join Sanskriti to explore and preserve regional festivals, crafts, food traditions, and living heritage.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-lg-5">
+                <div class="card p-4 p-md-5 shadow auth-card glass-card w-100">
+                    <div class="text-center mb-4">
+                        <h2 class="brand-title mb-1">Welcome Back</h2>
+                        <p class="text-light mb-0">Log in to continue your cultural journey</p>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="auth-error-box mb-3" role="alert">
+                            <div>Invalid username or password.</div>
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" novalidate class="needs-validation auth-form" data-validate>
+                    {% csrf_token %}
+                        {% if next %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_username">Username</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input class="form-control auth-input" type="text" id="id_username" name="username" value="{{ form.username.value|default:'' }}" placeholder="Enter your username" required>
+                            </div>
+                            {% if form.username.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.username.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_password">Password</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                                <input class="form-control auth-input js-password-input" type="password" id="id_password" name="password" placeholder="Enter your password" required>
+                                <button class="btn btn-outline-light password-toggle-btn" type="button" data-toggle-password data-target="id_password" aria-label="Show password">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div id="id_password_caps_warning" class="caps-warning mt-1 d-none">Caps Lock is ON.</div>
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="1" id="id_remember_me" name="remember_me">
+                            <label class="form-check-label text-light" for="id_remember_me">
+                                Remember me on this device
+                            </label>
+                        </div>
+
+                        <button class="btn auth-btn w-100" type="submit">Login</button>
+
+                        <hr class="auth-divider">
+                        <a href="{% url 'register' %}" class="btn btn-outline-light w-100">Create Account</a>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'home' %}" class="auth-back-link">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

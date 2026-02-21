@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+{% endblock %}
+
+{% block content %}
+<section class="upload-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="card upload-card border-0 shadow-lg">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="mb-4 text-center text-md-start">
+                            <h2 class="fw-bold mb-2">Upload a Cultural Story</h2>
+                            <p class="text-muted mb-0">Share India's living traditions with title, category, story, image, and location.</p>
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <form method="POST" enctype="multipart/form-data" id="uploadForm" class="needs-validation" data-validate novalidate>
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="postTitle" class="form-label fw-semibold">Title</label>
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.title.errors|striptags }}</div>
+                                {% endif %}
+                                <div class="invalid-feedback">Please enter a title.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="postCategory" class="form-label fw-semibold">Cultural Category</label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.category.errors|striptags }}</div>
+                                {% endif %}
+                                <div class="invalid-feedback">Please choose a category.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="postDescription" class="form-label fw-semibold">Description</label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.description.errors|striptags }}</div>
+                                {% endif %}
+                                <div class="invalid-feedback">Please add a description.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Image Upload</label>
+                                <div id="uploadDropArea" class="upload-drop-area">
+                                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                                    <p class="mb-1">Drag and drop your image here</p>
+                                    <small class="text-muted d-block mb-3">or click to browse</small>
+                                    {{ form.image }}
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="browseImageBtn">Choose Image</button>
+                                </div>
+                                <img id="imagePreview" class="img-fluid upload-preview d-none" alt="Image preview">
+                                <div class="invalid-feedback d-block d-none" id="imageInputError">Please upload an image.</div>
+                                {% if form.image.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.image.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Location</label>
+                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                    <button type="button" class="btn dashboard-btn" id="mapPicker" data-bs-toggle="modal" data-bs-target="#uploadMapModal">Pick Location on Map</button>
+                                    <span class="text-muted" id="selectedCoordinates">No location selected yet.</span>
+                                </div>
+                                {{ form.latitude }}
+                                {{ form.longitude }}
+                            </div>
+
+                            <div class="d-grid d-md-flex gap-2 justify-content-md-end">
+                                <button type="submit" class="btn auth-btn px-4">Submit Upload</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="uploadMapModal" tabindex="-1" aria-labelledby="uploadMapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadMapModalLabel">Pick Cultural Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-3">Click on the map to capture latitude and longitude.</p>
+                <div id="uploadMap" class="upload-map-canvas"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{% endblock %}
