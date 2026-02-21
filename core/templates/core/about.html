@@ -2,223 +2,311 @@
 {% load static %}
 {% block content %}
 
-<!-- HERO -->
+<div class="about-premium">
 
-<section class="about-hero d-flex align-items-center text-white text-center">
-    <div class="container">
-        <h1 class="display-4 fw-bold">About Sanskriti</h1>
-        <p class="lead mt-3">
-            Preserving India's living traditions through people, memory, and shared stories.
-        </p>
-    </div>
-</section>
+    <!-- HERO -->
+    <section class="about-premium-hero">
+        <div class="about-hero-overlay"></div>
 
-<!-- WHAT IS SANSKRITI -->
+        <div class="container text-center about-hero-content">
+            <span class="about-premium-badge">India’s Living Cultural Archive</span>
 
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h2 class="fw-bold mb-3">What is Sanskriti?</h2>
+            <h1>Preserving India’s Living Culture</h1>
 
-```
-            <p>
-                Sanskriti is a community-driven cultural archive of India. Unlike museums
-                or history books that record monuments and rulers, Sanskriti documents
-                everyday life — festivals, rituals, local food, oral traditions,
-                crafts, songs, and practices that exist within families and communities.
+            <p class="about-premium-subtitle">
+                Sanskriti is a community-driven cultural map where people share the traditions
+                they inherit, practice, and remember.
             </p>
 
-            <p>
-                Culture is not only what is carved in stone. It is what is remembered,
-                practiced, cooked, sung, and celebrated. Many of these traditions
-                are disappearing as generations change and urban life replaces
-                local knowledge.
+            <p class="about-premium-support">
+                From festivals and rituals to food, crafts, and local stories —
+                each contribution connects a place to the people who live its culture.
             </p>
 
-            <p>
-                Sanskriti gives every individual the power to record their heritage
-                directly on a shared map of India — turning personal memory into
-                collective history.
+            <div class="about-hero-divider"></div>
+
+            <p class="about-hero-tagline">
+                Memory becomes history only when it is shared.
             </p>
         </div>
+    </section>
 
-        <div class="col-lg-6 text-center">
-            <img src="{% static 'images/india_map.png' %}" class="img-fluid rounded shadow" alt="India map">
-        </div>
-    </div>
-</div>
-```
+    <!-- STORY: WHAT + WHY -->
+    <section class="about-story-section">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <div class="about-story-column h-100">
+                        <span class="about-premium-label">What is Sanskriti</span>
+                        <h2 class="about-premium-title">People over monuments</h2>
 
-</section>
+                        <p class="about-story-lead">
+                            Sanskriti is not a museum. It is a living archive created by people themselves.
+                        </p>
 
-<!-- THE PROBLEM -->
+                        <h3 class="about-story-mini-title">What Sanskriti preserves</h3>
+                        <ul class="about-story-list">
+                            <li>Food traditions and home rituals</li>
+                            <li>Festivals, songs, and local crafts</li>
+                            <li>Family practices passed through generations</li>
+                        </ul>
 
-<section class="py-5">
-    <div class="container">
-        <h2 class="fw-bold text-center mb-4">Why Sanskriti Matters</h2>
+                        <div class="about-story-emphasis mb-0">
+                            Every post is tied to a place on the map, turning personal memory into shared history.
+                        </div>
+                    </div>
+                </div>
 
-```
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <p>
-                Every year, India loses pieces of its cultural memory. Traditional
-                recipes disappear when grandparents pass away. Folk songs are forgotten.
-                Dialects fade. Handicrafts stop being practiced because they are
-                no longer documented or valued.
-            </p>
+                <div class="col-lg-6">
+                    <div class="about-story-column h-100">
+                        <span class="about-premium-label">Why it matters</span>
+                        <h2 class="about-premium-title">Culture disappears quietly</h2>
 
-            <p>
-                Most heritage preservation focuses on monuments — forts, temples,
-                and buildings. But the true heritage of a country lives inside its
-                people, not its architecture.
-            </p>
+                        <p class="about-story-lead">
+                            Recipes are forgotten. Dialects fade. Local crafts vanish when elders are gone.
+                        </p>
 
-            <p>
-                If ordinary traditions are not recorded now, they may never be recorded.
-                Sanskriti exists to ensure that everyday culture is preserved before
-                it is lost.
-            </p>
-        </div>
-    </div>
-</div>
-```
+                        <h3 class="about-story-mini-title">What we risk losing</h3>
+                        <ul class="about-story-list">
+                            <li>Regional dialects and oral storytelling</li>
+                            <li>Traditional craft techniques and symbols</li>
+                            <li>Everyday cultural memory beyond monuments</li>
+                        </ul>
 
-</section>
+                        <div class="about-story-emphasis mb-0">
+                            Sanskriti exists so traditions are remembered before they are lost forever.
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<!-- MISSION & VISION -->
-
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row g-5">
-
-```
-        <div class="col-md-6">
-            <div class="feature-card p-4 shadow-sm h-100">
-                <h3 class="fw-bold mb-3">Our Mission</h3>
-                <p>
-                    To create a public, people-owned digital archive where anyone
-                    can document and share the cultural practices of their region.
-                </p>
-
-                <ul class="text-start">
-                    <li>Preserve local traditions and oral knowledge</li>
-                    <li>Encourage inter-regional cultural understanding</li>
-                    <li>Make heritage accessible to younger generations</li>
-                    <li>Record culture before it disappears</li>
-                </ul>
+            <div class="about-story-image-grid mt-4">
+                <img src="{% static 'images/india_map.avif' %}" class="about-story-grid-image" alt="India map">
+                <img src="{% static 'images/durgapuja.avif' %}" class="about-story-grid-image" alt="Durga Puja celebration">
+                <img src="{% static 'images/goldentemple.avif' %}" class="about-story-grid-image" alt="Golden Temple">
+                <img src="{% static 'images/charminar.avif' %}" class="about-story-grid-image" alt="Charminar">
             </div>
         </div>
+    </section>
 
-        <div class="col-md-6">
-            <div class="feature-card p-4 shadow-sm h-100">
-                <h3 class="fw-bold mb-3">Our Vision</h3>
-                <p>
-                    To build the largest living cultural map of India — a place where
-                    future generations can explore how people actually lived,
-                    celebrated, cooked, worshipped, and expressed themselves.
-                </p>
+    <!-- FOUNDATION: MISSION + HOW IT WORKS -->
+    <section class="about-premium-section about-premium-alt text-center">
+        <div class="container">
 
-                <p>
-                    Sanskriti aims to become a long-term historical resource,
-                    not just a website — a memory of India created by Indians.
-                </p>
+            <div class="mb-5">
+                <span class="about-premium-label">Mission &amp; Vision</span>
+                <h2 class="about-premium-title mb-2">
+                    Guided by preservation, built for generations
+                </h2>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="about-premium-panel h-100">
+                        <div class="about-panel-icon">🎯</div>
+                        <h3>Our Mission</h3>
+                        <p class="mb-0">
+                            To create a public, people-owned cultural archive where every individual
+                            can document and share traditions from their region with dignity and context.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="about-premium-panel h-100">
+                        <div class="about-panel-icon">✨</div>
+                        <h3>Our Vision</h3>
+                        <p class="mb-0">
+                            To build a trusted living map of India where future generations can explore
+                            how communities celebrated, cooked, worshipped, and expressed identity in everyday life.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="about-premium-panel h-100">
+                        <div class="about-panel-icon">🧭</div>
+                        <h3>Our Goal</h3>
+                        <p class="mb-0">
+                            To make cultural preservation participatory and accessible, so every community can
+                            document its traditions and pass them forward with authenticity.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-5 pt-2">
+                <span class="about-premium-label">How it works</span>
+                <h2 class="about-premium-title mb-4">
+                    A simple process, a lasting impact
+                </h2>
+
+                <div class="about-step-grid text-start">
+                    <div class="about-step-card">
+                        <div class="about-step-number">1</div>
+                        <h5>Create an account</h5>
+                        <p class="mb-0">Join the community of contributors.</p>
+                    </div>
+
+                    <div class="about-step-card">
+                        <div class="about-step-number">2</div>
+                        <h5>Pin your location</h5>
+                        <p class="mb-0">Select a place connected to your story.</p>
+                    </div>
+
+                    <div class="about-step-card">
+                        <div class="about-step-number">3</div>
+                        <h5>Share a tradition</h5>
+                        <p class="mb-0">Upload photos and describe your culture.</p>
+                    </div>
+
+                    <div class="about-step-card">
+                        <div class="about-step-number">4</div>
+                        <h5>Build the archive</h5>
+                        <p class="mb-0">Help preserve cultural memory for future generations.</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-    </div>
-</div>
-```
-
-</section>
-
-<!-- HOW IT WORKS -->
-
-<section class="py-5">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-5">How Sanskriti Works</h2>
-
-```
-    <div class="row g-4">
-
-        <div class="col-md-3">
-            <div class="step-card p-4 h-100">
-                <h3>1</h3>
-                <p>Create an account</p>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="step-card p-4 h-100">
-                <h3>2</h3>
-                <p>Pin a location on the cultural map</p>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="step-card p-4 h-100">
-                <h3>3</h3>
-                <p>Upload a story, tradition, or memory</p>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="step-card p-4 h-100">
-                <h3>4</h3>
-                <p>Share and explore other cultures</p>
-            </div>
-        </div>
-
-    </div>
-</div>
-```
-
-</section>
-
-<!-- COMMUNITY -->
-
-<section class="py-5 bg-light">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-4">A Community Archive</h2>
-
-```
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <p>
-                Sanskriti is not owned by historians or institutions. It is created
-                by students, families, travelers, artists, and local communities.
+    <!-- CTA -->
+    <section class="about-premium-cta">
+        <div class="container text-center">
+            <h2>Every tradition deserves to be remembered</h2>
+            <p class="mb-4">
+                Add your hometown story and help preserve India's cultural memory.
             </p>
 
-            <p>
-                Each post becomes a cultural record — a small but meaningful piece
-                of history contributed by a real person. Over time, these individual
-                memories form a collective heritage.
-            </p>
+            <p class="about-word-prompt mb-3">Click any word below for more info.</p>
+
+            <div class="about-word-boxes mb-3" role="tablist" aria-label="Cultural themes">
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordTradition" aria-expanded="false" aria-controls="wordTradition">
+                    Tradition
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordArt" aria-expanded="false" aria-controls="wordArt">
+                    Art
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordCulture" aria-expanded="false" aria-controls="wordCulture">
+                    Culture
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordFolklore" aria-expanded="false" aria-controls="wordFolklore">
+                    Folklore
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordFestivals" aria-expanded="false" aria-controls="wordFestivals">
+                    Festivals
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordCrafts" aria-expanded="false" aria-controls="wordCrafts">
+                    Crafts
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordRituals" aria-expanded="false" aria-controls="wordRituals">
+                    Rituals
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordCuisine" aria-expanded="false" aria-controls="wordCuisine">
+                    Cuisine
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordHeritage" aria-expanded="false" aria-controls="wordHeritage">
+                    Heritage
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordMusic" aria-expanded="false" aria-controls="wordMusic">
+                    Music
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordLanguages" aria-expanded="false" aria-controls="wordLanguages">
+                    Languages
+                </button>
+                <button class="about-word-chip about-word-chip-btn" type="button" data-bs-toggle="collapse" data-bs-target="#wordStories" aria-expanded="false" aria-controls="wordStories">
+                    Stories
+                </button>
+            </div>
+
+            <div id="aboutWordDropdowns" class="mb-4">
+                <div class="collapse" id="wordTradition" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Tradition in India is not something frozen in the past — it lives through people. Every family, community, and region carries its own way of celebrating, remembering, and adapting. What one generation practices, the next reshapes in its own context. By sharing traditions across regions and backgrounds, we begin to see how different experiences can still hold familiar values of care, respect, and identity.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordArt" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Indian art belongs to everyone, not only museums or galleries. From street murals and rangoli to temple sculpture and digital illustration, people continually express who they are and where they come from. Artists reinterpret older styles through their own voices, allowing diverse identities and stories to be seen. When we explore art from different communities, we also learn new ways of seeing the world.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordCulture" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Culture is experienced in everyday life — how we speak, greet, celebrate, and share space with others. Across India, many cultures exist side by side, influencing each other while retaining individuality. Understanding another culture does not replace our own; it expands it. By learning about different practices, we grow more respectful, aware, and connected.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordFolklore" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Folklore carries voices that history books often overlook. Stories told by grandparents, village performers, and local storytellers hold memories of landscapes, struggles, humor, and wisdom. These tales change with each narrator, allowing every community to see itself reflected. Listening to folklore helps us appreciate perspectives beyond our own experience.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordFestivals" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Festivals bring people together beyond differences of language, region, or belief. While their rituals may vary, the emotions they create — joy, gratitude, and belonging — are shared by all. Neighbours participate in each other’s celebrations, creating spaces where communities meet and understand one another. Exploring festivals is also discovering how shared happiness can build connection.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordCrafts" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Handmade crafts hold the stories of the hands that create them. Artisans pass skills through generations while welcoming new designs and ideas from changing times. Supporting crafts means recognizing both heritage and the people behind it. When we learn about craft traditions, we also learn about livelihoods, creativity, and dignity of labor.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordRituals" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Rituals help people mark important moments — birth, growth, gratitude, and remembrance. They differ widely, yet each expresses a need for meaning and connection. Some families follow elaborate practices, others simpler ones, but all seek belonging. Understanding rituals from multiple communities teaches empathy rather than comparison.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordCuisine" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Food is one of the easiest ways to meet another culture. Recipes travel with people across regions and generations, adapting to new homes and tastes. A meal can tell stories of migration, climate, and memory. By exploring cuisines beyond our own, we experience how diversity can be shared at the same table.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordHeritage" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Heritage is not only monuments or historic buildings — it is language, songs, occupations, and everyday practices. It belongs to communities who continue to live it. Preserving heritage means documenting voices that may otherwise fade. When more people participate in this effort, heritage becomes collective rather than selective.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordMusic" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Music crosses boundaries even when words are unfamiliar. Folk songs, devotional melodies, and modern remixes all carry emotion that anyone can feel. Young creators blend traditions with contemporary styles, making heritage accessible to new audiences. Listening to different musical forms helps us connect without needing translation.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordLanguages" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Every language holds a way of thinking about the world. India’s many languages and dialects express local knowledge, humor, and history. When a language fades, unique experiences disappear with it. Learning even a few words from another language can create respect and curiosity between communities.
+                    </div>
+                </div>
+
+                <div class="collapse" id="wordStories" data-bs-parent="#aboutWordDropdowns">
+                    <div class="about-word-dropdown mx-auto">
+                        Stories allow people to recognize themselves in others. Personal memories, migration journeys, and community narratives help future generations understand change and resilience. When different stories are shared together, history becomes richer and more inclusive. Listening is the first step toward understanding.
+                    </div>
+                </div>
+            </div>
+
+            {% if not user.is_authenticated %}
+                <a href="{% url 'register' %}" class="btn btn-light btn-lg">
+                    Join Sanskriti
+                </a>
+            {% else %}
+                <a href="{% url 'upload' %}" class="btn btn-light btn-lg">
+                    Upload Your Story
+                </a>
+            {% endif %}
         </div>
-    </div>
+    </section>
+
 </div>
-```
-
-</section>
-
-<!-- CTA -->
-
-<section class="cta-section text-white text-center py-5">
-    <div class="container">
-        <h2 class="fw-bold">Be Part of Preserving Culture</h2>
-        <p class="mb-4">
-            Your traditions, stories, and memories matter. Add them to India's cultural history.
-        </p>
-
-```
-    {% if not user.is_authenticated %}
-        <a href="{% url 'register' %}" class="btn btn-lg btn-light px-4">Join Sanskriti</a>
-    {% else %}
-        <a href="{% url 'upload' %}" class="btn btn-lg btn-light px-4">Upload Your Story</a>
-    {% endif %}
-</div>
-```
-
-</section>
 
 {% endblock %}

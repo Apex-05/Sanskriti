@@ -76,5 +76,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 {% block extra_scripts %}{% endblock %}
 <script src="{% static 'js/script.js' %}"></script>
+<script>
+const sections = document.querySelectorAll(".about-premium section");
+
+if (sections.length) {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.25 });
+
+    sections.forEach(section => observer.observe(section));
+}
+</script>
 </body>
 </html>
