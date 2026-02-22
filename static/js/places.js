@@ -40,24 +40,24 @@ const culturalPlaces = [
 
 { name:"Hornbill Festival Grounds",lat:25.6751,lng:94.1100,image:"/static/images/hornbill.webp",description:"Nagaland — Warrior tribe heritage. The Hornbill festival showcases indigenous customs and attire."},
 
-{ name:"Konark Sun Temple",lat:19.8876,lng:86.0945,image:"/static/images/konarkjpg.avif",description:"Odisha — 13th-century chariot-shaped temple. Odissi dance and intricate handicrafts flourish in the state."},
+{ name:"Konark Sun Temple",lat:19.8876,lng:86.0945,image:"/static/images/konark.jpg",description:"Odisha — 13th-century chariot-shaped temple. Odissi dance and intricate handicrafts flourish in the state."},
 
-{ name:"Golden Temple",lat:31.6200,lng:74.8765,image:"/static/images/goldentemple.avif",description:"Punjab — Sikh spiritual center. Langar tradition and harvest festivals represent community culture."},
+{ name:"Golden Temple",lat:31.6200,lng:74.8765,image:"/static/images/golden.jpg",description:"Punjab — Sikh spiritual center. Langar tradition and harvest festivals represent community culture."},
 
-{ name:"Amer Fort",lat:26.9855,lng:75.8513,image:"/static/images/amerfort.avif",description:"Rajasthan — Rajput royal architecture. Desert music, puppetry and colorful festivals define identity."},
+{ name:"Amer Fort",lat:26.9855,lng:75.8513,image:"/static/images/amer.jpg",description:"Rajasthan — Rajput royal architecture. Desert music, puppetry and colorful festivals define identity."},
 
-{ name:"Gurudongmar Lake",lat:28.0155,lng:88.7082,image:"/static/images/gurudongmar.avif",description:"Sikkim — High-altitude sacred lake. Tibetan Buddhism and monastery culture dominate the state."},
+{ name:"Gurudongmar Lake",lat:28.0155,lng:88.7082,image:"/static/images/gurudongmar.jpg",description:"Sikkim — High-altitude sacred lake. Tibetan Buddhism and monastery culture dominate the state."},
 
-{ name:"Meenakshi Temple",lat:9.9195,lng:78.1193,image:"/static/images/Meenakshi Temple.avif",description:"Tamil Nadu — Dravidian architecture masterpiece. Bharatanatyam dance and classical literature originate here."},
+{ name:"Meenakshi Temple",lat:9.9195,lng:78.1193,image:"/static/images/meenakshi.jpg",description:"Tamil Nadu — Dravidian architecture masterpiece. Bharatanatyam dance and classical literature originate here."},
 
-{ name:"Charminar",lat:17.3616,lng:78.4747,image:"/static/images/charminar.avif",description:"Telangana — Iconic Hyderabad monument. Deccan crafts, cuisine and Qutb Shahi heritage flourish."},
+{ name:"Charminar",lat:17.3616,lng:78.4747,image:"/static/images/charminar.jpg",description:"Telangana — Iconic Hyderabad monument. Deccan crafts, cuisine and Qutb Shahi heritage flourish."},
 
-{ name:"Ujjayanta Palace",lat:23.8315,lng:91.2868,image:"/static/images/ujjayanta.avif",description:"Tripura — Royal heritage palace. Tribal traditions and dance festivals are culturally important."},
+{ name:"Ujjayanta Palace",lat:23.8315,lng:91.2868,image:"/static/images/ujjayanta.jpg",description:"Tripura — Royal heritage palace. Tribal traditions and dance festivals are culturally important."},
 
 
-{ name:"Kedarnath Temple",lat:30.7346,lng:79.0669,image:"/static/images/kedarnath.avif",description:"Uttarakhand — Himalayan pilgrimage center. Char Dham yatra and mountain spirituality dominate culture."},
+{ name:"Kedarnath Temple",lat:30.7346,lng:79.0669,image:"/static/images/kedarnath.jpg",description:"Uttarakhand — Himalayan pilgrimage center. Char Dham yatra and mountain spirituality dominate culture."},
 
-{ name:"Durga Puja, Kolkata",lat:22.5726,lng:88.3639,image:"/static/images/durgapuja.avif",description:"West Bengal — Grand festival celebration. Literature, theatre and artistic traditions thrive here."},
+{ name:"Durga Puja, Kolkata",lat:22.5726,lng:88.3639,image:"/static/images/durga.webp",description:"West Bengal — Grand festival celebration. Literature, theatre and artistic traditions thrive here."},
 
 /* UNION TERRITORIES */
 
@@ -65,15 +65,15 @@ const culturalPlaces = [
 
 { name:"Dal Lake",lat:34.1204,lng:74.8355,image:"/static/images/dallake.jpg",description:"Jammu & Kashmir — Houseboats, handicrafts and Kashmiri traditions flourish around the lake."},
 
-{ name:"Pangong Lake",lat:33.7183,lng:78.8029,image:"/static/images/pangong.avif",description:"Ladakh — High altitude desert culture. Monasteries and Tibetan Buddhist traditions dominate."},
+{ name:"Pangong Lake",lat:33.7183,lng:78.8029,image:"/static/images/pangong.webp",description:"Ladakh — High altitude desert culture. Monasteries and Tibetan Buddhist traditions dominate."},
 
-{ name:"Rock Garden",lat:30.7525,lng:76.8101,image:"/static/images/rockgardenjpg.avif",description:"Chandigarh — Modern planned city blending art, architecture and urban heritage."},
+{ name:"Rock Garden",lat:30.7525,lng:76.8101,image:"/static/images/rock.jpg",description:"Chandigarh — Modern planned city blending art, architecture and urban heritage."},
 
-{ name:"Cellular Jail",lat:11.6755,lng:92.7486,image:"/static/images/jail.avif",description:"Andaman & Nicobar Islands — Freedom struggle memorial. Island tribal and maritime culture."},
+{ name:"Cellular Jail",lat:11.6755,lng:92.7486,image:"/static/images/jail.jpg",description:"Andaman & Nicobar Islands — Freedom struggle memorial. Island tribal and maritime culture."},
 
-{ name:"Agatti Island",lat:10.8280,lng:72.1760,image:"/static/images/aggati.avif",description:"Lakshadweep — Coral islands and sea-based livelihood traditions."},
+{ name:"Agatti Island",lat:10.8280,lng:72.1760,image:"/static/images/aggati.jpg",description:"Lakshadweep — Coral islands and sea-based livelihood traditions."},
 
-{ name:"Pondicherry Promenade",lat:11.9416,lng:79.8083,image:"/static/images/pondicherry.avif",description:"Puducherry — French colonial streets and coastal Tamil culture coexist."},
+{ name:"Pondicherry Promenade",lat:11.9416,lng:79.8083,image:"/static/images/pondicherry.jpg",description:"Puducherry — French colonial streets and coastal Tamil culture coexist."},
 
 {
 name:"Diu Fort",lat:20.7144,lng:70.9874,image:"/static/images/diuavif.avif",description:"Dadra & Nagar Haveli and Daman & Diu — Coastal Portuguese heritage region. Fishing communities, forts and Indo-Portuguese architecture define the culture."
