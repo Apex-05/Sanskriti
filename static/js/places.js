@@ -8,7 +8,7 @@ const culturalPlaces = [
 
 { name:"Kaziranga National Park",lat:26.5775,lng:93.1711,image:"/static/images/kaziranga.jpg",description:"Assam — Famous for the one-horned rhinoceros. Bihu dance, tea gardens and river culture define Assamese identity."},
 
-{ name:"Mahabodhi Temple, Bodh Gaya",lat:24.6959,lng:84.9910,image:"/static/images/mahabodhi.avif",description:"Bihar — Site of Buddha’s enlightenment. Ancient universities like Nalanda made the region a historic global knowledge center."},
+{ name:"Mahabodhi Temple",lat:24.6959,lng:84.9910,image:"/static/images/mahabodhi.avif",description:"Bihar — Site of Buddha’s enlightenment. Ancient universities like Nalanda made the region a historic global knowledge center."},
 
 { name:"Chitrakote Waterfalls",lat:19.2040,lng:81.7070,image:"/static/images/chitrakoot.avif",description:"Chhattisgarh — Known as the Niagara of India. Tribal traditions, forests and folk crafts form the living culture."},
 
