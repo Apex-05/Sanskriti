@@ -1,1 +1,5 @@
 # Sanskriti
+
+Home
+About
+Login
