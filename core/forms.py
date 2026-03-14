@@ -2,20 +2,24 @@ import re
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.db import DatabaseError
 from django import forms
 
-from .models import CulturalPost
+from .models import CulturalPost, UserProfile
 
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    location = forms.CharField(max_length=120, required=True)
+    primary_region = forms.ChoiceField(choices=UserProfile.REGION_CHOICES, required=True)
+    languages = forms.CharField(max_length=200, required=True)
     error_messages = {
         "password_mismatch": "Passwords do not match. Please re-enter them.",
     }
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'location', 'primary_region', 'languages', 'password1', 'password2']
 
     def clean_username(self):
         username = (self.cleaned_data.get("username") or "").strip()
@@ -57,6 +61,31 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError("Password must include at least one special character (!@#$%^&*).")
 
         return password
+
+    def clean_location(self):
+        return (self.cleaned_data.get("location") or "").strip()
+
+    def clean_languages(self):
+        return (self.cleaned_data.get("languages") or "").strip()
+
+    def save(self, commit=True):
+        user = super().save(commit=commit)
+
+        if commit:
+            try:
+                UserProfile.objects.update_or_create(
+                    user=user,
+                    defaults={
+                        "location": self.cleaned_data["location"],
+                        "primary_region": self.cleaned_data["primary_region"],
+                        "languages": self.cleaned_data["languages"],
+                    },
+                )
+            except DatabaseError:
+                # If migrations are pending, skip profile persistence for now.
+                pass
+
+        return user
 
 class SanskritiAuthenticationForm(AuthenticationForm):
     error_messages = {
@@ -105,3 +134,47 @@ class CulturalPostForm(forms.ModelForm):
             "latitude": forms.HiddenInput(attrs={"id": "latitude"}),
             "longitude": forms.HiddenInput(attrs={"id": "longitude"}),
         }
+
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ['location', 'primary_region', 'languages']
+
+        widgets = {
+            'location': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'City, State'
+            }),
+            'primary_region': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'languages': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Hindi, English, Kannada'
+            }),
+        }
+
+    def clean_languages(self):
+        languages = self.cleaned_data.get("languages", "").strip()
+
+        if not languages:
+            return languages
+
+        # Accept common separators used by users (comma, hyphen, slash) without forcing reformatting.
+        separators = [",", "-", "/"]
+        has_separator = any(separator in languages for separator in separators)
+        if has_separator:
+            parts = [part.strip() for part in re.split(r"\s*(?:,|-|/)\s*", languages) if part.strip()]
+            if not parts:
+                raise forms.ValidationError("Please provide at least one language.")
+            return languages
+
+        # Single-language input is valid.
+        return languages
+
+
+# Alias kept for backward compatibility with views that import ProfileEditForm
+ProfileEditForm = ProfileForm

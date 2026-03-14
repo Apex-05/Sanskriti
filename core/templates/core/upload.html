@@ -73,12 +73,36 @@
 
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Location</label>
-                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
                                     <button type="button" class="btn dashboard-btn" id="mapPicker" data-bs-toggle="modal" data-bs-target="#uploadMapModal">Pick Location on Map</button>
                                     <span class="text-muted" id="selectedCoordinates">No location selected yet.</span>
                                 </div>
+
+                                <div class="row g-2 align-items-end upload-manual-location">
+                                    <div class="col-12 col-md-5">
+                                        <label for="manualLatitude" class="form-label fw-semibold mb-1">Latitude</label>
+                                        <input type="number" step="any" class="form-control" id="manualLatitude" placeholder="e.g., 28.613939">
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <label for="manualLongitude" class="form-label fw-semibold mb-1">Longitude</label>
+                                        <input type="number" step="any" class="form-control" id="manualLongitude" placeholder="e.g., 77.209023">
+                                    </div>
+                                    <div class="col-12 col-md-2 d-grid">
+                                        <button type="button" class="btn btn-outline-secondary" id="applyManualCoordinates">Set</button>
+                                    </div>
+                                </div>
+
+                                <small class="text-muted d-block mt-2">
+                                    Search a place in map, then click to pin exact point, or enter latitude/longitude manually.
+                                </small>
+
                                 {{ form.latitude }}
                                 {{ form.longitude }}
+                                {% if form.latitude.errors or form.longitude.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form.latitude.errors|striptags }} {{ form.longitude.errors|striptags }}
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <div class="d-grid d-md-flex gap-2 justify-content-md-end">
@@ -100,7 +124,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="text-muted mb-3">Click on the map to capture latitude and longitude.</p>
+                <p class="text-muted mb-3">Search for a place first, then click the map to pin exact latitude and longitude.</p>
+
+                <div class="upload-map-search mb-3">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="uploadMapSearchInput"
+                            placeholder="Search city, village, landmark"
+                            aria-label="Search location"
+                        >
+                        <button type="button" class="btn btn-outline-secondary" id="uploadMapSearchBtn">Search</button>
+                    </div>
+                    <small class="text-muted d-block mt-2" id="uploadMapSearchStatus">
+                        Tip: After search, click on map to fine-tune your pin.
+                    </small>
+                </div>
+
                 <div id="uploadMap" class="upload-map-canvas"></div>
             </div>
             <div class="modal-footer">

@@ -25,6 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', updateNav, { passive: true });
     }
 
+    const navmenu = document.getElementById('navmenu');
+    if (navmenu && window.bootstrap) {
+        const collapse = bootstrap.Collapse.getOrCreateInstance(navmenu, { toggle: false });
+        document.querySelectorAll('.nav-collapse-link').forEach((link) => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1200 && navmenu.classList.contains('show')) {
+                    collapse.hide();
+                }
+            });
+        });
+    }
+
     const initMapPreview = (mapId, popupMessage, options = {}) => {
         const mapContainer = document.getElementById(mapId);
         if (!mapContainer || typeof L === 'undefined') {
@@ -248,44 +260,278 @@ document.addEventListener('DOMContentLoaded', () => {
     const coordinatesLabel = document.getElementById('selectedCoordinates');
     const latitudeInput = document.getElementById('latitude');
     const longitudeInput = document.getElementById('longitude');
+    const manualLatitudeInput = document.getElementById('manualLatitude');
+    const manualLongitudeInput = document.getElementById('manualLongitude');
+    const applyManualCoordinatesBtn = document.getElementById('applyManualCoordinates');
+    const uploadMapSearchInput = document.getElementById('uploadMapSearchInput');
+    const uploadMapSearchBtn = document.getElementById('uploadMapSearchBtn');
+    const uploadMapSearchStatus = document.getElementById('uploadMapSearchStatus');
 
     let uploadMap;
     let uploadMarker;
 
+    const isValidCoordinatePair = (lat, lng) => (
+        Number.isFinite(lat)
+        && Number.isFinite(lng)
+        && lat >= -90
+        && lat <= 90
+        && lng >= -180
+        && lng <= 180
+    );
+
+    const showCoordinateError = (message) => {
+        if (!coordinatesLabel) {
+            return;
+        }
+
+        coordinatesLabel.classList.remove('text-muted');
+        coordinatesLabel.classList.add('text-danger');
+        coordinatesLabel.textContent = message;
+    };
+
+    const updateCoordinatesLabel = (lat, lng) => {
+        if (!coordinatesLabel) {
+            return;
+        }
+
+        coordinatesLabel.classList.remove('text-danger');
+        coordinatesLabel.classList.add('text-muted');
+        coordinatesLabel.textContent = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
+    };
+
+    const updateSearchStatus = (message, isError = false) => {
+        if (!uploadMapSearchStatus) {
+            return;
+        }
+
+        uploadMapSearchStatus.textContent = message;
+        uploadMapSearchStatus.classList.toggle('text-danger', isError);
+        uploadMapSearchStatus.classList.toggle('text-muted', !isError);
+    };
+
+    const syncManualCoordinateInputs = (lat, lng) => {
+        if (manualLatitudeInput) {
+            manualLatitudeInput.value = lat.toFixed(6);
+        }
+        if (manualLongitudeInput) {
+            manualLongitudeInput.value = lng.toFixed(6);
+        }
+    };
+
+    const setUploadMarker = (lat, lng, shouldCenterMap, label, openPopup = false) => {
+        if (!uploadMap) {
+            return;
+        }
+
+        if (uploadMarker) {
+            uploadMarker.setLatLng([lat, lng]);
+            if (!uploadMap.hasLayer(uploadMarker)) {
+                uploadMarker.addTo(uploadMap);
+            }
+        } else {
+            uploadMarker = L.marker([lat, lng]).addTo(uploadMap);
+        }
+
+        if (label) {
+            uploadMarker.bindPopup(label);
+        }
+
+        if (shouldCenterMap) {
+            uploadMap.setView([lat, lng], 14, { animate: true, duration: 0.8 });
+        }
+
+        if (label && openPopup) {
+            uploadMarker.openPopup();
+        }
+    };
+
+    const setUploadCoordinates = (lat, lng, options = {}) => {
+        const {
+            updateMap = true,
+            centerMap = false,
+            label = '',
+            openPopup = false,
+        } = options;
+
+        if (!isValidCoordinatePair(lat, lng)) {
+            showCoordinateError('Please enter valid coordinates (latitude -90 to 90, longitude -180 to 180).');
+            return;
+        }
+
+        if (latitudeInput) {
+            latitudeInput.value = lat.toFixed(6);
+        }
+        if (longitudeInput) {
+            longitudeInput.value = lng.toFixed(6);
+        }
+
+        syncManualCoordinateInputs(lat, lng);
+        updateCoordinatesLabel(lat, lng);
+
+        if (updateMap && uploadMap) {
+            setUploadMarker(lat, lng, centerMap, label, openPopup);
+        }
+    };
+
+    const initializeUploadMap = () => {
+        if (uploadMap || !uploadMapEl || typeof L === 'undefined') {
+            return;
+        }
+
+        uploadMap = L.map('uploadMap', {
+            scrollWheelZoom: false
+        }).setView([22.5937, 78.9629], 5);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(uploadMap);
+
+        uploadMap.on('click', (event) => {
+            const { lat, lng } = event.latlng;
+            setUploadCoordinates(lat, lng, { updateMap: true, centerMap: false });
+            updateSearchStatus('Pin updated on map click.', false);
+        });
+
+        const existingLat = latitudeInput ? Number.parseFloat(latitudeInput.value) : Number.NaN;
+        const existingLng = longitudeInput ? Number.parseFloat(longitudeInput.value) : Number.NaN;
+        if (isValidCoordinatePair(existingLat, existingLng)) {
+            setUploadMarker(existingLat, existingLng, true, 'Selected location');
+        }
+    };
+
+    const searchUploadLocation = async () => {
+        if (!uploadMapSearchInput) {
+            return;
+        }
+
+        const query = uploadMapSearchInput.value.trim();
+        if (!query) {
+            updateSearchStatus('Enter a location name to search.', true);
+            return;
+        }
+
+        initializeUploadMap();
+
+        if (!uploadMap) {
+            updateSearchStatus('Map is not ready yet. Try again.', true);
+            return;
+        }
+
+        if (uploadMapSearchBtn) {
+            uploadMapSearchBtn.disabled = true;
+        }
+
+        updateSearchStatus('Searching location...', false);
+
+        try {
+            const searchUrl = new URL('https://nominatim.openstreetmap.org/search');
+            searchUrl.searchParams.set('format', 'jsonv2');
+            searchUrl.searchParams.set('limit', '1');
+            searchUrl.searchParams.set('q', query);
+
+            const response = await window.fetch(searchUrl.toString(), {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Search request failed.');
+            }
+
+            const results = await response.json();
+            if (!Array.isArray(results) || !results.length) {
+                updateSearchStatus('No location found. Try a different search term.', true);
+                return;
+            }
+
+            const firstMatch = results[0];
+            const lat = Number.parseFloat(firstMatch.lat);
+            const lng = Number.parseFloat(firstMatch.lon);
+
+            if (!isValidCoordinatePair(lat, lng)) {
+                updateSearchStatus('Found location had invalid coordinates.', true);
+                return;
+            }
+
+            setUploadCoordinates(lat, lng, {
+                updateMap: true,
+                centerMap: true,
+                label: firstMatch.display_name || query,
+                openPopup: true,
+            });
+
+            updateSearchStatus('Location found and pinned automatically. Click map to fine-tune.', false);
+        } catch (error) {
+            updateSearchStatus('Location search failed. Please try again.', true);
+        } finally {
+            if (uploadMapSearchBtn) {
+                uploadMapSearchBtn.disabled = false;
+            }
+        }
+    };
+
     if (uploadMapModal && uploadMapEl && typeof L !== 'undefined') {
         uploadMapModal.addEventListener('shown.bs.modal', () => {
-            if (!uploadMap) {
-                uploadMap = L.map('uploadMap', {
-                    scrollWheelZoom: false
-                }).setView([22.5937, 78.9629], 5);
-
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap contributors'
-                }).addTo(uploadMap);
-
-                uploadMap.on('click', (event) => {
-                    const { lat, lng } = event.latlng;
-
-                    if (uploadMarker) {
-                        uploadMarker.setLatLng([lat, lng]);
-                    } else {
-                        uploadMarker = L.marker([lat, lng]).addTo(uploadMap);
-                    }
-
-                    if (latitudeInput) latitudeInput.value = lat.toFixed(6);
-                    if (longitudeInput) longitudeInput.value = lng.toFixed(6);
-
-                    if (coordinatesLabel) {
-                        coordinatesLabel.textContent = `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`;
-                    }
-                });
-            }
+            initializeUploadMap();
 
             setTimeout(() => {
                 uploadMap.invalidateSize();
             }, 150);
         });
+    }
+
+    if (uploadMapSearchBtn) {
+        uploadMapSearchBtn.addEventListener('click', () => {
+            void searchUploadLocation();
+        });
+    }
+
+    if (uploadMapSearchInput) {
+        uploadMapSearchInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                void searchUploadLocation();
+            }
+        });
+    }
+
+    if (applyManualCoordinatesBtn) {
+        applyManualCoordinatesBtn.addEventListener('click', () => {
+            const lat = manualLatitudeInput ? Number.parseFloat(manualLatitudeInput.value) : Number.NaN;
+            const lng = manualLongitudeInput ? Number.parseFloat(manualLongitudeInput.value) : Number.NaN;
+
+            if (!isValidCoordinatePair(lat, lng)) {
+                showCoordinateError('Please enter valid coordinates (latitude -90 to 90, longitude -180 to 180).');
+                return;
+            }
+
+            initializeUploadMap();
+            setUploadCoordinates(lat, lng, { updateMap: true, centerMap: true, label: 'Manual coordinates', openPopup: true });
+            updateSearchStatus('Manual coordinates applied. You can still click map to adjust.', false);
+        });
+    }
+
+    [manualLatitudeInput, manualLongitudeInput].forEach((input) => {
+        if (!input) {
+            return;
+        }
+
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (applyManualCoordinatesBtn) {
+                    applyManualCoordinatesBtn.click();
+                }
+            }
+        });
+    });
+
+    const existingLat = latitudeInput ? Number.parseFloat(latitudeInput.value) : Number.NaN;
+    const existingLng = longitudeInput ? Number.parseFloat(longitudeInput.value) : Number.NaN;
+    if (isValidCoordinatePair(existingLat, existingLng)) {
+        setUploadCoordinates(existingLat, existingLng, { updateMap: false });
     }
 
     const imageInput = document.getElementById('imageInput');
@@ -452,6 +698,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    const stateCardButtons = document.querySelectorAll('[data-state-card]');
+    const stateSpotlightTitle = document.getElementById('stateSpotlightTitle');
+    const stateSpotlightCopy = document.getElementById('stateSpotlightCopy');
+    const stateSpotlightHighlight = document.getElementById('stateSpotlightHighlight');
+    const stateSpotlightFocus = document.getElementById('stateSpotlightFocus');
+
+    const setStateSpotlight = (button) => {
+        if (!stateSpotlightTitle || !stateSpotlightCopy || !stateSpotlightHighlight || !stateSpotlightFocus) {
+            return;
+        }
+
+        stateCardButtons.forEach((item) => {
+            item.classList.toggle('is-active', item === button);
+            item.setAttribute('aria-pressed', item === button ? 'true' : 'false');
+        });
+
+        stateSpotlightTitle.textContent = button.dataset.stateTitle || '';
+        stateSpotlightCopy.textContent = button.dataset.stateCopy || '';
+        stateSpotlightHighlight.textContent = button.dataset.stateHighlight || '';
+        stateSpotlightFocus.textContent = button.dataset.stateFocus || '';
+    };
+
+    stateCardButtons.forEach((button) => {
+        button.addEventListener('click', () => setStateSpotlight(button));
+    });
+
+    if (stateCardButtons.length) {
+        setStateSpotlight(document.querySelector('[data-state-card].is-active') || stateCardButtons[0]);
+    }
 
     const revealCards = document.querySelectorAll('.reveal-card');
     if (revealCards.length) {

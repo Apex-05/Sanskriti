@@ -1,0 +1,147 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit Profile | Sanskriti{% endblock %}
+
+{% block content %}
+<section class="section-page py-5">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8 col-xl-7">
+
+                <div class="card dashboard-card border-0 shadow-lg">
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- Header -->
+                        <div class="mb-4 text-center">
+                            <h2 class="fw-bold mb-2">Edit Profile</h2>
+                            <p class="text-muted mb-0">
+                                Username and email are fixed. You can update your cultural information below.
+                            </p>
+                        </div>
+
+                        <!-- Global Form Errors -->
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>There was a problem saving your profile.</strong>
+                            <ul class="mb-0 mt-2">
+                                {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endif %}
+
+                        <!-- FORM -->
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+
+                            <!-- USER INFO (READ ONLY) -->
+                            <div class="row g-3 mb-4">
+
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label fw-semibold">Username</label>
+                                    <input type="text" class="form-control bg-light" value="{{ user.username }}" disabled>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="email" class="form-control bg-light" value="{{ user.email }}" disabled>
+                                </div>
+
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- LOCATION -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-semibold" for="id_location">
+                                    Location
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                {{ form.location }}
+
+                                {% if form.location.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.location.errors|striptags }}
+                                </div>
+                                {% else %}
+                                <div class="form-text">
+                                    Example: Bengaluru, Karnataka
+                                </div>
+                                {% endif %}
+
+                            </div>
+
+                            <!-- PRIMARY REGION -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-semibold" for="id_primary_region">
+                                    Primary Region
+                                </label>
+
+                                {{ form.primary_region }}
+
+                                {% if form.primary_region.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.primary_region.errors|striptags }}
+                                </div>
+                                {% else %}
+                                <div class="form-text">
+                                    Select the region you mostly contribute cultural content about.
+                                </div>
+                                {% endif %}
+
+                            </div>
+
+                            <!-- LANGUAGES -->
+                            <div class="mb-4">
+
+                                <label class="form-label fw-semibold" for="id_languages">
+                                    Languages
+                                </label>
+
+                                {{ form.languages }}
+
+                                {% if form.languages.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.languages.errors|striptags }}
+                                </div>
+                                {% else %}
+                                <div class="form-text">
+                                    Example: Hindi, English, Kannada
+                                </div>
+                                {% endif %}
+
+                            </div>
+
+                            <!-- ACTION BUTTONS -->
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2">
+
+                                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+
+                                <button type="submit" class="btn dashboard-btn px-4">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Save Profile
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

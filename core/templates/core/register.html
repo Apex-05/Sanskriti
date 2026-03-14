@@ -55,6 +55,50 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_location">Location</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                <input class="form-control auth-input" type="text" id="id_location" name="location" value="{{ form.location.value|default:'' }}" placeholder="City, State" required>
+                            </div>
+                            {% if form.location.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.location.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light fw-semibold" for="id_primary_region">Primary Region</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-globe-central-south-asia"></i></span>
+                                <select class="form-select auth-input" id="id_primary_region" name="primary_region" required>
+                                    <option value="" {% if not form.primary_region.value %}selected{% endif %}>Select your region</option>
+                                    {% for value, label in form.fields.primary_region.choices %}
+                                        <option value="{{ value }}" {% if form.primary_region.value == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% if form.primary_region.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.primary_region.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">  
+                            <label class="form-label text-light fw-semibold" for="id_languages">Languages</label>
+                            <div class="input-group auth-input-group">
+                                <span class="input-group-text"><i class="bi bi-translate"></i></span>
+                                <input class="form-control auth-input" type="text" id="id_languages" name="languages" value="{{ form.languages.value|default:'' }}" placeholder="Comma Seperated" required>
+                            </div>
+                            {% if form.languages.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.languages.errors %}<div>{{ error }}</div>{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label text-light fw-semibold" for="id_password1">Password</label>
                             <div class="input-group auth-input-group">
                                 <span class="input-group-text"><i class="bi bi-lock"></i></span>

@@ -1,66 +1,126 @@
 {% extends 'core/base.html' %}
 {% block content %}
 
-<section class="dashboard-panel container py-5 mt-4">
-    <div class="dashboard-head text-center mb-5">
-        <h2 class="fw-bold mb-2">Welcome back, {{ user.username }}</h2>
-        <p class="text-muted mb-0">Your personal panel to share and track cultural contributions.</p>
+<section class="dashboard-page container py-5 mt-4">
+    <div class="dashboard-head text-center mb-4">
+        <h2 class="fw-bold mb-2">Dashboard</h2>
+        <p class="text-muted mb-0">Your profile, actions, and community insights in one place.</p>
     </div>
 
-    <div class="row g-4">
-        <div class="col-12 col-lg-4" id="upload-section">
-            <div class="card dashboard-card h-100 shadow border-0">
-                <div class="card-body p-4">
-                    <div class="dash-icon mb-3"><i class="bi bi-cloud-arrow-up"></i></div>
-                    <h4 class="card-title mb-2">Upload Cultural Post</h4>
-                    <p class="card-text text-muted">Share a tradition, festival, food, craft, or story from your region.</p>
-                    <a href="{% url 'upload' %}" class="btn dashboard-btn">Upload</a>
+    <div class="card dashboard-card dashboard-profile-card border-0 shadow mb-4">
+        <div class="card-body p-4 p-lg-5 dashboard-profile-body">
+            <div class="row g-4 align-items-center">
+                <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center">
+                    <div class="profile-avatar">{{ user.username|first|upper }}</div>
                 </div>
-            </div>
-        </div>
 
-        <div class="col-12 col-lg-4">
-            <div class="card dashboard-card h-100 shadow border-0">
-                <div class="card-body p-4">
-                    <div class="dash-icon mb-3"><i class="bi bi-stars"></i></div>
-                    <h4 class="card-title mb-2">Karma Points</h4>
-                    <p class="karma-count mb-2">0</p>
-                    <p class="card-text text-muted mb-0">Keep contributing local stories to strengthen this cultural archive.</p>
-                </div>
-            </div>
-        </div>
+                <div class="col-12 col-lg-9">
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                        <div>
+                            <h3 class="mb-1">{{ user.username|default:'Apex-05' }}</h3>
+                            <p class="text-muted fw-semibold mb-0">Cultural Contributor</p>
+                        </div>
+                        <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary btn-sm">Edit Profile</a>
+                    </div>
+                    <div class="row profile-info-grid mt-3">
 
-        <div class="col-12 col-lg-4">
-            <div class="card dashboard-card h-100 shadow border-0">
-                <div class="card-body p-4">
-                    <div class="dash-icon mb-3"><i class="bi bi-collection"></i></div>
-                    <h4 class="card-title mb-2">My Contributions</h4>
-                    <p class="card-text text-muted">Total uploads: {{ user.cultural_posts.count }}</p>
-                    <a href="{% url 'my_posts' %}" class="btn dashboard-btn">View My Posts</a>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <div class="col-12 col-md-6 mb-2">
+                        <strong>Email</strong>
+                        <div>{{ user.email|default:'-' }}</div>
+                    </div>
 
-    <div class="card dashboard-card border-0 shadow mt-4">
-        <div class="card-body p-4">
-            <h5 class="mb-3"><i class="bi bi-person-badge me-2"></i>Profile</h5>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <p class="mb-1 text-muted">Username</p>
-                    <p class="fw-semibold mb-0">{{ user.username }}</p>
+                    <div class="col-12 col-md-6 mb-2">
+                        <strong>Location</strong>
+                        <div>{{ profile.location }}</div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-2">
+                        <strong>Primary Region</strong>
+                        <div>{{ profile.get_primary_region_display }}</div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-2">
+                        <strong>Languages</strong>
+                        <div>{{ profile.languages }}</div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <strong>Member since</strong>
+                        <div>{{ user.date_joined|date:"F Y" }}</div>
+                    </div>
+
                 </div>
-                <div class="col-md-4">
-                    <p class="mb-1 text-muted">Email</p>
-                    <p class="fw-semibold mb-0">{{ user.email|default:'-' }}</p>
-                </div>
-                <div class="col-md-4">
-                    <p class="mb-1 text-muted">Date Joined</p>
-                    <p class="fw-semibold mb-0">{{ user.date_joined|date:"M d, Y" }}</p>
+
+                    
                 </div>
             </div>
         </div>
     </div>
-</section>
+
+    <div class="row g-4 dashboard-card-grid">
+
+    <!-- Contributions Card -->
+    <div class="col-12 col-lg-6">
+        <div class="card dashboard-card h-100 shadow border-0">
+            <div class="card-body p-4">
+
+                <!-- Icon + Title -->
+                <h4 class="card-title text-center mb-3">Your Contributions</h4>
+
+                <ul class="dashboard-metric-list mb-3">
+                    <li>
+                        <span>Posts submitted:</span>
+                        <strong>{{ user.cultural_posts.count }}</strong>
+                    </li>
+                    <li>
+                        <span>Approved posts:</span>
+                        <strong>0</strong>
+                    </li>
+                    <li>
+                        <span>Pending review:</span>
+                        <strong>0</strong>
+                    </li>
+                </ul>
+
+                <a href="{% url 'my_posts' %}" class="btn dashboard-btn">
+                    View Posts
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Karma Card -->
+    <div class="col-12 col-lg-6">
+        <div class="card dashboard-card h-100 shadow border-0">
+            <div class="card-body p-4">
+
+               <h4 class="card-title text-center mb-3">Karma & Impact</h4>
+
+                <p>
+                </p>
+
+                <ul class="dashboard-metric-list mb-0">
+                    <li>
+                        <span>Karma Points:</span>
+                        <strong>0</strong>
+                    </li>
+                    <li>
+                        <span>Upvotes received:</span>
+                        <strong>0</strong>
+                    </li>
+                    <li>
+                        <span>Regions contributed:</span>
+                        <strong>0</strong>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</section>  
 
 {% endblock %}

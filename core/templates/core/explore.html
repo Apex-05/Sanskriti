@@ -1,0 +1,130 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Explore India | Sanskriti{% endblock %}
+
+{% block content %}
+<section class="section-page">
+    <div class="container">
+        <div class="section-page-hero mb-4">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <span class="section-kicker">Explore India</span>
+                    <h1 class="mt-3 mb-3">Travel through regions, stories, and cultural landscapes.</h1>
+                    <p class="mb-0">Move across states with curated spotlights, a national map view, and travel themes that connect geography to heritage, food, craft, and ritual.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="section-stat-grid">
+                        <div class="section-stat-chip"><strong>28</strong><span>States</span></div>
+                        <div class="section-stat-chip"><strong>8</strong><span>Union Territories</span></div>
+                        <div class="section-stat-chip"><strong>4</strong><span>Travel lenses</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-xl-7">
+                <div class="section-panel h-100">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                        <div>
+                            <span class="section-label">State Cards</span>
+                            <h2 class="h4 mb-1">Interactive regions</h2>
+                            <p class="section-subcopy mb-0">Select a state card to update the travel spotlight panel.</p>
+                        </div>
+                        <span class="section-chip">Living geography</span>
+                    </div>
+
+                    <div class="state-card-grid">
+                        <button type="button" class="state-card-button is-active" data-state-card data-state-title="Rajasthan" data-state-copy="From walled cities to desert settlements, Rajasthan connects architecture, textiles, music, and market culture in one dramatic route." data-state-highlight="Jaipur, Jaisalmer, Udaipur, Shekhawati" data-state-focus="Forts, craft bazaars, and folk performance">
+                            <span>Rajasthan</span>
+                            <small>Forts and desert trade routes</small>
+                        </button>
+                        <button type="button" class="state-card-button" data-state-card data-state-title="Kerala" data-state-copy="Kerala balances temple festivals, coastal cuisine, backwater settlements, and performing arts shaped by monsoon landscapes." data-state-highlight="Kochi, Alappuzha, Thrissur, Wayanad" data-state-focus="Water routes, ritual arts, and spice culture">
+                            <span>Kerala</span>
+                            <small>Backwaters and performance traditions</small>
+                        </button>
+                        <button type="button" class="state-card-button" data-state-card data-state-title="Assam" data-state-copy="Tea estates, river islands, weaving traditions, and harvest festivals make Assam a region where ecology and celebration stay closely linked." data-state-highlight="Majuli, Guwahati, Sivasagar, Kaziranga" data-state-focus="River culture, weaving, and festival cycles">
+                            <span>Assam</span>
+                            <small>River islands and woven identity</small>
+                        </button>
+                        <button type="button" class="state-card-button" data-state-card data-state-title="Nagaland" data-state-copy="Community festivals, village knowledge, woodcraft, and mountain routes define Nagaland's layered cultural geography." data-state-highlight="Kohima, Mokokchung, Mon, Kisama" data-state-focus="Village heritage and seasonal gatherings">
+                            <span>Nagaland</span>
+                            <small>Mountain communities and festivals</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-xl-5">
+                <div class="section-panel section-panel-muted h-100">
+                    <span class="section-label">State Spotlight</span>
+                    <h2 class="h3 mb-3" id="stateSpotlightTitle">Rajasthan</h2>
+                    <p class="section-subcopy mb-4" id="stateSpotlightCopy">From walled cities to desert settlements, Rajasthan connects architecture, textiles, music, and market culture in one dramatic route.</p>
+
+                    <div class="d-grid gap-3">
+                        <div class="spotlight-metric">
+                            <span class="spotlight-metric-label">Highlights</span>
+                            <strong id="stateSpotlightHighlight">Jaipur, Jaisalmer, Udaipur, Shekhawati</strong>
+                        </div>
+                        <div class="spotlight-metric">
+                            <span class="spotlight-metric-label">Best For</span>
+                            <strong id="stateSpotlightFocus">Forts, craft bazaars, and folk performance</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-panel mb-4">
+            <div class="map-spotlight">
+                <div>
+                    <span class="section-label">Map Section</span>
+                    <h2 class="h4 mb-3">Start with a national view</h2>
+                    <p class="section-subcopy mb-4">A broad map overview helps visitors read India through coastlines, mountain ranges, pilgrimage routes, and trade corridors before diving into local stories.</p>
+                    <div class="feature-pill-list">
+                        <span class="feature-pill"><i class="bi bi-compass" aria-hidden="true"></i>Pilgrimage circuits</span>
+                        <span class="feature-pill"><i class="bi bi-signpost-split" aria-hidden="true"></i>Craft routes</span>
+                        <span class="feature-pill"><i class="bi bi-camera2" aria-hidden="true"></i>Photo trails</span>
+                        <span class="feature-pill"><i class="bi bi-train-front" aria-hidden="true"></i>Travel highlights</span>
+                    </div>
+                </div>
+
+                <div class="map-spotlight-visual">
+                    <img src="{% static 'images/india_map.avif' %}" alt="Illustrated map of India">
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-4">
+                <div class="card dashboard-card border-0 h-100 topic-card">
+                    <div class="card-body">
+                        <div class="topic-icon"><i class="bi bi-building" aria-hidden="true"></i></div>
+                        <h3 class="h5">Temple and monument trails</h3>
+                        <p class="text-muted mb-0">Group journeys around sacred towns, stepwells, forts, and architectural clusters instead of single stopovers.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card dashboard-card border-0 h-100 topic-card">
+                    <div class="card-body">
+                        <div class="topic-icon"><i class="bi bi-palette" aria-hidden="true"></i></div>
+                        <h3 class="h5">Craft and market routes</h3>
+                        <p class="text-muted mb-0">Follow weaving towns, pottery clusters, metalwork centres, and local bazaars that keep regional design alive.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card dashboard-card border-0 h-100 topic-card">
+                    <div class="card-body">
+                        <div class="topic-icon"><i class="bi bi-cup-hot" aria-hidden="true"></i></div>
+                        <h3 class="h5">Food and festival circuits</h3>
+                        <p class="text-muted mb-0">Plan visits around seasonal fairs, regional meals, and harvest calendars to experience culture in motion.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
