@@ -14,7 +14,7 @@
                     <div class="card-body p-4 p-md-5">
                         <div class="mb-4 text-center text-md-start">
                             <h2 class="fw-bold mb-2">Upload a Cultural Story</h2>
-                            <p class="text-muted mb-0">Share India's living traditions with title, category, story, image, and location.</p>
+                            <p class="text-muted mb-0">Share multiple stories from the same place with clear cultural categories, image, and precise location context.</p>
                         </div>
 
                         {% if form.non_field_errors %}
@@ -39,11 +39,14 @@
 
                             <div class="mb-3">
                                 <label for="postCategory" class="form-label fw-semibold">Cultural Category</label>
-                                {{ form.category }}
-                                {% if form.category.errors %}
-                                    <div class="invalid-feedback d-block">{{ form.category.errors|striptags }}</div>
+                                <div id="categoryButtonGroup" class="category-button-group" aria-label="Category selection buttons"></div>
+                                {{ form.categories }}
+                                <p class="text-muted small mt-2 mb-0" id="selectedCategorySummary">No category selected yet.</p>
+                                {% if form.categories.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.categories.errors|striptags }}</div>
                                 {% endif %}
-                                <div class="invalid-feedback">Please choose a category.</div>
+                                <div class="invalid-feedback">Please choose at least one category.</div>
+                                <small class="text-muted d-block mt-2">Tip: You can select more than one category. The first selected category is used as primary.</small>
                             </div>
 
                             <div class="mb-4">
@@ -59,20 +62,55 @@
                                 <label class="form-label fw-semibold">Image Upload</label>
                                 <div id="uploadDropArea" class="upload-drop-area">
                                     <i class="bi bi-cloud-arrow-up-fill"></i>
-                                    <p class="mb-1">Drag and drop your image here</p>
+                                    <p class="mb-1">Drag and drop your primary image here</p>
                                     <small class="text-muted d-block mb-3">or click to browse</small>
                                     {{ form.image }}
-                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="browseImageBtn">Choose Image</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="browseImageBtn">Choose Primary Image</button>
                                 </div>
+                                <small class="text-muted d-block mt-2">Images are resized automatically on upload to keep the full frame visible.</small>
                                 <img id="imagePreview" class="img-fluid upload-preview d-none" alt="Image preview">
-                                <div class="invalid-feedback d-block d-none" id="imageInputError">Please upload an image.</div>
+                                <div class="invalid-feedback d-block d-none" id="imageInputError">Please upload a primary image.</div>
                                 {% if form.image.errors %}
                                     <div class="invalid-feedback d-block">{{ form.image.errors|striptags }}</div>
                                 {% endif %}
                             </div>
 
                             <div class="mb-4">
+                                <label class="form-label fw-semibold">Additional Images (Optional)</label>
+                                <p class="text-muted small mb-2">Upload up to 10 additional images to showcase your cultural story from different angles</p>
+                                <div id="additionalUploadDropArea" class="upload-drop-area">
+                                    <i class="bi bi-images"></i>
+                                    <p class="mb-1">Drag and drop additional images here</p>
+                                    <small class="text-muted d-block mb-3">or click to browse (Max 10 images)</small>
+                                    {{ form.additional_images }}
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="browseAdditionalImagesBtn">Choose Additional Images</button>
+                                </div>
+                                <div id="additionalImagePreviews" class="mt-3"></div>
+                                {% if form.additional_images.errors %}
+                                    <div class="alert alert-danger mt-2">{{ form.additional_images.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
                                 <label class="form-label fw-semibold">Location</label>
+
+                                <div class="row g-2 mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label for="locationName" class="form-label fw-semibold mb-1">Location Name (Optional)</label>
+                                        {{ form.location_name }}
+                                        {% if form.location_name.errors %}
+                                            <div class="invalid-feedback d-block">{{ form.location_name.errors|striptags }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label for="stateUt" class="form-label fw-semibold mb-1">State / UT (Optional)</label>
+                                        {{ form.state_ut }}
+                                        {% if form.state_ut.errors %}
+                                            <div class="invalid-feedback d-block">{{ form.state_ut.errors|striptags }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
                                 <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
                                     <button type="button" class="btn dashboard-btn" id="mapPicker" data-bs-toggle="modal" data-bs-target="#uploadMapModal">Pick Location on Map</button>
                                     <span class="text-muted" id="selectedCoordinates">No location selected yet.</span>
@@ -103,6 +141,10 @@
                                         {{ form.latitude.errors|striptags }} {{ form.longitude.errors|striptags }}
                                     </div>
                                 {% endif %}
+
+                                <small class="text-muted d-block mt-2">
+                                    Multiple stories can be uploaded under the same location; each upload is preserved as a separate contribution.
+                                </small>
                             </div>
 
                             <div class="d-grid d-md-flex gap-2 justify-content-md-end">
@@ -154,4 +196,206 @@
 
 {% block extra_scripts %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categorySelect = document.getElementById('postCategory');
+    const categoryButtonGroup = document.getElementById('categoryButtonGroup');
+    const selectedCategorySummary = document.getElementById('selectedCategorySummary');
+
+    function updateCategorySummary(options) {
+        if (!selectedCategorySummary) {
+            return;
+        }
+
+        const selectedLabels = options
+            .filter((option) => option.selected)
+            .map((option) => option.textContent.trim());
+
+        if (!selectedLabels.length) {
+            selectedCategorySummary.textContent = 'No category selected yet.';
+            return;
+        }
+
+        selectedCategorySummary.textContent = `Selected: ${selectedLabels.join(', ')}`;
+    }
+
+    function buildCategoryButtons() {
+        if (!categorySelect || !categoryButtonGroup) {
+            return;
+        }
+
+        const options = Array.from(categorySelect.options).filter((option) => option.value);
+        if (!options.length) {
+            return;
+        }
+
+        categorySelect.classList.add('d-none');
+        categorySelect.setAttribute('aria-hidden', 'true');
+        categoryButtonGroup.innerHTML = '';
+
+        options.forEach((option) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'category-select-btn';
+            button.dataset.categoryValue = option.value;
+
+            const indicator = document.createElement('span');
+            indicator.className = 'category-select-indicator';
+            indicator.setAttribute('aria-hidden', 'true');
+
+            const label = document.createElement('span');
+            label.className = 'category-select-label';
+            label.textContent = option.textContent.trim();
+
+            if (option.selected) {
+                button.classList.add('is-selected');
+            }
+
+            button.addEventListener('click', function() {
+                option.selected = !option.selected;
+                button.classList.toggle('is-selected', option.selected);
+                updateCategorySummary(options);
+            });
+
+            button.appendChild(indicator);
+            button.appendChild(label);
+            categoryButtonGroup.appendChild(button);
+        });
+
+        updateCategorySummary(options);
+    }
+
+    buildCategoryButtons();
+
+    // Additional images upload handlers
+    const additionalImagesInput = document.getElementById('additionalImagesInput');
+    const browseAdditionalImagesBtn = document.getElementById('browseAdditionalImagesBtn');
+    const additionalUploadDropArea = document.getElementById('additionalUploadDropArea');
+    const additionalImagePreviews = document.getElementById('additionalImagePreviews');
+
+    // Additional images handlers
+    if (browseAdditionalImagesBtn) {
+        browseAdditionalImagesBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            additionalImagesInput.click();
+        });
+    }
+
+    if (additionalImagesInput) {
+        additionalImagesInput.addEventListener('change', function(e) {
+            handleAdditionalImagesSelect(e.target.files);
+        });
+    }
+
+    if (additionalUploadDropArea) {
+        setupDragAndDropAdditional(additionalUploadDropArea, additionalImagesInput);
+    }
+
+    // Additional images preview handler
+    function handleAdditionalImagesSelect(files) {
+        const MAX_IMAGES = 10;
+        
+        if (files.length > MAX_IMAGES) {
+            alert(`You can upload a maximum of ${MAX_IMAGES} additional images.`);
+            additionalImagesInput.value = '';
+            return;
+        }
+
+        additionalImagePreviews.innerHTML = '';
+        
+        if (files.length > 0) {
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'row g-3 mt-2';
+            
+            Array.from(files).forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const col = document.createElement('div');
+                        col.className = 'col-6 col-md-4 col-lg-3';
+                        
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'position-relative';
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'img-fluid rounded border';
+                        img.style.objectFit = 'contain';
+                        img.style.aspectRatio = '1';
+                        img.style.backgroundColor = '#f3ede2';
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.type = 'button';
+                        removeBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0 m-1';
+                        removeBtn.innerHTML = '<i class="bi bi-x"></i>';
+                        removeBtn.title = 'Remove image';
+                        
+                        removeBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            removeImagePreview(index);
+                        });
+                        
+                        wrapper.appendChild(img);
+                        wrapper.appendChild(removeBtn);
+                        col.appendChild(wrapper);
+                        previewContainer.appendChild(col);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            additionalImagePreviews.appendChild(previewContainer);
+        }
+    }
+
+    function removeImagePreview(index) {
+        // Create a DataTransfer to manipulate the file input
+        const dt = new DataTransfer();
+        const files = additionalImagesInput.files;
+        
+        for (let i = 0; i < files.length; i++) {
+            if (i !== index) {
+                dt.items.add(files[i]);
+            }
+        }
+        
+        additionalImagesInput.files = dt.files;
+        handleAdditionalImagesSelect(additionalImagesInput.files);
+    }
+
+    // Drag and drop for additional images
+    function setupDragAndDropAdditional(dropArea, fileInput) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.remove('dragover');
+            }, false);
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            handleAdditionalImagesSelect(files);
+        }, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+});
+</script>
+
 {% endblock %}

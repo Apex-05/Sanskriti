@@ -6,245 +6,88 @@
 <section class="section-page culture-compare-page">
     <div class="container">
         <div class="section-page-hero mb-4">
-            <div class="row g-4 align-items-center">
-                <div class="col-lg-8">
-                    <span class="section-kicker">Culture</span>
-                    <h1 class="mt-3 mb-3">Compare state cultures side by side.</h1>
-                    <p class="mb-0">Use this comparison view to see how festival practices, language, clothing, cuisine, music, and crafts vary across Indian states.</p>
-                </div>
-                <div class="col-lg-4">
-                    <div class="section-stat-grid">
-                        <div class="section-stat-chip"><strong>6</strong><span>States in dataset</span></div>
-                        <div class="section-stat-chip"><strong>2</strong><span>Panels to compare</span></div>
-                        <div class="section-stat-chip"><strong>7</strong><span>Cultural dimensions</span></div>
-                    </div>
-                </div>
-            </div>
+            <span class="section-kicker">Culture Comparison</span>
+            <h1 class="mt-3 mb-3">State and UT Comparison </h1>
         </div>
 
         <div class="section-panel mb-4">
-            <span class="section-label">Comparison Builder</span>
-            <h2 class="h4 mb-3">Choose two states to compare</h2>
-            <div class="row g-3 align-items-end">
+            <span class="section-label">Selection</span>
+            <h2 class="h4 mb-3">Choose two State/UT entries</h2>
+            <form method="get" class="row g-3 align-items-end">
                 <div class="col-12 col-md-6">
-                    <label class="form-label fw-semibold" for="stateLeftSelect">State A</label>
-                    <select id="stateLeftSelect" class="form-select">
-                        <option value="rajasthan">Rajasthan</option>
-                        <option value="kerala">Kerala</option>
-                        <option value="assam">Assam</option>
-                        <option value="tamil_nadu">Tamil Nadu</option>
-                        <option value="punjab">Punjab</option>
-                        <option value="nagaland">Nagaland</option>
+                    <label class="form-label fw-semibold" for="leftRegion">Region A</label>
+                    <select id="leftRegion" name="left" class="form-select">
+                        {% for option in unit_options %}
+                        <option value="{{ option.name }}"{% if option.name == left_name %} selected{% endif %}>{{ option.name }} ({{ option.type }})</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-12 col-md-6">
-                    <label class="form-label fw-semibold" for="stateRightSelect">State B</label>
-                    <select id="stateRightSelect" class="form-select">
-                        <option value="rajasthan">Rajasthan</option>
-                        <option value="kerala" selected>Kerala</option>
-                        <option value="assam">Assam</option>
-                        <option value="tamil_nadu">Tamil Nadu</option>
-                        <option value="punjab">Punjab</option>
-                        <option value="nagaland">Nagaland</option>
+                    <label class="form-label fw-semibold" for="rightRegion">Region B</label>
+                    <select id="rightRegion" name="right" class="form-select">
+                        {% for option in unit_options %}
+                        <option value="{{ option.name }}"{% if option.name == right_name %} selected{% endif %}>{{ option.name }} ({{ option.type }})</option>
+                        {% endfor %}
                     </select>
                 </div>
-            </div>
-        </div>
-
-        <div class="row g-4 mb-4">
-            <div class="col-12 col-lg-6">
-                <div class="section-panel culture-state-card h-100" id="stateLeftCard">
-                    <span class="section-label">State A</span>
-                    <h3 class="h4 mb-3" data-field="name">Rajasthan</h3>
-                    <ul class="detail-list">
-                        <li><strong>Festival Focus</strong><span data-field="festival">Desert and royal city festivals, Teej, Gangaur, and folk fairs.</span></li>
-                        <li><strong>Language Cluster</strong><span data-field="language">Hindi, Rajasthani dialects such as Marwari and Mewari.</span></li>
-                        <li><strong>Traditional Dress</strong><span data-field="dress">Bandhani textiles, turbans, ghagra-choli, mirror and gota work.</span></li>
-                        <li><strong>Cuisine Signature</strong><span data-field="cuisine">Dal Baati Churma, ker sangri, and spice-rich dry dishes.</span></li>
-                        <li><strong>Music and Performance</strong><span data-field="music">Manganiyar music, Kalbeliya dance, devotional folk styles.</span></li>
-                        <li><strong>Craft Identity</strong><span data-field="craft">Blue pottery, block printing, miniature painting, leather craft.</span></li>
-                        <li><strong>Heritage Style</strong><span data-field="heritage">Forts, havelis, stepwells, palace-urban landscapes.</span></li>
-                    </ul>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Compare</button>
                 </div>
-            </div>
-
-            <div class="col-12 col-lg-6">
-                <div class="section-panel section-panel-muted culture-state-card h-100" id="stateRightCard">
-                    <span class="section-label">State B</span>
-                    <h3 class="h4 mb-3" data-field="name">Kerala</h3>
-                    <ul class="detail-list">
-                        <li><strong>Festival Focus</strong><span data-field="festival">Onam, Thrissur Pooram, temple and church feast processions.</span></li>
-                        <li><strong>Language Cluster</strong><span data-field="language">Malayalam as the dominant language with regional variation.</span></li>
-                        <li><strong>Traditional Dress</strong><span data-field="dress">Kasavu saree, mundu, gold-bordered ceremonial textiles.</span></li>
-                        <li><strong>Cuisine Signature</strong><span data-field="cuisine">Coconut-based curries, appam-stew, sadya, seafood traditions.</span></li>
-                        <li><strong>Music and Performance</strong><span data-field="music">Kathakali, Mohiniyattam, Sopana music, percussion ensembles.</span></li>
-                        <li><strong>Craft Identity</strong><span data-field="craft">Coir, mural painting, wood carving, bronze temple craft.</span></li>
-                        <li><strong>Heritage Style</strong><span data-field="heritage">Temple architecture, backwater settlements, spice-port history.</span></li>
-                    </ul>
-                </div>
-            </div>
+            </form>
         </div>
 
         <div class="section-panel">
-            <span class="section-label">Quick Contrast Table</span>
-            <h2 class="h4 mb-3">At-a-glance state comparison</h2>
+            <span class="section-label">Comparison Table</span>
+            <h2 class="h4 mb-2">{{ left_name }} vs {{ right_name }}</h2>
+            <p class="text-muted mb-3">{{ framework_name }}</p>
             <div class="table-responsive">
                 <table class="table culture-compare-table mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">Dimension</th>
-                            <th scope="col" id="tableLeftState">Rajasthan</th>
-                            <th scope="col" id="tableRightState">Kerala</th>
+                            <th scope="col">#</th>
+                            <th scope="col">Cultural Point</th>
+                            <th scope="col">{{ left_name }} ({{ left_type }})</th>
+                            <th scope="col">{{ right_name }} ({{ right_type }})</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for row in comparison_rows %}
                         <tr>
-                            <th scope="row">Festival Focus</th>
-                            <td id="tableFestivalLeft">Desert and royal city festivals, Teej, Gangaur, and folk fairs.</td>
-                            <td id="tableFestivalRight">Onam, Thrissur Pooram, temple and church feast processions.</td>
+                            <td>{{ forloop.counter }}</td>
+                            <th scope="row">{{ row.label }}</th>
+                            <td class="align-top">
+                                {% if row.left_items %}
+                                <ul class="mb-0 ps-3">
+                                    {% for item in row.left_items %}
+                                    <li>{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                {{ row.left_value }}
+                                {% endif %}
+                            </td>
+                            <td class="align-top">
+                                {% if row.right_items %}
+                                <ul class="mb-0 ps-3">
+                                    {% for item in row.right_items %}
+                                    <li>{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                {{ row.right_value }}
+                                {% endif %}
+                            </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <th scope="row">Language Cluster</th>
-                            <td id="tableLanguageLeft">Hindi, Rajasthani dialects such as Marwari and Mewari.</td>
-                            <td id="tableLanguageRight">Malayalam as the dominant language with regional variation.</td>
+                            <td colspan="4">No comparison points are available right now.</td>
                         </tr>
-                        <tr>
-                            <th scope="row">Cuisine Signature</th>
-                            <td id="tableCuisineLeft">Dal Baati Churma, ker sangri, and spice-rich dry dishes.</td>
-                            <td id="tableCuisineRight">Coconut-based curries, appam-stew, sadya, seafood traditions.</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Craft Identity</th>
-                            <td id="tableCraftLeft">Blue pottery, block printing, miniature painting, leather craft.</td>
-                            <td id="tableCraftRight">Coir, mural painting, wood carving, bronze temple craft.</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
+            <p class="small text-muted mb-0 mt-3">Total points compared: {{ point_count }}</p>
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block extra_scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const stateData = {
-        rajasthan: {
-            name: 'Rajasthan',
-            festival: 'Desert and royal city festivals, Teej, Gangaur, and folk fairs.',
-            language: 'Hindi, Rajasthani dialects such as Marwari and Mewari.',
-            dress: 'Bandhani textiles, turbans, ghagra-choli, mirror and gota work.',
-            cuisine: 'Dal Baati Churma, ker sangri, and spice-rich dry dishes.',
-            music: 'Manganiyar music, Kalbeliya dance, devotional folk styles.',
-            craft: 'Blue pottery, block printing, miniature painting, leather craft.',
-            heritage: 'Forts, havelis, stepwells, palace-urban landscapes.'
-        },
-        kerala: {
-            name: 'Kerala',
-            festival: 'Onam, Thrissur Pooram, temple and church feast processions.',
-            language: 'Malayalam as the dominant language with regional variation.',
-            dress: 'Kasavu saree, mundu, gold-bordered ceremonial textiles.',
-            cuisine: 'Coconut-based curries, appam-stew, sadya, seafood traditions.',
-            music: 'Kathakali, Mohiniyattam, Sopana music, percussion ensembles.',
-            craft: 'Coir, mural painting, wood carving, bronze temple craft.',
-            heritage: 'Temple architecture, backwater settlements, spice-port history.'
-        },
-        assam: {
-            name: 'Assam',
-            festival: 'Rongali Bihu, Bhogali Bihu, and river-island community fairs.',
-            language: 'Assamese, Bodo, and multiple tribal language traditions.',
-            dress: 'Mekhela chador, eri and muga silk weaving traditions.',
-            cuisine: 'Rice-based meals, tenga, bamboo shoot and herb-focused flavors.',
-            music: 'Bihu dance-music, folk percussion, devotional and river songs.',
-            craft: 'Silk weaving, cane-bamboo craft, mask-making in Majuli.',
-            heritage: 'River civilization, satra institutions, Ahom-era landmarks.'
-        },
-        tamil_nadu: {
-            name: 'Tamil Nadu',
-            festival: 'Pongal cycles, temple car festivals, and seasonal processions.',
-            language: 'Tamil literary and spoken continuities across regions.',
-            dress: 'Kanchipuram silk sarees, veshti, temple-textile aesthetics.',
-            cuisine: 'Rice-lentil staples, dosa traditions, Chettinad and temple food.',
-            music: 'Carnatic music, Bharatanatyam, nadaswaram-temple performance.',
-            craft: 'Bronze casting, stone sculpture, kolam and textile craft.',
-            heritage: 'Dravidian temple architecture and coastal trade history.'
-        },
-        punjab: {
-            name: 'Punjab',
-            festival: 'Lohri, Baisakhi, Gurpurab celebrations, and harvest fairs.',
-            language: 'Punjabi in Gurmukhi script with regional spoken texture.',
-            dress: 'Phulkari embroidery, salwar-kameez, turban traditions.',
-            cuisine: 'Wheat-rich meals, tandoori styles, langar traditions.',
-            music: 'Bhangra, giddha, dhol rhythms, sufi and folk-poetry singing.',
-            craft: 'Phulkari, jutti making, wood and metal artisan work.',
-            heritage: 'Gurdwara-centered cities, partition memory, agrarian landscapes.'
-        },
-        nagaland: {
-            name: 'Nagaland',
-            festival: 'Hornbill Festival and tribe-specific seasonal celebrations.',
-            language: 'Multiple Naga languages with Nagamese as bridge speech.',
-            dress: 'Distinct tribe-based shawls, beadwork, and ceremonial attire.',
-            cuisine: 'Smoked meats, fermented ingredients, millet and local herbs.',
-            music: 'Warrior chants, community songs, bamboo and log-drum forms.',
-            craft: 'Weaving, bead artistry, woodcraft, and ceremonial objects.',
-            heritage: 'Village institutions, morungs, mountain settlement culture.'
-        }
-    };
-
-    const leftSelect = document.getElementById('stateLeftSelect');
-    const rightSelect = document.getElementById('stateRightSelect');
-    const leftCard = document.getElementById('stateLeftCard');
-    const rightCard = document.getElementById('stateRightCard');
-
-    const tableLeftState = document.getElementById('tableLeftState');
-    const tableRightState = document.getElementById('tableRightState');
-    const tableFestivalLeft = document.getElementById('tableFestivalLeft');
-    const tableFestivalRight = document.getElementById('tableFestivalRight');
-    const tableLanguageLeft = document.getElementById('tableLanguageLeft');
-    const tableLanguageRight = document.getElementById('tableLanguageRight');
-    const tableCuisineLeft = document.getElementById('tableCuisineLeft');
-    const tableCuisineRight = document.getElementById('tableCuisineRight');
-    const tableCraftLeft = document.getElementById('tableCraftLeft');
-    const tableCraftRight = document.getElementById('tableCraftRight');
-
-    if (!leftSelect || !rightSelect || !leftCard || !rightCard) {
-        return;
-    }
-
-    const fillCard = (card, data) => {
-        card.querySelector('[data-field="name"]').textContent = data.name;
-        card.querySelector('[data-field="festival"]').textContent = data.festival;
-        card.querySelector('[data-field="language"]').textContent = data.language;
-        card.querySelector('[data-field="dress"]').textContent = data.dress;
-        card.querySelector('[data-field="cuisine"]').textContent = data.cuisine;
-        card.querySelector('[data-field="music"]').textContent = data.music;
-        card.querySelector('[data-field="craft"]').textContent = data.craft;
-        card.querySelector('[data-field="heritage"]').textContent = data.heritage;
-    };
-
-    const updateComparison = () => {
-        const leftState = stateData[leftSelect.value];
-        const rightState = stateData[rightSelect.value];
-
-        fillCard(leftCard, leftState);
-        fillCard(rightCard, rightState);
-
-        tableLeftState.textContent = leftState.name;
-        tableRightState.textContent = rightState.name;
-        tableFestivalLeft.textContent = leftState.festival;
-        tableFestivalRight.textContent = rightState.festival;
-        tableLanguageLeft.textContent = leftState.language;
-        tableLanguageRight.textContent = rightState.language;
-        tableCuisineLeft.textContent = leftState.cuisine;
-        tableCuisineRight.textContent = rightState.cuisine;
-        tableCraftLeft.textContent = leftState.craft;
-        tableCraftRight.textContent = rightState.craft;
-    };
-
-    leftSelect.addEventListener('change', updateComparison);
-    rightSelect.addEventListener('change', updateComparison);
-    updateComparison();
-});
-</script>
 {% endblock %}

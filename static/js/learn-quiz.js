@@ -156,7 +156,7 @@
     }) {
         return h('div', { className: 'section-panel mb-4 learn-mode-panel' }, [
             h('span', { className: 'section-label', key: 'label' }, 'Quiz Modes'),
-            h('h2', { className: 'h4 mb-3', key: 'title' }, 'Choose how you want to learn'),
+            h('h2', { className: 'h4 mb-3', key: 'title' }, 'Choose your quiz mode'),
             h(
                 'div',
                 { className: 'd-flex flex-wrap gap-2 mb-4', key: 'buttons' },
@@ -283,7 +283,7 @@
         return h('div', { className: 'learn-quiz-card section-panel' }, [
             h('div', { className: 'learn-question-head', key: 'head' }, [
                 h('span', { className: 'section-label', key: 'counter' }, `Question ${questionNumber} of ${totalQuestions}`),
-                h('span', { className: 'section-chip', key: 'category' }, formatCategoryLabel(question.category) || 'General'),
+                h('span', { className: 'section-chip', key: 'category' }, question.category_label || formatCategoryLabel(question.category) || 'General'),
             ]),
             h('p', { className: 'quiz-question-title learn-question-title', key: 'question-title' }, question.question_text),
             tagsText
@@ -792,7 +792,7 @@
                     ? h(
                         'div',
                         { className: 'quiz-result mb-0', key: 'empty' },
-                        'No quiz questions are available for this mode and category yet. Add approved questions in admin to build this set.'
+                        'No quiz questions are available for this mode and category yet. Update data/quiz_questions.json to build this set.'
                     )
                     : null,
                 showStartPrompt

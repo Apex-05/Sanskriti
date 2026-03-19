@@ -70,15 +70,11 @@
                 <ul class="dashboard-metric-list mb-3">
                     <li>
                         <span>Posts submitted:</span>
-                        <strong>{{ user.cultural_posts.count }}</strong>
+                        <strong>{{ posts_submitted }}</strong>
                     </li>
                     <li>
-                        <span>Approved posts:</span>
-                        <strong>0</strong>
-                    </li>
-                    <li>
-                        <span>Pending review:</span>
-                        <strong>0</strong>
+                        <span>Distinct locations contributed:</span>
+                        <strong>{{ regions_contributed }}</strong>
                     </li>
                 </ul>
 
@@ -98,21 +94,14 @@
 
                <h4 class="card-title text-center mb-3">Karma & Impact</h4>
 
-                <p>
-                </p>
-
                 <ul class="dashboard-metric-list mb-0">
                     <li>
-                        <span>Karma Points:</span>
-                        <strong>0</strong>
-                    </li>
-                    <li>
                         <span>Upvotes received:</span>
-                        <strong>0</strong>
+                        <strong>{{ upvotes_received }}</strong>
                     </li>
                     <li>
-                        <span>Regions contributed:</span>
-                        <strong>0</strong>
+                        <span>Karma Points:</span>
+                        <strong>{{ karma_points }}</strong>
                     </li>
                 </ul>
 

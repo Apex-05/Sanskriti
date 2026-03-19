@@ -9,18 +9,69 @@
             <div class="row g-4 align-items-center">
                 <div class="col-lg-8">
                     <span class="section-kicker">Discover</span>
-                    <h1 class="mt-3 mb-3">Digital image gallery of cultural uploads by location and contributor.</h1>
-                    <p class="mb-0">Browse real community posts grouped by pinned location and see who uploaded each tradition, craft, ritual, or cultural story.</p>
+                    <h1 class="mt-3 mb-3">Community uploads grouped state-wise.</h1>
                 </div>
                 <div class="col-lg-4">
                     <div class="section-stat-grid">
                         <div class="section-stat-chip"><strong>{{ total_posts }}</strong><span>Total uploads</span></div>
-                        <div class="section-stat-chip"><strong>{{ unique_locations }}</strong><span>Locations</span></div>
+                        <div class="section-stat-chip"><strong>{{ unique_state_clusters }}</strong><span>State clusters</span></div>
                         <div class="section-stat-chip"><strong>{{ unique_uploaders }}</strong><span>Contributors</span></div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="section-panel mb-4 discover-state-filters">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+                <div>
+                    <span class="section-label">State / UT Filter</span>
+                    <h2 class="h5 mb-0">Select a region to open its cultural uploads</h2>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    {% if selected_state %}
+                        <span class="resource-badge mb-0">Showing {{ selected_state }}</span>
+                    {% else %}
+                        <span class="resource-badge mb-0">Showing all states and UTs</span>
+                    {% endif %}
+                    {% if selected_date %}
+                        <span class="resource-badge mb-0">Date {{ selected_date }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="state-filter-wrap">
+                <a href="{% url 'discover' %}{% if selected_date %}?date={{ selected_date }}{% endif %}" class="state-filter-btn {% if not selected_state %}is-active{% endif %}">
+                    All States &amp; UTs
+                </a>
+                {% for state in state_filters %}
+                    <a href="{% url 'discover_by_state' state.slug %}{% if selected_date %}?date={{ selected_date }}{% endif %}" class="state-filter-btn {% if state.is_active %}is-active{% endif %}">
+                        {{ state.name }}
+                        <span>{{ state.count }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <form
+                method="get"
+                action="{% if selected_state_slug %}{% url 'discover_by_state' selected_state_slug %}{% else %}{% url 'discover' %}{% endif %}"
+                class="date-filter-form mt-3"
+            >
+                <label class="form-label fw-semibold mb-1" for="discoverDateFilter">Calendar Filter</label>
+                <div class="date-filter-controls">
+                    <input type="date" id="discoverDateFilter" name="date" value="{{ selected_date }}" class="form-control form-control-sm">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Apply Date</button>
+                    {% if selected_date %}
+                        <a href="{% if selected_state_slug %}{% url 'discover_by_state' selected_state_slug %}{% else %}{% url 'discover' %}{% endif %}" class="btn btn-sm btn-light">Clear</a>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        {% if top_posts_mode %}
+            <div class="alert alert-warning discover-top-alert" role="alert">
+                Showing top {{ top_posts_limit }} contributions across all states/UTs ranked by highest upvotes.
+            </div>
+        {% endif %}
 
         {% if location_groups %}
             <div class="gallery-location-stack">
@@ -28,27 +79,90 @@
                     <div class="section-panel gallery-location-panel">
                         <div class="gallery-location-head mb-3">
                             <div>
-                                <span class="section-label">Location Cluster</span>
+                                <span class="section-label">State / UT Cluster</span>
                                 <h2 class="h4 mb-0">{{ group.location }}</h2>
                             </div>
-                            <span class="resource-badge mb-0">{{ group.posts|length }} uploads</span>
+                            <span class="resource-badge mb-0">{{ group.post_count }} uploads</span>
                         </div>
 
                         <div class="row g-4">
                             {% for post in group.posts %}
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <article class="card dashboard-card border-0 h-100 discover-gallery-card">
-                                        <img src="{{ post.image.url }}" class="discover-gallery-image" alt="{{ post.title }}">
+                                        <div id="discoverPostCarousel{{ post.id }}" class="carousel slide post-gallery-carousel" data-bs-interval="false" data-bs-touch="true">
+                                            <div class="carousel-inner">
+                                                {% for image in post.gallery_images %}
+                                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                        <img src="{{ image.url }}" class="discover-gallery-image d-block w-100" alt="{{ post.title }}" loading="lazy">
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+
+                                            {% if post.gallery_count > 1 %}
+                                                <button class="carousel-control-prev post-gallery-control" type="button" data-bs-target="#discoverPostCarousel{{ post.id }}" data-bs-slide="prev" aria-label="Previous image">
+                                                    <span class="post-gallery-arrow" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+                                                </button>
+                                                <button class="carousel-control-next post-gallery-control" type="button" data-bs-target="#discoverPostCarousel{{ post.id }}" data-bs-slide="next" aria-label="Next image">
+                                                    <span class="post-gallery-arrow" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                                                </button>
+                                                <span class="post-gallery-count">{{ post.gallery_count }} photos</span>
+                                            {% endif %}
+                                        </div>
                                         <div class="card-body">
+                                            {% if post.global_top_rank %}
+                                                <span class="resource-badge mb-2">Top Rank #{{ post.global_top_rank }}</span>
+                                            {% endif %}
                                             <p class="discover-gallery-uploader mb-2">
                                                 <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
                                                 Uploaded by {{ post.author.username }}
                                             </p>
+                                            {% if top_posts_mode %}
+                                                <p class="discover-gallery-location mb-2">
+                                                    <i class="bi bi-geo-alt-fill me-1" aria-hidden="true"></i>
+                                                    {% if post.location_name and post.state_ut %}
+                                                        {{ post.location_name }}, {{ post.state_ut }}
+                                                    {% elif post.state_ut %}
+                                                        {{ post.state_ut }}
+                                                    {% elif post.location_name %}
+                                                        {{ post.location_name }}
+                                                    {% else %}
+                                                        Location not set
+                                                    {% endif %}
+                                                </p>
+                                            {% endif %}
                                             <h3 class="h5 mb-2">{{ post.title }}</h3>
-                                            <p class="text-muted mb-3">{{ post.description|truncatechars:130 }}</p>
+                                            <div class="post-description-block js-description-block mb-3">
+                                                <p
+                                                    class="text-muted mb-0 js-expandable-description post-description-text"
+                                                    data-char-limit="130"
+                                                >{{ post.description }}</p>
+                                                {% if post.description|length > 130 %}
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-link btn-sm p-0 text-decoration-none description-toggle-btn js-description-toggle"
+                                                        aria-expanded="false"
+                                                    >
+                                                        View more
+                                                    </button>
+                                                {% endif %}
+                                            </div>
                                             <div class="d-flex justify-content-between align-items-center gap-2">
-                                                <span class="section-chip">{{ post.get_category_display }}</span>
+                                                <span class="section-chip">{{ post.get_category_display_name }}</span>
                                                 <small class="text-muted">{{ post.created_at|date:"M d, Y" }}</small>
+                                            </div>
+
+                                            <div class="discover-upvote-row mt-3">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-outline-secondary btn-sm upvote-btn js-upvote-btn {% if post.viewer_has_upvoted %}is-upvoted{% endif %}"
+                                                    data-upvote-url="{% url 'upvote_post' post.id %}"
+                                                    data-post-id="{{ post.id }}"
+                                                    {% if post.viewer_has_upvoted or post.viewer_is_author %}disabled{% endif %}
+                                                >
+                                                    <i class="bi bi-hand-thumbs-up" aria-hidden="true"></i>
+                                                    <span>{% if post.viewer_is_author %}Your Post{% else %}Upvote{% endif %}</span>
+                                                </button>
+                                                <span class="upvote-count-pill" data-upvote-count>{{ post.upvote_count }}</span>
                                             </div>
                                         </div>
                                     </article>

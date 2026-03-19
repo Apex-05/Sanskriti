@@ -1,0 +1,80 @@
+[
+  {
+    "slug": "festival",
+    "name": "Festivals",
+    "description": "Community celebrations, seasonal gatherings, and cultural fairs.",
+    "display_order": 10
+  },
+  {
+    "slug": "food",
+    "name": "Food",
+    "description": "Regional cuisine, recipes, and culinary traditions.",
+    "display_order": 20
+  },
+  {
+    "slug": "tradition",
+    "name": "Traditions",
+    "description": "Local customs and social practices passed through generations.",
+    "display_order": 30
+  },
+  {
+    "slug": "clothing",
+    "name": "Clothing",
+    "description": "Traditional attire, textiles, and ornament styles.",
+    "display_order": 40
+  },
+  {
+    "slug": "ritual",
+    "name": "Rituals",
+    "description": "Ceremonial and devotional practices tied to identity.",
+    "display_order": 50
+  },
+  {
+    "slug": "language",
+    "name": "Language",
+    "description": "Dialect, oral narratives, scripts, and linguistic heritage.",
+    "display_order": 60
+  },
+  {
+    "slug": "dance",
+    "name": "Dance",
+    "description": "Classical and folk performance traditions.",
+    "display_order": 70
+  },
+  {
+    "slug": "music",
+    "name": "Music",
+    "description": "Regional music forms and instruments.",
+    "display_order": 80
+  },
+  {
+    "slug": "folklore",
+    "name": "Folklore",
+    "description": "Stories, myths, oral memory, and local narratives.",
+    "display_order": 90
+  },
+  {
+    "slug": "architecture",
+    "name": "Architecture",
+    "description": "Built heritage, monuments, and vernacular structures.",
+    "display_order": 100
+  },
+  {
+    "slug": "heritage",
+    "name": "Heritage",
+    "description": "Cross-domain heritage topics and historical context.",
+    "display_order": 110
+  },
+  {
+    "slug": "craft",
+    "name": "Craft",
+    "description": "Handmade traditions, artisan skills, and local making.",
+    "display_order": 120
+  },
+  {
+    "slug": "other",
+    "name": "Other",
+    "description": "Cultural stories that do not fit existing groups.",
+    "display_order": 130
+  }
+]

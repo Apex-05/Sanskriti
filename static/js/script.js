@@ -63,7 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             noWrap: true,
-            attribution: '&copy; OpenStreetMap contributors'
+            crossOrigin: 'anonymous',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
         }).addTo(mapInstance);
 
         if (popupMessage) {
@@ -118,20 +119,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const homeMapBounds = L.latLngBounds(
-        [5.0, 60.0],
-        [38.8, 98.5]
-    );
+    let homeMap = null;
+    if (typeof L !== 'undefined') {
+        const homeMapBounds = L.latLngBounds(
+            [5.0, 60.0],
+            [38.8, 98.5]
+        );
 
-    const homeMap = initMapPreview('homeMap', null, {
-        minZoom: 4,
-        maxZoom: 8,
-        maxBounds: homeMapBounds,
-        fitBounds: homeMapBounds,
-        fitPadding: [16, 16]
-    });
+        homeMap = initMapPreview('homeMap', null, {
+            minZoom: 4,
+            maxZoom: 8,
+            maxBounds: homeMapBounds,
+            fitBounds: homeMapBounds,
+            fitPadding: [16, 16]
+        });
 
-    addNeighborHighlights(homeMap);
+        addNeighborHighlights(homeMap);
+    }
     const mapSection = document.getElementById('map');
     const culturalGrid = document.getElementById('culturalGrid');
     const placesDatasetMeta = document.getElementById('placesDatasetMeta');
@@ -266,6 +270,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadMapSearchInput = document.getElementById('uploadMapSearchInput');
     const uploadMapSearchBtn = document.getElementById('uploadMapSearchBtn');
     const uploadMapSearchStatus = document.getElementById('uploadMapSearchStatus');
+    const locationNameInput = document.getElementById('locationName');
+    const stateUtInput = document.getElementById('stateUt');
 
     let uploadMap;
     let uploadMarker;
@@ -309,12 +315,77 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadMapSearchStatus.classList.toggle('text-muted', !isError);
     };
 
+    const syncResolvedLocationFields = (displayName, addressData = {}, forceUpdate = false) => {
+        const firstSegment = String(displayName || '').split(',')[0].trim();
+        if (locationNameInput && firstSegment && (forceUpdate || !locationNameInput.value.trim())) {
+            locationNameInput.value = firstSegment;
+        }
+
+        if (!stateUtInput) {
+            return;
+        }
+
+        const candidateState = (
+            addressData.state
+            || addressData.state_district
+            || addressData.region
+            || ''
+        ).trim();
+
+        if (!candidateState || (!forceUpdate && stateUtInput.value)) {
+            return;
+        }
+
+        const normalizedCandidate = candidateState.toLowerCase();
+        const matchingOption = Array.from(stateUtInput.options).find((option) => {
+            if (!option.value) {
+                return false;
+            }
+            const normalizedOption = option.value.toLowerCase();
+            return (
+                normalizedOption === normalizedCandidate
+                || normalizedCandidate.includes(normalizedOption)
+                || normalizedOption.includes(normalizedCandidate)
+            );
+        });
+
+        if (matchingOption) {
+            stateUtInput.value = matchingOption.value;
+        }
+    };
+
     const syncManualCoordinateInputs = (lat, lng) => {
         if (manualLatitudeInput) {
             manualLatitudeInput.value = lat.toFixed(6);
         }
         if (manualLongitudeInput) {
             manualLongitudeInput.value = lng.toFixed(6);
+        }
+    };
+
+    const reverseGeocodeAndFillLocation = async (lat, lng, forceUpdate = false) => {
+        try {
+            const response = await window.fetch(`/api/reverse-geocode/?lat=${lat}&lng=${lng}`, {
+                credentials: 'same-origin',
+                headers: {
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+
+            if (!response.ok) {
+                console.warn('Reverse geocoding failed');
+                return;
+            }
+
+            const data = await response.json();
+            
+            if (data.display_name) {
+                syncResolvedLocationFields(data.display_name, data.address || {}, forceUpdate);
+                updateSearchStatus('Location details auto-filled. Click map to fine-tune.', false);
+            }
+        } catch (error) {
+            console.warn('Reverse geocoding error:', error);
         }
     };
 
@@ -384,13 +455,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            crossOrigin: 'anonymous',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
         }).addTo(uploadMap);
 
         uploadMap.on('click', (event) => {
             const { lat, lng } = event.latlng;
             setUploadCoordinates(lat, lng, { updateMap: true, centerMap: false });
-            updateSearchStatus('Pin updated on map click.', false);
+            
+            // Trigger reverse geocoding to auto-fill location name and state
+            reverseGeocodeAndFillLocation(lat, lng, true);
+            
+            updateSearchStatus('Pin updated. Fetching location details...', false);
         });
 
         const existingLat = latitudeInput ? Number.parseFloat(latitudeInput.value) : Number.NaN;
@@ -425,22 +501,23 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSearchStatus('Searching location...', false);
 
         try {
-            const searchUrl = new URL('https://nominatim.openstreetmap.org/search');
-            searchUrl.searchParams.set('format', 'jsonv2');
-            searchUrl.searchParams.set('limit', '1');
-            searchUrl.searchParams.set('q', query);
+            const proxyUrl = `/api/geocode/?q=${encodeURIComponent(query)}`;
 
-            const response = await window.fetch(searchUrl.toString(), {
+            const response = await window.fetch(proxyUrl, {
+                credentials: 'same-origin',
                 headers: {
-                    Accept: 'application/json'
-                }
+                    Accept: 'application/json',
+                    'X-CSRFToken': getCsrfToken(),
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
             });
 
             if (!response.ok) {
                 throw new Error('Search request failed.');
             }
 
-            const results = await response.json();
+            const data = await response.json();
+            const results = data.results || [];
             if (!Array.isArray(results) || !results.length) {
                 updateSearchStatus('No location found. Try a different search term.', true);
                 return;
@@ -461,6 +538,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 label: firstMatch.display_name || query,
                 openPopup: true,
             });
+
+            syncResolvedLocationFields(firstMatch.display_name || query, firstMatch.address || {});
 
             updateSearchStatus('Location found and pinned automatically. Click map to fine-tune.', false);
         } catch (error) {
@@ -699,11 +778,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const initializeDescriptionToggles = () => {
+        const toggles = document.querySelectorAll('.js-description-toggle');
+
+        toggles.forEach((toggleButton) => {
+            const parent = toggleButton.parentElement;
+            if (!parent) {
+                return;
+            }
+
+            const descriptionNode = parent.querySelector('.js-expandable-description');
+            if (!descriptionNode) {
+                return;
+            }
+
+            const descriptionBlock = descriptionNode.closest('.js-description-block');
+
+            const fullText = (descriptionNode.dataset.fullText || descriptionNode.textContent || '').trim();
+            const configuredLimit = Number.parseInt(descriptionNode.dataset.charLimit || '', 10);
+            const shortLimit = Number.isFinite(configuredLimit) && configuredLimit > 0 ? configuredLimit : 130;
+            const shortText = fullText.length > shortLimit
+                ? `${fullText.slice(0, shortLimit).trimEnd()}...`
+                : fullText;
+
+            if (fullText.length <= shortLimit) {
+                descriptionNode.textContent = fullText;
+                toggleButton.classList.add('d-none');
+                return;
+            }
+
+            let isExpanded = false;
+
+            const renderState = () => {
+                descriptionNode.textContent = isExpanded ? fullText : shortText;
+                toggleButton.textContent = isExpanded ? 'View less' : 'View more';
+                toggleButton.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                if (descriptionBlock) {
+                    descriptionBlock.classList.toggle('is-expanded', isExpanded);
+                }
+            };
+
+            toggleButton.addEventListener('click', () => {
+                isExpanded = !isExpanded;
+                renderState();
+            });
+
+            renderState();
+        });
+    };
+
+    initializeDescriptionToggles();
+
     const stateCardButtons = document.querySelectorAll('[data-state-card]');
     const stateSpotlightTitle = document.getElementById('stateSpotlightTitle');
     const stateSpotlightCopy = document.getElementById('stateSpotlightCopy');
     const stateSpotlightHighlight = document.getElementById('stateSpotlightHighlight');
     const stateSpotlightFocus = document.getElementById('stateSpotlightFocus');
+    const stateSpotlightDiscoverLink = document.getElementById('stateSpotlightDiscoverLink');
 
     const setStateSpotlight = (button) => {
         if (!stateSpotlightTitle || !stateSpotlightCopy || !stateSpotlightHighlight || !stateSpotlightFocus) {
@@ -719,6 +850,15 @@ document.addEventListener('DOMContentLoaded', () => {
         stateSpotlightCopy.textContent = button.dataset.stateCopy || '';
         stateSpotlightHighlight.textContent = button.dataset.stateHighlight || '';
         stateSpotlightFocus.textContent = button.dataset.stateFocus || '';
+
+        if (stateSpotlightDiscoverLink) {
+            const slug = (button.dataset.stateSlug || (button.dataset.stateTitle || '').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''));
+            stateSpotlightDiscoverLink.href = `/discover/state/${slug}/`;
+            const labelSpan = stateSpotlightDiscoverLink.querySelector('span');
+            if (labelSpan) {
+                labelSpan.textContent = button.dataset.stateTitle || '';
+            }
+        }
     };
 
     stateCardButtons.forEach((button) => {
@@ -749,6 +889,69 @@ document.addEventListener('DOMContentLoaded', () => {
             revealCards.forEach((card) => card.classList.add('is-visible'));
         }
     }
+
+    const getCsrfToken = () => {
+        const metaTag = document.querySelector('meta[name="csrf-token"]');
+        if (metaTag) {
+            return metaTag.getAttribute('content') || '';
+        }
+        const cookieValue = document.cookie
+            .split('; ')
+            .find((cookie) => cookie.startsWith('csrftoken='));
+        return cookieValue ? decodeURIComponent(cookieValue.split('=')[1]) : '';
+    };
+
+    document.querySelectorAll('.js-upvote-btn').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const upvoteUrl = button.getAttribute('data-upvote-url');
+            const card = button.closest('.discover-gallery-card');
+            const countNode = card ? card.querySelector('[data-upvote-count]') : null;
+            const actionLabelNode = button.querySelector('span');
+
+            if (!upvoteUrl || button.disabled) {
+                return;
+            }
+
+            button.disabled = true;
+
+            try {
+                const response = await window.fetch(upvoteUrl, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRFToken': getCsrfToken(),
+                        'X-Requested-With': 'XMLHttpRequest',
+                        Accept: 'application/json',
+                    },
+                });
+                const payload = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    button.setAttribute('title', payload.detail || 'Unable to upvote right now.');
+                    button.disabled = false;
+                    return;
+                }
+
+                if (countNode && Number.isFinite(Number(payload.upvote_count))) {
+                    countNode.textContent = String(payload.upvote_count);
+                    countNode.classList.remove('upvote-pop');
+                    // Force reflow so the animation can be replayed.
+                    void countNode.offsetWidth;
+                    countNode.classList.add('upvote-pop');
+                }
+
+                button.classList.add('is-upvoted');
+                if (actionLabelNode) {
+                    actionLabelNode.textContent = 'Upvoted';
+                }
+                button.setAttribute('title', payload.detail || 'Upvoted');
+                button.disabled = true;
+            } catch (error) {
+                button.setAttribute('title', 'Unable to upvote right now. Please try again.');
+                button.disabled = false;
+            }
+        });
+    });
 });
 
 

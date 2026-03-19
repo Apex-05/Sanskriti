@@ -1,0 +1,139 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Spotlight | Sanskriti{% endblock %}
+
+{% block content %}
+<section class="section-page spotlight-page">
+    <div class="container">
+        <div class="section-panel spotlight-shell">
+
+            <div class="spotlight-hero">
+                <div>
+                    <span class="section-label">Spotlight Feature</span>
+                    <h1 class="spotlight-hero-title">Discover Today's Highlighted Heritage</h1>
+                    
+                </div>
+                <div class="spotlight-hero-badges">
+                    <span class="resource-badge mb-0">Spotlight Dataset</span>
+                    <span class="spotlight-rotation-note">Daily Rotation</span>
+                </div>
+            </div>
+
+            {% if spotlight %}
+                <article class="spotlight-story">
+
+                    <div class="spotlight-media-card">
+                        <div class="spotlight-media">
+                        <img
+                            src="{% static 'images/' %}{{ spotlight.image }}"
+                            alt="{{ spotlight.title }}"
+                            class="spotlight-image"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='{% static 'images/basilica.avif' %}';"
+                        >
+                        </div>
+
+                        {% if spotlight.image_caption %}
+                            <p class="spotlight-image-caption mb-0">
+                                {{ spotlight.image_caption }}
+                            </p>
+                        {% endif %}
+
+                        <div class="spotlight-media-meta">
+                            <div>
+                                <span class="spotlight-meta-label">Location</span>
+                                <strong>{{ spotlight.location|default:"Not specified" }}</strong>
+                            </div>
+                            <div>
+                                <span class="spotlight-meta-label">Category</span>
+                                <strong>{{ spotlight.category|default:"General" }}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-content">
+                        <h2 class="spotlight-title">{{ spotlight.title }}</h2>
+
+                        {% if spotlight.subtitle %}
+                            <p class="spotlight-subtitle">{{ spotlight.subtitle }}</p>
+                        {% endif %}
+
+                        <div class="spotlight-meta-grid">
+                            <div class="spotlight-meta-item">
+                                <span>Location</span>
+                                <strong>{{ spotlight.location|default:"Not specified" }}</strong>
+                            </div>
+                            <div class="spotlight-meta-item">
+                                <span>Category</span>
+                                <strong>{{ spotlight.category|default:"General" }}</strong>
+                            </div>
+                            <div class="spotlight-meta-item">
+                                <span>Type</span>
+                                <strong>{{ spotlight.type|default:"Not defined" }}</strong>
+                            </div>
+                            <div class="spotlight-meta-item">
+                                <span>Region</span>
+                                <strong>{{ spotlight.region|default:"Unknown region" }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="spotlight-content-grid">
+                            <section class="spotlight-content-block">
+                                <h3 class="h6 mb-2">Overview</h3>
+                                <p class="mb-0">
+                                {{ spotlight.description|default:"No descriptive information is currently available for this entry." }}
+                                </p>
+                            </section>
+
+                            <section class="spotlight-content-block">
+                                <h3 class="h6 mb-2">Cultural Significance</h3>
+                                <p class="mb-0">
+                                {{ spotlight.cultural_significance|default:"Details about its cultural importance have not been provided yet." }}
+                                </p>
+                            </section>
+
+                            {% if spotlight.historical_context %}
+                                <section class="spotlight-content-block">
+                                    <h3 class="h6 mb-2">Historical Context</h3>
+                                    <p class="mb-0">
+                                        {{ spotlight.historical_context }}
+                                    </p>
+                                </section>
+                            {% endif %}
+                        </div>
+
+                        {% if spotlight.tags %}
+                            <div class="spotlight-theme-wrap">
+                                <h3 class="h6 mb-2">Related Themes</h3>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for tag in spotlight.tags %}
+                                        <span class="spotlight-theme-chip">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="spotlight-actions">
+                            <a href="{% url 'discover' %}" class="btn dashboard-btn">Explore Related Stories</a>
+                            <a href="{% url 'explore_india' %}" class="btn btn-outline-secondary">Back to Explore India</a>
+                        </div>
+
+                    </div>
+                </article>
+
+            {% else %}
+                <div class="spotlight-empty">
+                    <span class="section-label">No Data Available</span>
+                    <h2 class="h4 mt-2 mb-2">Spotlight content is currently missing</h2>
+                    <p class="section-subcopy mb-0">
+                        To activate this section, add a <strong>spotlight.json</strong> file with structured fields like title, description, location, cultural significance, and more.
+                    </p>
+                    <a href="{% url 'upload' %}" class="btn dashboard-btn mt-3">Add New Cultural Story</a>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

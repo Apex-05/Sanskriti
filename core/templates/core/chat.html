@@ -1,0 +1,236 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Chat | Sanskriti{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/chat-enhanced.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="chat-page py-4 py-lg-5">
+    <div class="container-fluid h-100">
+        <div class="chat-shell h-100">
+            <!-- Sidebar: Recent Chats & Search -->
+            <aside class="chat-sidebar">
+                <div class="chat-sidebar-header">
+                    <h1>Messages</h1>
+                    <p>Connect with fellow enthusiasts</p>
+                </div>
+
+                <!-- User Search -->
+                <div class="chat-search-wrap">
+                    <label for="chatUserSearchInput" class="form-label mb-2">Find a user</label>
+                    <div class="chat-search-container">
+                        <input
+                            type="search"
+                            id="chatUserSearchInput"
+                            class="form-control chat-search-input"
+                            value="{{ search_query }}"
+                            placeholder="Search username..."
+                            autocomplete="off"
+                            data-search-url="{% url 'chat_user_search' %}"
+                        >
+                        <span class="chat-search-icon">🔍</span>
+                    </div>
+                    <div id="chatSearchDropdown" class="chat-search-dropdown{% if not search_query and not search_results %} d-none{% endif %}">
+                        {% if search_results %}
+                            {% for found_user in search_results %}
+                                <a class="chat-search-option" href="{% url 'chat_conversation' found_user.username %}">
+                                    <span class="search-option-avatar">👤</span>
+                                    <span class="search-option-name">{{ found_user.username }}</span>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            {% if search_query %}
+                                <p class="chat-search-empty">No users found for "<strong>{{ search_query }}</strong>"</p>
+                            {% else %}
+                                <p class="chat-search-empty">Start typing to search users</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Recent Chats Section -->
+                <div class="chat-section-head">
+                    <span>Recent</span>
+                    <span class="chat-threads-count" id="chatThreadsCount">{{ chat_threads|length }}</span>
+                </div>
+
+                <div class="chat-thread-list" id="chatThreadList">
+                    {% if chat_threads %}
+                        {% for thread in chat_threads %}
+                            <a 
+                                href="{{ thread.conversation_url }}" 
+                                class="chat-thread-item{% if thread.is_active %} is-active{% endif %}"
+                                data-username="{{ thread.username }}"
+                                data-is-online="{% if thread.is_online %}true{% else %}false{% endif %}"
+                            >
+                                <!-- Online Status Indicator -->
+                                <div class="chat-thread-avatar">
+                                    <span class="avatar-placeholder">{{ thread.display_name|first|upper }}</span>
+                                    <span class="online-status {% if thread.is_online %}online{% else %}offline{% endif %}"></span>
+                                </div>
+
+                                <!-- Thread Content -->
+                                <div class="chat-thread-content">
+                                    <div class="chat-thread-top">
+                                        <strong class="chat-thread-username">{{ thread.display_name }}</strong>
+                                        <span class="chat-thread-time">
+                                            {% if thread.last_message_time %}
+                                                {{ thread.last_message_time|date:"M d" }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="chat-thread-bottom">
+                                        <span class="chat-thread-preview">{{ thread.last_message }}</span>
+                                        {% if thread.unread_count > 0 %}
+                                            <span class="chat-unread-badge" title="{{ thread.unread_count }} unread">{{ thread.unread_count }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <div class="chat-empty-list">
+                            <p>💬 No conversations yet</p>
+                            <small>Search for a user above to start chatting</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </aside>
+
+            <!-- Main Conversation Panel -->
+            <section class="chat-conversation-panel">
+                {% if active_chat_user %}
+                    <!-- Chat Header -->
+                    <header class="chat-conversation-header">
+                        <div class="chat-header-left">
+                            <div class="chat-header-avatar">
+                                <span class="avatar-placeholder">{{ active_chat_user.username|first|upper }}</span>
+                                <span 
+                                    class="online-status-large offline" 
+                                    id="chatUserOnlineStatus"
+                                ></span>
+                            </div>
+                            <div class="chat-header-info">
+                                <h2 class="chat-header-name">{{ active_chat_user.username }}</h2>
+                                <p class="chat-header-status" id="chatUserStatus">
+                                    <span id="chatUserStatusText">loading...</span>
+                                </p>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Messages Area -->
+                    <div
+                        id="chatMessageArea"
+                        class="chat-message-area"
+                        data-fetch-url="{{ chat_fetch_url }}"
+                        data-send-url="{{ chat_send_url }}"
+                        data-delivered-url="{% url 'chat_mark_messages_delivered' active_chat_user.username %}"
+                        data-typing-url="{% url 'chat_typing_indicator' active_chat_user.username %}"
+                        data-check-typing-url="{% url 'chat_check_typing' active_chat_user.username %}"
+                        data-online-status-url="{% url 'chat_check_online_status' active_chat_user.username %}"
+                        data-activity-update-url="{% url 'chat_update_user_activity' %}"
+                        data-activity-offline-url="{% url 'chat_set_offline' %}"
+                        data-current-username="{{ user.username }}"
+                        data-poll-seconds="{{ chat_poll_interval_seconds }}"
+                    >
+                        {% for chat_message in active_messages %}
+                            <article 
+                                class="chat-message-row {% if chat_message.sender_id == user.id %}outgoing{% else %}incoming{% endif %}" 
+                                data-message-id="{{ chat_message.id }}"
+                                data-is-read="{{ chat_message.is_read|lower }}"
+                                data-is-delivered="{{ chat_message.is_delivered|lower }}"
+                            >
+                                <div class="chat-message-bubble-wrapper">
+                                    <div class="chat-message-bubble">
+                                        <p class="chat-message-content">{{ chat_message.content|linebreaksbr }}</p>
+                                        <div class="chat-message-footer">
+                                            <span class="chat-message-time">{{ chat_message.timestamp|date:"H:i" }}</span>
+                                            {% if chat_message.sender_id == user.id %}
+                                                <span class="chat-message-status" id="msg-status-{{ chat_message.id }}">
+                                                    {% if chat_message.is_read %}
+                                                        <span class="status-seen" title="Seen">✔✔</span>
+                                                    {% elif chat_message.is_delivered %}
+                                                        <span class="status-delivered" title="Delivered">✔✔</span>
+                                                    {% else %}
+                                                        <span class="status-sent" title="Sent">✔</span>
+                                                    {% endif %}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        {% empty %}
+                            <div class="chat-empty-conversation" id="chatEmptyConversation">
+                                <p>👋 No messages yet</p>
+                                <small>Start the conversation!</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div class="chat-typing-indicator" id="chatTypingIndicator" style="display: none;">
+                        <p class="typing-message">
+                            <span class="typing-animation">
+                                <span></span><span></span><span></span>
+                            </span>
+                            <span id="typingUserName">{{ active_chat_user.username }}</span> is typing...
+                        </p>
+                    </div>
+
+                    <!-- Message Input Form -->
+                    <form id="chatSendForm" class="chat-send-form" data-send-url="{{ chat_send_url }}" novalidate>
+                        {% csrf_token %}
+                        <div class="chat-input-wrapper">
+                            <textarea
+                                id="chatMessageInput"
+                                name="content"
+                                maxlength="2000"
+                                placeholder="Type a message... (Shift+Enter for new line)"
+                                autocomplete="off"
+                                rows="1"
+                                class="chat-message-textarea"
+                                required
+                            ></textarea>
+                            <button 
+                                type="submit" 
+                                class="btn-send" 
+                                id="chatSendButton"
+                                title="Send message (Enter)"
+                                disabled
+                            >
+                                <span class="send-icon">➤</span>
+                            </button>
+                        </div>
+                        <p id="chatSendError" class="chat-send-error d-none" role="status" aria-live="polite"></p>
+                        <small class="char-count" id="charCount">0 / 2000</small>
+                    </form>
+                {% else %}
+                    <!-- Empty Placeholder -->
+                    <div class="chat-placeholder-state">
+                        <div class="chat-placeholder-icon">💬</div>
+                        <h2>Select a chat</h2>
+                        <p>Choose a conversation from the left sidebar or search for users to start messaging</p>
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</section>
+
+<!-- Keyboard Shortcuts (Optional Modal) -->
+<div class="chat-shortcuts-info" id="chatShortcutsInfo" style="display: none;">
+    <p><kbd>Enter</kbd> - Send message</p>
+    <p><kbd>Shift+Enter</kbd> - New line</p>
+    <p><kbd>Esc</kbd> - Close</p>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

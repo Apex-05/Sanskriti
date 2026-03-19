@@ -1,130 +1,617 @@
-{% extends 'core/base.html' %}
-{% load static %}
+{% extends "core/base.html" %}
 
 {% block title %}Explore India | Sanskriti{% endblock %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+.explore-page {
+    --explore-ink: #0f1117;
+    --explore-paper: #f8f5ef;
+    --explore-card: #ffffff;
+    --explore-border: #e3dbce;
+    --explore-muted: #6e6458;
+    --explore-saffron: #e85d04;
+    --explore-teal: #0096c7;
+    --explore-shadow: 0 8px 30px rgba(15, 17, 23, 0.08);
+}
+
+.explore-hero {
+    margin-bottom: 1.25rem;
+}
+
+.explore-kicker {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(232, 93, 4, 0.25);
+    border-radius: 999px;
+    padding: 0.28rem 0.8rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--explore-saffron);
+    background: rgba(232, 93, 4, 0.08);
+}
+
+.explore-hero h1 {
+    margin-top: 0.95rem;
+    margin-bottom: 0.65rem;
+    font-size: clamp(1.7rem, 3.2vw, 2.45rem);
+    font-weight: 800;
+    color: var(--explore-ink);
+}
+
+.explore-hero p {
+    margin-bottom: 0;
+    color: var(--explore-muted);
+}
+
+.explore-hero strong {
+    color: var(--explore-saffron);
+}
+
+.explore-panel {
+    background: var(--explore-card);
+    border: 1px solid var(--explore-border);
+    border-radius: 16px;
+    box-shadow: var(--explore-shadow);
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.explore-panel h2 {
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--explore-ink);
+}
+
+.explore-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 0.9rem;
+}
+
+.explore-pill {
+    border: 1px solid var(--explore-border);
+    border-radius: 999px;
+    background: var(--explore-paper);
+    color: var(--explore-muted);
+    font-size: 0.75rem;
+    padding: 0.22rem 0.72rem;
+}
+
+.explore-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+}
+
+.explore-btn {
+    border: 1px solid var(--explore-border);
+    border-radius: 8px;
+    background: var(--explore-paper);
+    color: var(--explore-muted);
+    padding: 0.4rem 0.82rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.explore-btn.active {
+    border-color: var(--explore-saffron);
+    background: var(--explore-saffron);
+    color: #fff;
+}
+
+.explore-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#explore-map {
+    height: clamp(300px, 46vw, 520px);
+    border-radius: 12px;
+    border: 1px solid var(--explore-border);
+    overflow: hidden;
+}
+
+.explore-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.15rem;
+    margin-top: 0.9rem;
+    border: 1px solid var(--explore-border);
+    border-radius: 10px;
+    background: var(--explore-paper);
+    padding: 0.7rem 0.85rem;
+}
+
+.explore-legend-title {
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.74rem;
+    color: var(--explore-ink);
+}
+
+.explore-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
+    font-size: 0.72rem;
+    color: var(--explore-muted);
+}
+
+.explore-legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 0.68rem;
+}
+
+.explore-card {
+    border: 1px solid var(--explore-border);
+    border-radius: 12px;
+    background: #fff;
+    padding: 0.85rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.explore-card:hover {
+    transform: translateY(-2px);
+    border-color: #f4a261;
+    box-shadow: 0 8px 22px rgba(15, 17, 23, 0.12);
+}
+
+.explore-card.active {
+    border-color: var(--explore-saffron);
+    background: linear-gradient(160deg, rgba(232, 93, 4, 0.13), rgba(232, 93, 4, 0.03));
+}
+
+.explore-card h5 {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--explore-ink);
+}
+
+.explore-card-count {
+    margin-top: 0.45rem;
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--explore-saffron);
+}
+
+.explore-card small {
+    font-size: 0.7rem;
+    color: var(--explore-muted);
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 14px;
+}
+
+.explore-popup {
+    width: 258px;
+}
+
+.explore-popup-head {
+    padding: 0.7rem 0.85rem;
+    color: #fff;
+    background: linear-gradient(135deg, #0f1117 0%, #1d3354 100%);
+}
+
+.explore-popup-title {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.explore-popup-capital {
+    margin-top: 0.2rem;
+    opacity: 0.72;
+    font-size: 0.72rem;
+}
+
+.explore-popup-body {
+    padding: 0.75rem 0.85rem;
+}
+
+.explore-popup-badge {
+    display: inline-block;
+    margin-bottom: 0.45rem;
+    background: rgba(232, 93, 4, 0.12);
+    border: 1px solid rgba(232, 93, 4, 0.26);
+    color: #a13f06;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.18rem 0.55rem;
+}
+
+.explore-popup-post {
+    margin-bottom: 0.56rem;
+}
+
+.explore-popup-post-title {
+    font-size: 0.79rem;
+    font-weight: 700;
+    color: #10121a;
+    line-height: 1.35;
+}
+
+.explore-popup-post-meta {
+    font-size: 0.7rem;
+    color: #74685c;
+}
+
+.explore-popup-link {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.74rem;
+    color: #fff;
+    background: var(--explore-saffron);
+    border-radius: 8px;
+    padding: 0.34rem 0.62rem;
+}
+
+.explore-popup-link:hover {
+    color: #fff;
+    background: #c94e03;
+}
+
+.explore-empty {
+    font-size: 0.84rem;
+    color: var(--explore-muted);
+    border: 1px dashed var(--explore-border);
+    border-radius: 10px;
+    background: var(--explore-paper);
+    padding: 0.9rem;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section-page">
-    <div class="container">
-        <div class="section-page-hero mb-4">
-            <div class="row g-4 align-items-center">
-                <div class="col-lg-7">
-                    <span class="section-kicker">Explore India</span>
-                    <h1 class="mt-3 mb-3">Travel through regions, stories, and cultural landscapes.</h1>
-                    <p class="mb-0">Move across states with curated spotlights, a national map view, and travel themes that connect geography to heritage, food, craft, and ritual.</p>
-                </div>
-                <div class="col-lg-5">
-                    <div class="section-stat-grid">
-                        <div class="section-stat-chip"><strong>28</strong><span>States</span></div>
-                        <div class="section-stat-chip"><strong>8</strong><span>Union Territories</span></div>
-                        <div class="section-stat-chip"><strong>4</strong><span>Travel lenses</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-4 mb-4">
-            <div class="col-12 col-xl-7">
-                <div class="section-panel h-100">
-                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
-                        <div>
-                            <span class="section-label">State Cards</span>
-                            <h2 class="h4 mb-1">Interactive regions</h2>
-                            <p class="section-subcopy mb-0">Select a state card to update the travel spotlight panel.</p>
-                        </div>
-                        <span class="section-chip">Living geography</span>
-                    </div>
-
-                    <div class="state-card-grid">
-                        <button type="button" class="state-card-button is-active" data-state-card data-state-title="Rajasthan" data-state-copy="From walled cities to desert settlements, Rajasthan connects architecture, textiles, music, and market culture in one dramatic route." data-state-highlight="Jaipur, Jaisalmer, Udaipur, Shekhawati" data-state-focus="Forts, craft bazaars, and folk performance">
-                            <span>Rajasthan</span>
-                            <small>Forts and desert trade routes</small>
-                        </button>
-                        <button type="button" class="state-card-button" data-state-card data-state-title="Kerala" data-state-copy="Kerala balances temple festivals, coastal cuisine, backwater settlements, and performing arts shaped by monsoon landscapes." data-state-highlight="Kochi, Alappuzha, Thrissur, Wayanad" data-state-focus="Water routes, ritual arts, and spice culture">
-                            <span>Kerala</span>
-                            <small>Backwaters and performance traditions</small>
-                        </button>
-                        <button type="button" class="state-card-button" data-state-card data-state-title="Assam" data-state-copy="Tea estates, river islands, weaving traditions, and harvest festivals make Assam a region where ecology and celebration stay closely linked." data-state-highlight="Majuli, Guwahati, Sivasagar, Kaziranga" data-state-focus="River culture, weaving, and festival cycles">
-                            <span>Assam</span>
-                            <small>River islands and woven identity</small>
-                        </button>
-                        <button type="button" class="state-card-button" data-state-card data-state-title="Nagaland" data-state-copy="Community festivals, village knowledge, woodcraft, and mountain routes define Nagaland's layered cultural geography." data-state-highlight="Kohima, Mokokchung, Mon, Kisama" data-state-focus="Village heritage and seasonal gatherings">
-                            <span>Nagaland</span>
-                            <small>Mountain communities and festivals</small>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-xl-5">
-                <div class="section-panel section-panel-muted h-100">
-                    <span class="section-label">State Spotlight</span>
-                    <h2 class="h3 mb-3" id="stateSpotlightTitle">Rajasthan</h2>
-                    <p class="section-subcopy mb-4" id="stateSpotlightCopy">From walled cities to desert settlements, Rajasthan connects architecture, textiles, music, and market culture in one dramatic route.</p>
-
-                    <div class="d-grid gap-3">
-                        <div class="spotlight-metric">
-                            <span class="spotlight-metric-label">Highlights</span>
-                            <strong id="stateSpotlightHighlight">Jaipur, Jaisalmer, Udaipur, Shekhawati</strong>
-                        </div>
-                        <div class="spotlight-metric">
-                            <span class="spotlight-metric-label">Best For</span>
-                            <strong id="stateSpotlightFocus">Forts, craft bazaars, and folk performance</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-panel mb-4">
-            <div class="map-spotlight">
-                <div>
-                    <span class="section-label">Map Section</span>
-                    <h2 class="h4 mb-3">Start with a national view</h2>
-                    <p class="section-subcopy mb-4">A broad map overview helps visitors read India through coastlines, mountain ranges, pilgrimage routes, and trade corridors before diving into local stories.</p>
-                    <div class="feature-pill-list">
-                        <span class="feature-pill"><i class="bi bi-compass" aria-hidden="true"></i>Pilgrimage circuits</span>
-                        <span class="feature-pill"><i class="bi bi-signpost-split" aria-hidden="true"></i>Craft routes</span>
-                        <span class="feature-pill"><i class="bi bi-camera2" aria-hidden="true"></i>Photo trails</span>
-                        <span class="feature-pill"><i class="bi bi-train-front" aria-hidden="true"></i>Travel highlights</span>
-                    </div>
-                </div>
-
-                <div class="map-spotlight-visual">
-                    <img src="{% static 'images/india_map.avif' %}" alt="Illustrated map of India">
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-12 col-md-4">
-                <div class="card dashboard-card border-0 h-100 topic-card">
-                    <div class="card-body">
-                        <div class="topic-icon"><i class="bi bi-building" aria-hidden="true"></i></div>
-                        <h3 class="h5">Temple and monument trails</h3>
-                        <p class="text-muted mb-0">Group journeys around sacred towns, stepwells, forts, and architectural clusters instead of single stopovers.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="card dashboard-card border-0 h-100 topic-card">
-                    <div class="card-body">
-                        <div class="topic-icon"><i class="bi bi-palette" aria-hidden="true"></i></div>
-                        <h3 class="h5">Craft and market routes</h3>
-                        <p class="text-muted mb-0">Follow weaving towns, pottery clusters, metalwork centres, and local bazaars that keep regional design alive.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="card dashboard-card border-0 h-100 topic-card">
-                    <div class="card-body">
-                        <div class="topic-icon"><i class="bi bi-cup-hot" aria-hidden="true"></i></div>
-                        <h3 class="h5">Food and festival circuits</h3>
-                        <p class="text-muted mb-0">Plan visits around seasonal fairs, regional meals, and harvest calendars to experience culture in motion.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container explore-page py-4 py-lg-5">
+    <div class="explore-hero">
+        <span class="explore-kicker">Explore India</span>
+        <h1>Cultural Activity Heatmap</h1>
+        <p>
+            Explore cultural engagement across India.
+            <strong id="total-posts-stat">{{ total_posts|default:0 }}</strong> posts from
+            <strong id="total-states-stat">{{ total_states_with_posts|default:0 }}</strong> active regions.
+        </p>
     </div>
-</section>
+
+    <section class="explore-panel">
+        <h2>Interactive Map</h2>
+
+        <div class="explore-pills">
+            <span class="explore-pill">Capitals are pinned</span>
+            <span class="explore-pill">Click a pin for featured details</span>
+            <span class="explore-pill">Heatmap reflects post concentration</span>
+        </div>
+
+        <div class="explore-controls">
+            <button type="button" class="explore-btn" id="btn-reset-view">Reset View</button>
+            <button type="button" class="explore-btn active" id="btn-toggle-heatmap">Heatmap</button>
+            <button type="button" class="explore-btn active" id="btn-toggle-markers">Markers</button>
+        </div>
+
+        <div id="explore-map" aria-label="India explore map"></div>
+
+        <div class="explore-legend">
+            <div class="explore-legend-title">Heatmap intensity</div>
+            <span class="explore-legend-item"><span class="explore-legend-dot" style="background:#1b1f3b"></span>Very low</span>
+            <span class="explore-legend-item"><span class="explore-legend-dot" style="background:#00bcd4"></span>Low</span>
+            <span class="explore-legend-item"><span class="explore-legend-dot" style="background:#7ed957"></span>Moderate</span>
+            <span class="explore-legend-item"><span class="explore-legend-dot" style="background:#ffb703"></span>High</span>
+            <span class="explore-legend-item"><span class="explore-legend-dot" style="background:#d62828"></span>Very high</span>
+        </div>
+    </section>
+
+    <section class="explore-panel">
+        <h2>Top Regions</h2>
+        <div class="explore-grid" id="state-grid"></div>
+    </section>
+
+    {{ heatmap_data|json_script:"explore-capital-data" }}
+    {{ heat_points|json_script:"explore-heat-points" }}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const mapEl = document.getElementById("explore-map");
+    if (!mapEl || typeof L === "undefined") {
+        return;
+    }
+
+    const capitalDataScript = document.getElementById("explore-capital-data");
+    const heatPointsScript = document.getElementById("explore-heat-points");
+
+    let capitalData = [];
+    let heatPointsSource = [];
+
+    try {
+        capitalData = JSON.parse(capitalDataScript ? capitalDataScript.textContent : "[]");
+    } catch (error) {
+        capitalData = [];
+        console.error("Invalid explore-capital-data payload", error);
+    }
+
+    try {
+        heatPointsSource = JSON.parse(heatPointsScript ? heatPointsScript.textContent : "[]");
+    } catch (error) {
+        heatPointsSource = [];
+        console.error("Invalid explore-heat-points payload", error);
+    }
+
+    if (!Array.isArray(capitalData)) {
+        capitalData = [];
+    }
+    if (!Array.isArray(heatPointsSource)) {
+        heatPointsSource = [];
+    }
+
+    const indiaBounds = L.latLngBounds([5.0, 67.0], [37.6, 98.5]);
+    const map = L.map("explore-map", {
+        zoomControl: true,
+        minZoom: 4,
+        maxZoom: 10,
+        maxBounds: indiaBounds,
+        maxBoundsViscosity: 1.0,
+    });
+    map.fitBounds(indiaBounds, { padding: [10, 10] });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 12,
+        attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    const markerLayer = L.layerGroup().addTo(map);
+    const markersByKey = {};
+    const usedCoords = {};
+
+    const esc = (value) => String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const getDiscoverUrl = (item) => {
+        if (item && typeof item.discover_url === "string" && item.discover_url) {
+            return item.discover_url;
+        }
+        return "{% url 'discover' %}";
+    };
+
+    const buildPopupHtml = (item) => {
+        const count = Number(item.count || 0);
+        const countLabel = count === 1 ? "post" : "posts";
+        const featured = item && item.featured_post ? item.featured_post : null;
+        const discoverUrl = getDiscoverUrl(item);
+
+        let featuredHtml = "";
+        if (featured && featured.title) {
+            featuredHtml = `
+                <div class="explore-popup-post">
+                    <div class="explore-popup-post-title">${esc(featured.title)}</div>
+                    <div class="explore-popup-post-meta">by ${esc(featured.author || "Community")} • ▲ ${Number(featured.upvotes || 0)}</div>
+                </div>`;
+        }
+
+        const ctaLabel = count > 0 ? "Explore Posts" : "Start Exploring";
+
+        return `
+            <div class="explore-popup">
+                <div class="explore-popup-head">
+                    <p class="explore-popup-title">${esc(item.state)}</p>
+                    <p class="explore-popup-capital">Capital: ${esc(item.capital || "N/A")}</p>
+                </div>
+                <div class="explore-popup-body">
+                    <span class="explore-popup-badge">${count} ${countLabel}</span>
+                    ${featuredHtml}
+                    <a href="${esc(discoverUrl)}" class="explore-popup-link">${ctaLabel}</a>
+                </div>
+            </div>`;
+    };
+
+    const jitter = (lat, lng) => {
+        const key = `${Number(lat).toFixed(2)},${Number(lng).toFixed(2)}`;
+        const count = (usedCoords[key] || 0) + 1;
+        usedCoords[key] = count;
+
+        if (count === 1) {
+            return [lat, lng];
+        }
+
+        const angle = (count - 1) * (Math.PI / 3);
+        const distance = 0.14 * Math.ceil((count - 1) / 6);
+        return [
+            Number(lat) + Math.sin(angle) * distance,
+            Number(lng) + Math.cos(angle) * distance,
+        ];
+    };
+
+    capitalData.forEach((item) => {
+        const lat = Number(item.lat);
+        const lng = Number(item.lng);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+            return;
+        }
+
+        const [markerLat, markerLng] = jitter(lat, lng);
+        const marker = L.marker([markerLat, markerLng]).bindPopup(buildPopupHtml(item), {
+            maxWidth: 280,
+        });
+
+        marker.on("click", function () {
+            activateCard(item.slug, item.state);
+        });
+
+        marker.addTo(markerLayer);
+
+        if (item.slug) {
+            markersByKey[item.slug] = marker;
+        }
+        if (item.state) {
+            markersByKey[item.state] = marker;
+        }
+    });
+
+    const normalizedHeatPoints = heatPointsSource.length
+        ? heatPointsSource
+        : capitalData.map((item) => ({ lat: item.lat, lng: item.lng, weight: item.count }));
+
+    const heatInput = normalizedHeatPoints
+        .map((point) => [Number(point.lat), Number(point.lng), Number(point.weight || 0)])
+        .filter((point) => Number.isFinite(point[0]) && Number.isFinite(point[1]) && point[2] > 0);
+    const maxHeatWeight = heatInput.reduce((currentMax, point) => Math.max(currentMax, point[2]), 0);
+
+    let heatLayer = null;
+    if (heatInput.length && typeof L.heatLayer === "function") {
+        heatLayer = L.heatLayer(heatInput, {
+            radius: 38,
+            blur: 28,
+            maxZoom: 9,
+            max: maxHeatWeight || 1,
+            minOpacity: 0.2,
+            gradient: {
+                0.05: "#1b1f3b",
+                0.25: "#00bcd4",
+                0.5: "#7ed957",
+                0.75: "#ffb703",
+                1.0: "#d62828",
+            },
+        }).addTo(map);
+    }
+
+    let markersOn = true;
+    let heatOn = Boolean(heatLayer);
+
+    const resetBtn = document.getElementById("btn-reset-view");
+    const heatBtn = document.getElementById("btn-toggle-heatmap");
+    const markerBtn = document.getElementById("btn-toggle-markers");
+
+    if (resetBtn) {
+        resetBtn.addEventListener("click", function () {
+            map.fitBounds(indiaBounds, { padding: [10, 10] });
+        });
+    }
+
+    if (heatBtn) {
+        if (!heatLayer) {
+            heatBtn.disabled = true;
+            heatBtn.classList.remove("active");
+            heatBtn.textContent = "Heatmap (no data)";
+        }
+
+        heatBtn.addEventListener("click", function () {
+            if (!heatLayer) {
+                return;
+            }
+
+            heatOn = !heatOn;
+            if (heatOn) {
+                map.addLayer(heatLayer);
+            } else {
+                map.removeLayer(heatLayer);
+            }
+            heatBtn.classList.toggle("active", heatOn);
+        });
+    }
+
+    if (markerBtn) {
+        markerBtn.addEventListener("click", function () {
+            markersOn = !markersOn;
+            if (markersOn) {
+                map.addLayer(markerLayer);
+            } else {
+                map.removeLayer(markerLayer);
+            }
+            markerBtn.classList.toggle("active", markersOn);
+        });
+    }
+
+    const stateGrid = document.getElementById("state-grid");
+
+    const activateCard = (slug, stateName) => {
+        const cards = document.querySelectorAll(".explore-card");
+        cards.forEach((card) => {
+            const cardSlug = card.getAttribute("data-slug");
+            const cardState = card.getAttribute("data-state");
+            const active = (slug && cardSlug === slug) || (stateName && cardState === stateName);
+            card.classList.toggle("active", Boolean(active));
+        });
+    };
+
+    if (stateGrid) {
+        const ranked = [...capitalData].sort((a, b) => Number(b.count || 0) - Number(a.count || 0)).slice(0, 16);
+
+        if (!ranked.length) {
+            stateGrid.innerHTML = '<div class="explore-empty">No state activity data found yet.</div>';
+        } else {
+            ranked.forEach((item) => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "explore-card";
+                card.setAttribute("data-slug", item.slug || "");
+                card.setAttribute("data-state", item.state || "");
+                card.innerHTML = `
+                    <h5>${esc(item.state || "Unknown")}</h5>
+                    <div class="explore-card-count">${Number(item.count || 0)}</div>
+                    <small>posts</small>`;
+
+                card.addEventListener("click", function () {
+                    activateCard(item.slug, item.state);
+
+                    const lat = Number(item.lat);
+                    const lng = Number(item.lng);
+                    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+                        map.setView([lat, lng], 6, { animate: true });
+                    }
+
+                    const marker = markersByKey[item.slug] || markersByKey[item.state];
+                    if (marker) {
+                        if (!markersOn) {
+                            markersOn = true;
+                            markerLayer.addTo(map);
+                            if (markerBtn) {
+                                markerBtn.classList.add("active");
+                            }
+                        }
+                        marker.openPopup();
+                    }
+                });
+
+                stateGrid.appendChild(card);
+            });
+        }
+    }
+
+    setTimeout(function () {
+        map.invalidateSize();
+    }, 180);
+
+    window.addEventListener("resize", function () {
+        map.invalidateSize();
+    });
+});
+</script>
 {% endblock %}

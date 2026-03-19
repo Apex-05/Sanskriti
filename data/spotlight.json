@@ -1,0 +1,650 @@
+[
+  {
+    "title": "Agatti Island",
+    "subtitle": "Island in India",
+    "location": "Lakshadweep",
+    "category": "Nature",
+    "type": "Island",
+    "description": "Agatti Island is a prominent island located in Lakshadweep. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Agatti Island holds cultural importance in the region of Lakshadweep. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Agatti Island reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/aggati.jpg",
+    "image_caption": "View of Agatti Island",
+    "tags": [
+      "nature",
+      "island",
+      "south"
+    ],
+    "region": "South"
+  },
+  {
+    "title": "Aizawl",
+    "subtitle": "Urban in India",
+    "location": "Mizoram",
+    "category": "City",
+    "type": "Urban",
+    "description": "Aizawl is a prominent urban located in Mizoram. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Aizawl holds cultural importance in the region of Mizoram. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Aizawl reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/aizawl.webp",
+    "image_caption": "View of Aizawl",
+    "tags": [
+      "city",
+      "urban",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Amer Fort",
+    "subtitle": "Fort in India",
+    "location": "Jaipur, Rajasthan",
+    "category": "Architecture",
+    "type": "Fort",
+    "description": "Amer Fort is a prominent fort located in Jaipur, Rajasthan. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Amer Fort holds cultural importance in the region of Jaipur, Rajasthan. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Amer Fort reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/amer.jpg",
+    "image_caption": "View of Amer Fort",
+    "tags": [
+      "architecture",
+      "fort",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Basilica of Bom Jesus",
+    "subtitle": "Church in India",
+    "location": "Goa",
+    "category": "Architecture",
+    "type": "Church",
+    "description": "Basilica of Bom Jesus is a prominent church located in Goa. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Basilica of Bom Jesus holds cultural importance in the region of Goa. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Basilica of Bom Jesus reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/basilica.avif",
+    "image_caption": "View of Basilica of Bom Jesus",
+    "tags": [
+      "architecture",
+      "church",
+      "west"
+    ],
+    "region": "West"
+  },
+  {
+    "title": "Charminar",
+    "subtitle": "Monument in India",
+    "location": "Hyderabad, Telangana",
+    "category": "Architecture",
+    "type": "Monument",
+    "description": "Charminar is a prominent monument located in Hyderabad, Telangana. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Charminar holds cultural importance in the region of Hyderabad, Telangana. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Charminar reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/charminar.jpg",
+    "image_caption": "View of Charminar",
+    "tags": [
+      "architecture",
+      "monument",
+      "south"
+    ],
+    "region": "South"
+  },
+  {
+    "title": "Chitrakoot Falls",
+    "subtitle": "Waterfall in India",
+    "location": "Chhattisgarh",
+    "category": "Nature",
+    "type": "Waterfall",
+    "description": "Chitrakoot Falls is a prominent waterfall located in Chhattisgarh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Chitrakoot Falls holds cultural importance in the region of Chhattisgarh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Chitrakoot Falls reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/chitrakoot.avif",
+    "image_caption": "View of Chitrakoot Falls",
+    "tags": [
+      "nature",
+      "waterfall",
+      "central"
+    ],
+    "region": "Central"
+  },
+  {
+    "title": "Dal Lake",
+    "subtitle": "Lake in India",
+    "location": "Srinagar, Jammu & Kashmir",
+    "category": "Nature",
+    "type": "Lake",
+    "description": "Dal Lake is a prominent lake located in Srinagar, Jammu & Kashmir. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Dal Lake holds cultural importance in the region of Srinagar, Jammu & Kashmir. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Dal Lake reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/dallake.jpg",
+    "image_caption": "View of Dal Lake",
+    "tags": [
+      "nature",
+      "lake",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Diu",
+    "subtitle": "Island in India",
+    "location": "Diu, Gujarat",
+    "category": "Coastal",
+    "type": "Island",
+    "description": "Diu is a prominent island located in Diu, Gujarat. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Diu holds cultural importance in the region of Diu, Gujarat. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Diu reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/diuavif.avif",
+    "image_caption": "View of Diu",
+    "tags": [
+      "coastal",
+      "island",
+      "west"
+    ],
+    "region": "West"
+  },
+  {
+    "title": "Durga Temple",
+    "subtitle": "Temple in India",
+    "location": "Varanasi, Uttar Pradesh",
+    "category": "Religious",
+    "type": "Temple",
+    "description": "Durga Temple is a prominent temple located in Varanasi, Uttar Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Durga Temple holds cultural importance in the region of Varanasi, Uttar Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Durga Temple reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/durga.avif",
+    "image_caption": "View of Durga Temple",
+    "tags": [
+      "religious",
+      "temple",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Gateway of India",
+    "subtitle": "Landmark in India",
+    "location": "Mumbai, Maharashtra",
+    "category": "Architecture",
+    "type": "Landmark",
+    "description": "Gateway of India is a prominent landmark located in Mumbai, Maharashtra. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Gateway of India holds cultural importance in the region of Mumbai, Maharashtra. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Gateway of India reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/gatewayofindiaavif.avif",
+    "image_caption": "View of Gateway of India",
+    "tags": [
+      "architecture",
+      "landmark",
+      "west"
+    ],
+    "region": "West"
+  },
+  {
+    "title": "Golden Temple",
+    "subtitle": "Gurdwara in India",
+    "location": "Amritsar, Punjab",
+    "category": "Religious",
+    "type": "Gurdwara",
+    "description": "Golden Temple is a prominent gurdwara located in Amritsar, Punjab. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Golden Temple holds cultural importance in the region of Amritsar, Punjab. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Golden Temple reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/golden.jpg",
+    "image_caption": "View of Golden Temple",
+    "tags": [
+      "religious",
+      "gurdwara",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Gurudongmar Lake",
+    "subtitle": "Lake in India",
+    "location": "Sikkim",
+    "category": "Nature",
+    "type": "Lake",
+    "description": "Gurudongmar Lake is a prominent lake located in Sikkim. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Gurudongmar Lake holds cultural importance in the region of Sikkim. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Gurudongmar Lake reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/gurudongmar.jpg",
+    "image_caption": "View of Gurudongmar Lake",
+    "tags": [
+      "nature",
+      "lake",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Hampi",
+    "subtitle": "Archaeological Site in India",
+    "location": "Karnataka",
+    "category": "Heritage",
+    "type": "Archaeological Site",
+    "description": "Hampi is a prominent archaeological site located in Karnataka. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Hampi holds cultural importance in the region of Karnataka. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Hampi reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/hampi.jpg",
+    "image_caption": "View of Hampi",
+    "tags": [
+      "heritage",
+      "archaeological site",
+      "south"
+    ],
+    "region": "South"
+  },
+  {
+    "title": "Great Indian Hornbill",
+    "subtitle": "Bird in India",
+    "location": "India",
+    "category": "Wildlife",
+    "type": "Bird",
+    "description": "Great Indian Hornbill is a prominent bird located in India. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Great Indian Hornbill holds cultural importance in the region of India. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Great Indian Hornbill reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/hornbill.webp",
+    "image_caption": "View of Great Indian Hornbill",
+    "tags": [
+      "wildlife",
+      "bird",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Cellular Jail",
+    "subtitle": "Memorial in India",
+    "location": "Andaman & Nicobar",
+    "category": "Historical",
+    "type": "Memorial",
+    "description": "Cellular Jail is a prominent memorial located in Andaman & Nicobar. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Cellular Jail holds cultural importance in the region of Andaman & Nicobar. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Cellular Jail reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/jail.jpg",
+    "image_caption": "View of Cellular Jail",
+    "tags": [
+      "historical",
+      "memorial",
+      "island"
+    ],
+    "region": "Island"
+  },
+  {
+    "title": "Kaziranga National Park",
+    "subtitle": "National Park in India",
+    "location": "Assam",
+    "category": "Wildlife",
+    "type": "National Park",
+    "description": "Kaziranga National Park is a prominent national park located in Assam. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Kaziranga National Park holds cultural importance in the region of Assam. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Kaziranga National Park reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/kaziranga.jpg",
+    "image_caption": "View of Kaziranga National Park",
+    "tags": [
+      "wildlife",
+      "national park",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Kedarnath",
+    "subtitle": "Temple in India",
+    "location": "Uttarakhand",
+    "category": "Religious",
+    "type": "Temple",
+    "description": "Kedarnath is a prominent temple located in Uttarakhand. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Kedarnath holds cultural importance in the region of Uttarakhand. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Kedarnath reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/kedarnath.jpg",
+    "image_caption": "View of Kedarnath",
+    "tags": [
+      "religious",
+      "temple",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Khajuraho Temples",
+    "subtitle": "Temple Complex in India",
+    "location": "Madhya Pradesh",
+    "category": "Architecture",
+    "type": "Temple Complex",
+    "description": "Khajuraho Temples is a prominent temple complex located in Madhya Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Khajuraho Temples holds cultural importance in the region of Madhya Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Khajuraho Temples reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/khajurao.avif",
+    "image_caption": "View of Khajuraho Temples",
+    "tags": [
+      "architecture",
+      "temple complex",
+      "central"
+    ],
+    "region": "Central"
+  },
+  {
+    "title": "Konark Sun Temple",
+    "subtitle": "Temple in India",
+    "location": "Odisha",
+    "category": "Architecture",
+    "type": "Temple",
+    "description": "Konark Sun Temple is a prominent temple located in Odisha. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Konark Sun Temple holds cultural importance in the region of Odisha. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Konark Sun Temple reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/konark.jpg",
+    "image_caption": "View of Konark Sun Temple",
+    "tags": [
+      "architecture",
+      "temple",
+      "east"
+    ],
+    "region": "East"
+  },
+  {
+    "title": "Kurukshetra",
+    "subtitle": "City in India",
+    "location": "Haryana",
+    "category": "Historical",
+    "type": "City",
+    "description": "Kurukshetra is a prominent city located in Haryana. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Kurukshetra holds cultural importance in the region of Haryana. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Kurukshetra reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/kurushetra.avif",
+    "image_caption": "View of Kurukshetra",
+    "tags": [
+      "historical",
+      "city",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Loktak Lake",
+    "subtitle": "Lake in India",
+    "location": "Manipur",
+    "category": "Nature",
+    "type": "Lake",
+    "description": "Loktak Lake is a prominent lake located in Manipur. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Loktak Lake holds cultural importance in the region of Manipur. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Loktak Lake reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/loktak.webp",
+    "image_caption": "View of Loktak Lake",
+    "tags": [
+      "nature",
+      "lake",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Mahabodhi Temple",
+    "subtitle": "Temple in India",
+    "location": "Bodh Gaya, Bihar",
+    "category": "Religious",
+    "type": "Temple",
+    "description": "Mahabodhi Temple is a prominent temple located in Bodh Gaya, Bihar. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Mahabodhi Temple holds cultural importance in the region of Bodh Gaya, Bihar. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Mahabodhi Temple reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/mahabodhi.avif",
+    "image_caption": "View of Mahabodhi Temple",
+    "tags": [
+      "religious",
+      "temple",
+      "east"
+    ],
+    "region": "East"
+  },
+  {
+    "title": "Meenakshi Temple",
+    "subtitle": "Temple in India",
+    "location": "Madurai, Tamil Nadu",
+    "category": "Religious",
+    "type": "Temple",
+    "description": "Meenakshi Temple is a prominent temple located in Madurai, Tamil Nadu. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Meenakshi Temple holds cultural importance in the region of Madurai, Tamil Nadu. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Meenakshi Temple reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/meenakshi.jpg",
+    "image_caption": "View of Meenakshi Temple",
+    "tags": [
+      "religious",
+      "temple",
+      "south"
+    ],
+    "region": "South"
+  },
+  {
+    "title": "Netarhat",
+    "subtitle": "Hill Station in India",
+    "location": "Jharkhand",
+    "category": "Nature",
+    "type": "Hill Station",
+    "description": "Netarhat is a prominent hill station located in Jharkhand. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Netarhat holds cultural importance in the region of Jharkhand. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Netarhat reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/netarhat.avif",
+    "image_caption": "View of Netarhat",
+    "tags": [
+      "nature",
+      "hill station",
+      "east"
+    ],
+    "region": "East"
+  },
+  {
+    "title": "Pangong Lake",
+    "subtitle": "Lake in India",
+    "location": "Ladakh",
+    "category": "Nature",
+    "type": "Lake",
+    "description": "Pangong Lake is a prominent lake located in Ladakh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Pangong Lake holds cultural importance in the region of Ladakh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Pangong Lake reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/pangong.webp",
+    "image_caption": "View of Pangong Lake",
+    "tags": [
+      "nature",
+      "lake",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Pondicherry",
+    "subtitle": "Coastal Town in India",
+    "location": "Puducherry",
+    "category": "City",
+    "type": "Coastal Town",
+    "description": "Pondicherry is a prominent coastal town located in Puducherry. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Pondicherry holds cultural importance in the region of Puducherry. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Pondicherry reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/pondicherry.jpg",
+    "image_caption": "View of Pondicherry",
+    "tags": [
+      "city",
+      "coastal town",
+      "south"
+    ],
+    "region": "South"
+  },
+  {
+    "title": "Rann of Kutch",
+    "subtitle": "Salt Desert in India",
+    "location": "Gujarat",
+    "category": "Nature",
+    "type": "Salt Desert",
+    "description": "Rann of Kutch is a prominent salt desert located in Gujarat. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Rann of Kutch holds cultural importance in the region of Gujarat. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Rann of Kutch reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/rann.avif",
+    "image_caption": "View of Rann of Kutch",
+    "tags": [
+      "nature",
+      "salt desert",
+      "west"
+    ],
+    "region": "West"
+  },
+  {
+    "title": "Red Fort",
+    "subtitle": "Fort in India",
+    "location": "Delhi",
+    "category": "Architecture",
+    "type": "Fort",
+    "description": "Red Fort is a prominent fort located in Delhi. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Red Fort holds cultural importance in the region of Delhi. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Red Fort reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/redfort.jpg",
+    "image_caption": "View of Red Fort",
+    "tags": [
+      "architecture",
+      "fort",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Rock Garden",
+    "subtitle": "Sculpture Garden in India",
+    "location": "Chandigarh",
+    "category": "Art",
+    "type": "Sculpture Garden",
+    "description": "Rock Garden is a prominent sculpture garden located in Chandigarh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Rock Garden holds cultural importance in the region of Chandigarh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Rock Garden reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/rock.jpg",
+    "image_caption": "View of Rock Garden",
+    "tags": [
+      "art",
+      "sculpture garden",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Living Root Bridges",
+    "subtitle": "Bio-Engineering in India",
+    "location": "Meghalaya",
+    "category": "Nature",
+    "type": "Bio-Engineering",
+    "description": "Living Root Bridges is a prominent bio-engineering located in Meghalaya. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Living Root Bridges holds cultural importance in the region of Meghalaya. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Living Root Bridges reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/rootbridge.avif",
+    "image_caption": "View of Living Root Bridges",
+    "tags": [
+      "nature",
+      "bio-engineering",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Spiti Valley",
+    "subtitle": "Cold Desert in India",
+    "location": "Himachal Pradesh",
+    "category": "Nature",
+    "type": "Cold Desert",
+    "description": "Spiti Valley is a prominent cold desert located in Himachal Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Spiti Valley holds cultural importance in the region of Himachal Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Spiti Valley reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/spiti.avif",
+    "image_caption": "View of Spiti Valley",
+    "tags": [
+      "nature",
+      "cold desert",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Taj Mahal",
+    "subtitle": "Monument in India",
+    "location": "Agra, Uttar Pradesh",
+    "category": "Architecture",
+    "type": "Monument",
+    "description": "Taj Mahal is a prominent monument located in Agra, Uttar Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Taj Mahal holds cultural importance in the region of Agra, Uttar Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Taj Mahal reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/tajmahal.jpg",
+    "image_caption": "View of Taj Mahal",
+    "tags": [
+      "architecture",
+      "monument",
+      "north"
+    ],
+    "region": "North"
+  },
+  {
+    "title": "Tawang",
+    "subtitle": "Monastery Region in India",
+    "location": "Arunachal Pradesh",
+    "category": "Religious",
+    "type": "Monastery Region",
+    "description": "Tawang is a prominent monastery region located in Arunachal Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Tawang holds cultural importance in the region of Arunachal Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Tawang reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/tawang.avif",
+    "image_caption": "View of Tawang",
+    "tags": [
+      "religious",
+      "monastery region",
+      "northeast"
+    ],
+    "region": "Northeast"
+  },
+  {
+    "title": "Tirupati",
+    "subtitle": "Temple Town in India",
+    "location": "Andhra Pradesh",
+    "category": "Religious",
+    "type": "Temple Town",
+    "description": "Tirupati is a prominent temple town located in Andhra Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Tirupati holds cultural importance in the region of Andhra Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Tirupati reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/tirupati.avif",
+    "image_caption": "View of Tirupati",
+    "tags": [
+      "religious",
+      "temple town",
+      "south"
+    ],
+    "region": "South"
+  },
+  {
+    "title": "Ujjain",
+    "subtitle": "City in India",
+    "location": "Madhya Pradesh",
+    "category": "Religious",
+    "type": "City",
+    "description": "Ujjain is a prominent city located in Madhya Pradesh. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Ujjain holds cultural importance in the region of Madhya Pradesh. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Ujjain reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/ujjayanta.jpg",
+    "image_caption": "View of Ujjain",
+    "tags": [
+      "religious",
+      "city",
+      "central"
+    ],
+    "region": "Central"
+  },
+  {
+    "title": "Varkala Beach",
+    "subtitle": "Beach in India",
+    "location": "Kerala",
+    "category": "Nature",
+    "type": "Beach",
+    "description": "Varkala Beach is a prominent beach located in Kerala. It is known for its distinctive features that contribute to India's geographical, cultural, or architectural diversity. The site attracts visitors for its natural beauty, historical relevance, or spiritual importance, making it a notable destination in its region.",
+    "cultural_significance": "Varkala Beach holds cultural importance in the region of Kerala. It is often associated with local traditions, beliefs, and practices, reflecting the social and cultural fabric of the community. The site contributes to regional identity and is often featured in tourism, festivals, or collective memory.",
+    "historical_context": "The historical background of Varkala Beach reflects the evolution of the region over time. It may be linked to ancient traditions, dynastic rule, colonial influence, or modern development. Over the years, it has gained recognition for its significance and continues to be an important reference point in discussions of heritage and development.",
+    "image": "sanskriti/static/images/varkala.jpg",
+    "image_caption": "View of Varkala Beach",
+    "tags": [
+      "nature",
+      "beach",
+      "south"
+    ],
+    "region": "South"
+  }
+]

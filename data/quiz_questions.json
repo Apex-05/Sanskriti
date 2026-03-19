@@ -1,0 +1,276 @@
+﻿[
+  {
+    "question_text": "Which festival is known as the festival of lights?",
+    "option_a": "Holi",
+    "option_b": "Diwali",
+    "option_c": "Eid",
+    "option_d": "Pongal",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Diwali symbolizes light over darkness.",
+    "category": "Festivals",
+    "tags": ["festivals"]
+  },
+  {
+    "question_text": "Which festival is famous for colors?",
+    "option_a": "Holi",
+    "option_b": "Diwali",
+    "option_c": "Onam",
+    "option_d": "Navratri",
+    "correct_answer": "a",
+    "difficulty": "easy",
+    "explanation": "Holi is celebrated with colors.",
+    "category": "Festivals",
+    "tags": ["festivals"]
+  },
+
+  {
+    "question_text": "Which dish is a staple in South India?",
+    "option_a": "Dosa",
+    "option_b": "Roti",
+    "option_c": "Litti",
+    "option_d": "Dal Baati",
+    "correct_answer": "a",
+    "difficulty": "easy",
+    "explanation": "Dosa is widely eaten in South India.",
+    "category": "Food",
+    "tags": ["food"]
+  },
+  {
+    "question_text": "Which food is famous in Punjab?",
+    "option_a": "Idli",
+    "option_b": "Sarson da Saag",
+    "option_c": "Dhokla",
+    "option_d": "Pongal",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Sarson da Saag is a Punjabi dish.",
+    "category": "Food",
+    "tags": ["food"]
+  },
+
+  {
+    "question_text": "Touching elders' feet represents what?",
+    "option_a": "Greeting",
+    "option_b": "Respect",
+    "option_c": "Celebration",
+    "option_d": "Prayer",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "It symbolizes respect.",
+    "category": "Traditions",
+    "tags": ["traditions"]
+  },
+  {
+    "question_text": "Arranged marriage is part of which cultural aspect?",
+    "option_a": "Tradition",
+    "option_b": "Festival",
+    "option_c": "Language",
+    "option_d": "Food",
+    "correct_answer": "a",
+    "difficulty": "easy",
+    "explanation": "It is a traditional practice.",
+    "category": "Traditions",
+    "tags": ["traditions"]
+  },
+
+  {
+    "question_text": "Which attire is traditional for women in India?",
+    "option_a": "Jeans",
+    "option_b": "Saree",
+    "option_c": "Suit",
+    "option_d": "Skirt",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Saree is traditional attire.",
+    "category": "Clothing",
+    "tags": ["clothing"]
+  },
+  {
+    "question_text": "Mundu is worn in which state?",
+    "option_a": "Kerala",
+    "option_b": "Punjab",
+    "option_c": "Assam",
+    "option_d": "Gujarat",
+    "correct_answer": "a",
+    "difficulty": "easy",
+    "explanation": "Mundu is common in Kerala.",
+    "category": "Clothing",
+    "tags": ["clothing"]
+  },
+
+  {
+    "question_text": "Lighting a diya is part of which ritual?",
+    "option_a": "Wedding",
+    "option_b": "Prayer",
+    "option_c": "Dance",
+    "option_d": "Cooking",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Diya is used in prayers.",
+    "category": "Rituals",
+    "tags": ["rituals"]
+  },
+  {
+    "question_text": "Aarti is performed during?",
+    "option_a": "Meal",
+    "option_b": "Prayer",
+    "option_c": "Dance",
+    "option_d": "Festival only",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Aarti is a religious ritual.",
+    "category": "Rituals",
+    "tags": ["rituals"]
+  },
+
+  {
+    "question_text": "Which language is spoken in Tamil Nadu?",
+    "option_a": "Hindi",
+    "option_b": "Tamil",
+    "option_c": "Telugu",
+    "option_d": "Malayalam",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Tamil is the primary language.",
+    "category": "Language",
+    "tags": ["language"]
+  },
+  {
+    "question_text": "Hindi belongs to which language family?",
+    "option_a": "Dravidian",
+    "option_b": "Indo-Aryan",
+    "option_c": "Tibetan",
+    "option_d": "Persian",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Hindi is Indo-Aryan.",
+    "category": "Language",
+    "tags": ["language"]
+  },
+
+  {
+    "question_text": "Bharatanatyam originates from?",
+    "option_a": "Kerala",
+    "option_b": "Tamil Nadu",
+    "option_c": "Punjab",
+    "option_d": "Assam",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "It is from Tamil Nadu.",
+    "category": "Dance",
+    "tags": ["dance"]
+  },
+  {
+    "question_text": "Kathak is from which region?",
+    "option_a": "North India",
+    "option_b": "South India",
+    "option_c": "East India",
+    "option_d": "West India",
+    "correct_answer": "a",
+    "difficulty": "easy",
+    "explanation": "Kathak is a North Indian dance.",
+    "category": "Dance",
+    "tags": ["dance"]
+  },
+
+  {
+    "question_text": "Which instrument is used in classical music?",
+    "option_a": "Guitar",
+    "option_b": "Sitar",
+    "option_c": "Drum",
+    "option_d": "Violin",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Sitar is used in Indian classical music.",
+    "category": "Music",
+    "tags": ["music"]
+  },
+  {
+    "question_text": "Tabla is a type of?",
+    "option_a": "String instrument",
+    "option_b": "Wind instrument",
+    "option_c": "Percussion",
+    "option_d": "Electronic",
+    "correct_answer": "c",
+    "difficulty": "easy",
+    "explanation": "Tabla is percussion.",
+    "category": "Music",
+    "tags": ["music"]
+  },
+
+  {
+    "question_text": "Panchatantra stories belong to?",
+    "option_a": "History",
+    "option_b": "Folklore",
+    "option_c": "Science",
+    "option_d": "Geography",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Panchatantra is folklore.",
+    "category": "Folklore",
+    "tags": ["folklore"]
+  },
+  {
+    "question_text": "Folk tales are passed through?",
+    "option_a": "Books only",
+    "option_b": "Oral tradition",
+    "option_c": "Internet",
+    "option_d": "Schools",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "They are orally transmitted.",
+    "category": "Folklore",
+    "tags": ["folklore"]
+  },
+
+  {
+    "question_text": "Taj Mahal is an example of?",
+    "option_a": "Modern architecture",
+    "option_b": "Mughal architecture",
+    "option_c": "Dravidian",
+    "option_d": "Gothic",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "It is Mughal architecture.",
+    "category": "Architecture",
+    "tags": ["architecture"]
+  },
+  {
+    "question_text": "Which structure is in Delhi?",
+    "option_a": "Charminar",
+    "option_b": "Qutub Minar",
+    "option_c": "Gateway of India",
+    "option_d": "Meenakshi Temple",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Qutub Minar is in Delhi.",
+    "category": "Architecture",
+    "tags": ["architecture"]
+  },
+
+  {
+    "question_text": "Heritage includes?",
+    "option_a": "Only food",
+    "option_b": "Culture and traditions",
+    "option_c": "Technology",
+    "option_d": "Sports",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "Heritage includes culture.",
+    "category": "Heritage",
+    "tags": ["heritage"]
+  },
+  {
+    "question_text": "UNESCO sites are part of?",
+    "option_a": "Modern life",
+    "option_b": "Heritage",
+    "option_c": "Politics",
+    "option_d": "Education",
+    "correct_answer": "b",
+    "difficulty": "easy",
+    "explanation": "They preserve heritage.",
+    "category": "Heritage",
+    "tags": ["heritage"]
+  }
+]

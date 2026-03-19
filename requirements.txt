@@ -1,7 +1,10 @@
 asgiref==3.11.1
 Django==5.2.11
 django-crispy-forms==2.5
+dj-database-url>=2.1.0
 pillow==12.1.1
+psycopg2-binary>=2.9.9
+python-dotenv>=1.0.0
 sqlparse==0.5.5
 typing_extensions==4.15.0
 tzdata==2025.3
