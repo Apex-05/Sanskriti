@@ -1,0 +1,715 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Culture Quest | Sanskriti{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+.culture-quest-page {
+    --cq-primary: #e85d04;
+    --cq-secondary: #0096c7;
+    --cq-dark: #0f1117;
+    --cq-light: #f8f5ef;
+    --cq-card: #ffffff;
+    --cq-border: #e3dbce;
+    --cq-success: #06d6a0;
+    --cq-error: #ef476f;
+}
+
+.cq-hero {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f8f5ef 100%);
+    border: 2px solid var(--cq-border);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(232, 93, 4, 0.1);
+}
+
+.cq-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--cq-primary), #c94e03);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cq-subtitle {
+    font-size: 1.2rem;
+    color: #6e6458;
+    margin-bottom: 2rem;
+}
+
+.cq-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.cq-stat-card {
+    background: white;
+    border: 2px solid var(--cq-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.cq-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(232, 93, 4, 0.15);
+    border-color: var(--cq-primary);
+}
+
+.cq-stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--cq-primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.cq-stat-label {
+    font-size: 0.9rem;
+    color: #6e6458;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.cq-mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.cq-mode-card {
+    background: white;
+    border: 2px solid var(--cq-border);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.cq-mode-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(232, 93, 4, 0.2);
+    border-color: var(--cq-primary);
+}
+
+.cq-mode-icon {
+    font-size: 3rem;
+    color: var(--cq-primary);
+    margin-bottom: 1rem;
+}
+
+.cq-mode-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--cq-dark);
+}
+
+.cq-mode-desc {
+    color: #6e6458;
+    margin-bottom: 1.5rem;
+}
+
+.cq-mode-questions {
+    font-size: 0.9rem;
+    color: var(--cq-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cq-btn {
+    background: linear-gradient(135deg, var(--cq-primary), #c94e03);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(232, 93, 4, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cq-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 93, 4, 0.4);
+}
+
+.cq-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Game Screen Styles */
+#gameScreen {
+    display: none;
+}
+
+.cq-game-header {
+    background: white;
+    border: 2px solid var(--cq-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cq-progress {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cq-dark);
+}
+
+.cq-score {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--cq-primary);
+}
+
+.cq-game-container {
+    background: white;
+    border: 2px solid var(--cq-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(15, 17, 23, 0.08);
+}
+
+.cq-image-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.cq-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+.cq-question-text {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cq-dark);
+    margin-bottom: 2rem;
+}
+
+.cq-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.cq-option-btn {
+    background: var(--cq-light);
+    border: 2px solid var(--cq-border);
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cq-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cq-option-btn:hover:not(:disabled) {
+    background: white;
+    border-color: var(--cq-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(232, 93, 4, 0.15);
+}
+
+.cq-option-btn.correct {
+    background: var(--cq-success);
+    border-color: var(--cq-success);
+    color: white;
+}
+
+.cq-option-btn.incorrect {
+    background: var(--cq-error);
+    border-color: var(--cq-error);
+    color: white;
+}
+
+.cq-option-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* Result Modal */
+.cq-result-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 17, 23, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.cq-result-modal.show {
+    display: flex;
+}
+
+.cq-result-content {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cq-result-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.cq-result-icon.correct {
+    color: var(--cq-success);
+}
+
+.cq-result-icon.incorrect {
+    color: var(--cq-error);
+}
+
+.cq-result-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.cq-result-text {
+    font-size: 1.1rem;
+    color: #6e6458;
+    margin-bottom: 1.5rem;
+}
+
+.cq-result-info {
+    background: var(--cq-light);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.cq-leaderboard-preview {
+    background: white;
+    border: 2px solid var(--cq-border);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.cq-leaderboard-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--cq-dark);
+    text-align: center;
+}
+
+.cq-leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--cq-border);
+    transition: background 0.2s ease;
+}
+
+.cq-leaderboard-item:hover {
+    background: var(--cq-light);
+}
+
+.cq-leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.cq-leaderboard-rank {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--cq-primary);
+    width: 40px;
+}
+
+.cq-leaderboard-name {
+    flex: 1;
+    font-weight: 600;
+}
+
+.cq-leaderboard-score {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cq-dark);
+}
+
+@media (max-width: 768px) {
+    .cq-hero {
+        padding: 2rem 1.5rem;
+    }
+    
+    .cq-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .cq-mode-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cq-options-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container culture-quest-page py-4 py-lg-5">
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen">
+        <div class="cq-hero">
+            <div class="cq-title">🎯 Culture Quest</div>
+            <div class="cq-subtitle">Test your knowledge of Indian culture! Guess the state/region from cultural images.</div>
+        </div>
+
+        <!-- User Stats -->
+        <div class="cq-stats-grid">
+            <div class="cq-stat-card">
+                <div class="cq-stat-value">{{ user_stats.total_games }}</div>
+                <div class="cq-stat-label">Games Played</div>
+            </div>
+            <div class="cq-stat-card">
+                <div class="cq-stat-value">{{ user_stats.best_score }}</div>
+                <div class="cq-stat-label">Best Score</div>
+            </div>
+            <div class="cq-stat-card">
+                <div class="cq-stat-value">{{ user_stats.overall_accuracy }}%</div>
+                <div class="cq-stat-label">Accuracy</div>
+            </div>
+            <div class="cq-stat-card">
+                <div class="cq-stat-value">{{ user_stats.total_correct }}</div>
+                <div class="cq-stat-label">Correct Answers</div>
+            </div>
+        </div>
+
+        <!-- Game Modes -->
+        <h2 class="text-center mt-5 mb-4" style="font-size: 2rem; font-weight: 700;">Choose Your Challenge</h2>
+        <div class="cq-mode-grid">
+            {% for mode in game_modes %}
+            <div class="cq-mode-card" onclick="startGame('{{ mode.id }}')">
+                <div class="cq-mode-icon"><i class="{{ mode.icon }}"></i></div>
+                <div class="cq-mode-name">{{ mode.name }}</div>
+                <div class="cq-mode-desc">{{ mode.description }}</div>
+                <div class="cq-mode-questions">{{ mode.questions }} Questions</div>
+                <button class="cq-btn mt-3">Start Game</button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Leaderboard Preview -->
+        {% if leaderboard_preview %}
+        <div class="cq-leaderboard-preview">
+            <div class="cq-leaderboard-title">🏆 Top Players</div>
+            {% for entry in leaderboard_preview %}
+            <div class="cq-leaderboard-item">
+                <div class="cq-leaderboard-rank">#{{ entry.rank }}</div>
+                <div class="cq-leaderboard-name">{{ entry.username }}</div>
+                <div class="cq-leaderboard-score">{{ entry.score }} pts</div>
+            </div>
+            {% endfor %}
+            <div class="text-center mt-3">
+                <a href="{% url 'culture_quest_leaderboard' %}" class="btn btn-outline-secondary">View Full Leaderboard</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen">
+        <div class="cq-game-header">
+            <div class="cq-progress">
+                Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
+            </div>
+            <div class="cq-score">
+                Score: <span id="currentScore">0</span>
+            </div>
+        </div>
+
+        <div class="cq-game-container">
+            <div class="cq-image-container">
+                <img id="questionImage" class="cq-image" src="" alt="Cultural image">
+            </div>
+
+            <div class="cq-question-text">
+                Which state/region is this from?
+            </div>
+
+            <div id="optionsContainer" class="cq-options-grid">
+                <!-- Options will be dynamically inserted here -->
+            </div>
+
+            <div class="text-center mt-4">
+                <div id="feedbackMessage" style="display: none; font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;"></div>
+                <button id="nextButton" class="cq-btn" style="display: none;">Next Question</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="resultModal" class="cq-result-modal">
+        <div class="cq-result-content">
+            <div id="resultIcon" class="cq-result-icon"></div>
+            <div id="resultTitle" class="cq-result-title"></div>
+            <div id="resultText" class="cq-result-text"></div>
+            <div id="resultInfo" class="cq-result-info"></div>
+            <button id="continueButton" class="cq-btn">Continue</button>
+        </div>
+    </div>
+
+    <!-- Final Results Modal -->
+    <div id="finalResultModal" class="cq-result-modal">
+        <div class="cq-result-content">
+            <div class="cq-result-icon">🎉</div>
+            <div class="cq-result-title">Game Complete!</div>
+            <div id="finalResultText" class="cq-result-text"></div>
+            <div id="finalResultInfo" class="cq-result-info"></div>
+            <button onclick="location.reload()" class="cq-btn">Play Again</button>
+            <a href="{% url 'culture_quest_leaderboard' %}" class="btn btn-outline-secondary mt-2">View Leaderboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Initialize game state
+const gameState = {
+    sessionId: null,
+    currentQuestion: null,
+    startTime: null,
+    score: 0,
+    correctCount: 0,
+    questionCount: 0,
+    totalQuestions: 10,
+};
+
+// CSRF token for API calls
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+// Start game
+async function startGame(mode) {
+    try {
+        const response = await fetch('{% url "culture_quest_start" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ mode }),
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            gameState.sessionId = data.session_id;
+            gameState.score = 0;
+            gameState.correctCount = 0;
+            gameState.questionCount = 0;
+            gameState.totalQuestions = data.question.total_questions;
+            
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            
+            showQuestion(data.question);
+        } else {
+            alert('Failed to start game: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error starting game:', error);
+        alert('Failed to start game. Please try again.');
+    }
+}
+
+// Show question
+function showQuestion(question) {
+    gameState.currentQuestion = question;
+    gameState.startTime = Date.now();
+    
+    document.getElementById('currentQuestion').textContent = question.question_number;
+    document.getElementById('totalQuestions').textContent = question.total_questions;
+    document.getElementById('currentScore').textContent = gameState.score;
+    document.getElementById('questionImage').src = question.image_url;
+    
+    const optionsContainer = document.getElementById('optionsContainer');
+    optionsContainer.innerHTML = '';
+    
+    question.state_options.forEach(state => {
+        const button = document.createElement('button');
+        button.className = 'cq-option-btn';
+        button.textContent = state;
+        button.onclick = () => submitAnswer(state);
+        optionsContainer.appendChild(button);
+    });
+    
+    document.getElementById('feedbackMessage').style.display = 'none';
+    document.getElementById('nextButton').style.display = 'none';
+}
+
+// Submit answer
+async function submitAnswer(guessedState) {
+    const timeTaken = Math.floor((Date.now() - gameState.startTime) / 1000);
+    
+    // Disable all option buttons
+    document.querySelectorAll('.cq-option-btn').forEach(btn => {
+        btn.disabled = true;
+    });
+    
+    try {
+        const response = await fetch('{% url "culture_quest_submit" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({
+                session_id: gameState.sessionId,
+                post_id: gameState.currentQuestion.post_id,
+                guessed_state: guessedState,
+                time_taken: timeTaken,
+            }),
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            gameState.score = data.total_score;
+            gameState.correctCount = data.correct_count;
+            
+            // Show result
+            showAnswerResult(data);
+            
+            // If session complete, show final results
+            if (data.session_complete) {
+                setTimeout(() => showFinalResults(data), 2000);
+            }
+        } else {
+            alert('Error submitting answer: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error submitting answer:', error);
+        alert('Failed to submit answer. Please try again.');
+    }
+}
+
+// Show answer result
+function showAnswerResult(data) {
+    const resultModal = document.getElementById('resultModal');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultText = document.getElementById('resultText');
+    const resultInfo = document.getElementById('resultInfo');
+    
+    if (data.is_correct) {
+        resultIcon.textContent = '✅';
+        resultIcon.className = 'cq-result-icon correct';
+        resultTitle.textContent = 'Correct!';
+        resultText.textContent = `You earned ${data.points_earned} points!`;
+    } else {
+        resultIcon.textContent = '❌';
+        resultIcon.className = 'cq-result-icon incorrect';
+        resultTitle.textContent = 'Incorrect';
+        resultText.textContent = `The correct answer was ${data.correct_state}`;
+    }
+    
+    resultInfo.innerHTML = `
+        <strong>${data.post_title}</strong><br>
+        <small>${data.post_location}</small>
+    `;
+    
+    resultModal.classList.add('show');
+    
+    // Set up continue button
+    document.getElementById('continueButton').onclick = () => {
+        resultModal.classList.remove('show');
+        if (data.next_question) {
+            showQuestion(data.next_question);
+        }
+    };
+}
+
+// Show final results
+function showFinalResults(data) {
+    const finalModal = document.getElementById('finalResultModal');
+    const finalText = document.getElementById('finalResultText');
+    const finalInfo = document.getElementById('finalResultInfo');
+    
+    finalText.textContent = `You scored ${data.final_score} points!`;
+    finalInfo.innerHTML = `
+        <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+            <strong>${data.correct_count} / ${gameState.totalQuestions}</strong> correct
+        </div>
+        <div style="color: #6e6458;">
+            Accuracy: ${data.accuracy_percentage}%
+        </div>
+    `;
+    
+    finalModal.classList.add('show');
+}
+</script>
+{% endblock %}
