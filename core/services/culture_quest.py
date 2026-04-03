@@ -108,7 +108,7 @@ def get_next_question(session):
     return question_data
 
 
-def get_state_options_for_question(correct_state, num_options=6):
+def get_state_options_for_question(correct_state, num_options=4):
     """
     Get multiple-choice state options for a question.
     

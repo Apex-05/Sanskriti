@@ -65,7 +65,6 @@ QUIZ_MODE_CONFIG = {
             "No timer pressure",
             "Instant feedback on each answer",
             "Reset and retry anytime",
-            "Random questions from quiz_questions.json",
         ],
     },
     "timed": {
@@ -1843,6 +1842,19 @@ def culture_quest_start(request):
             total_questions = 15
         else:
             return JsonResponse({"success": False, "error": "Invalid game mode"}, status=400)
+
+        available_posts = (
+            CulturalPost.objects
+            .exclude(state_ut="")
+            .exclude(state_ut__isnull=True)
+            .filter(image__isnull=False)
+            .count()
+        )
+        if available_posts == 0:
+            return JsonResponse({"success": False, "error": "No questions available"}, status=500)
+
+        # Ensure requested question count never exceeds available unique posts.
+        total_questions = min(total_questions, available_posts)
         
         # Create session
         session = create_game_session(request.user, mode=mode, total_questions=total_questions)
@@ -1936,11 +1948,23 @@ def culture_quest_submit(request):
             }
         else:
             next_question = get_next_question(session)
-            response_data = {
-                **result,
-                "session_complete": False,
-                "next_question": next_question,
-            }
+            if not next_question:
+                # If question pool is exhausted, finalize gracefully instead of stalling the UI.
+                session.is_complete = True
+                session.completed_at = timezone.now()
+                session.save(update_fields=["is_complete", "completed_at"])
+                response_data = {
+                    **result,
+                    "session_complete": True,
+                    "final_score": session.score,
+                    "accuracy_percentage": session.accuracy_percentage,
+                }
+            else:
+                response_data = {
+                    **result,
+                    "session_complete": False,
+                    "next_question": next_question,
+                }
         
         return JsonResponse(response_data)
     

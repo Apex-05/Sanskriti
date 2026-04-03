@@ -30,12 +30,12 @@
             {% if user.is_authenticated %}
                 <div class="auth-nav-center">
                     <ul class="navbar-nav auth-nav-links">
-                        <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'explore_india' %}active{% endif %}" href="{% url 'explore_india' %}">Explore India</a></li>
+                        <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'explore_india' %}active{% endif %}" href="{% url 'explore_india' %}">Explore</a></li>
                         <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'culture' %}active{% endif %}" href="{% url 'culture' %}">Culture</a></li>
                         <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'spotlight' %}active{% endif %}" href="{% url 'spotlight' %}">Spotlight</a></li>
                         <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'discover' or current_view == 'discover_by_state' %}active{% endif %}" href="{% url 'discover' %}">Discover</a></li>
                         <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'quiz' or current_view == 'quiz_practice' or current_view == 'quiz_timed' or current_view == 'quiz_daily' %}active{% endif %}" href="{% url 'quiz' %}">Quiz</a></li>
-                        <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'culture_quest' or current_view == 'culture_quest_leaderboard' %}active{% endif %}" href="{% url 'culture_quest' %}"><i class="bi bi-controller me-1"></i>Culture Quest</a></li>
+                        <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'culture_quest' or current_view == 'culture_quest_leaderboard' %}active{% endif %}" href="{% url 'culture_quest' %}">Quest <i class="bi bi-controller ms-1"></i></a></li>
                         <li class="nav-item"><a class="nav-link auth-nav-link nav-collapse-link {% if current_view == 'chat_home' or current_view == 'chat_conversation' %}active{% endif %}" href="{% url 'chat_home' %}">Chat</a></li>
                     </ul>
                 </div>

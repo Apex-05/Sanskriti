@@ -493,10 +493,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     map.fitBounds(indiaBounds, { padding: [10, 10] });
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 12,
-        attribution: "&copy; OpenStreetMap contributors",
-    }).addTo(map);
+    const baseTileLayers = [
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 12,
+            attribution: "&copy; OpenStreetMap contributors",
+        }),
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+            maxZoom: 19,
+            subdomains: "abcd",
+            attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+        }),
+    ];
+
+    let activeBaseLayerIndex = 0;
+    let activeBaseLayer = baseTileLayers[activeBaseLayerIndex].addTo(map);
+
+    const tryNextBaseLayer = () => {
+        if (activeBaseLayerIndex >= baseTileLayers.length - 1) {
+            return;
+        }
+
+        map.removeLayer(activeBaseLayer);
+        activeBaseLayerIndex += 1;
+        activeBaseLayer = baseTileLayers[activeBaseLayerIndex].addTo(map);
+    };
+
+    activeBaseLayer.once("tileerror", tryNextBaseLayer);
 
     const markerLayer = L.layerGroup().addTo(map);
     const markersByKey = {};

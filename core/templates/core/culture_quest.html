@@ -196,18 +196,23 @@
 .cq-image-container {
     position: relative;
     width: 100%;
-    max-width: 700px;
+    max-width: 560px;
     margin: 0 auto 2rem;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
 }
 
 .cq-image {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    max-height: 500px;
-    object-fit: cover;
+    max-height: 420px;
+    object-fit: contain;
     display: block;
 }
 
@@ -550,7 +555,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const csrftoken = getCookie('csrftoken');
+const csrftoken = getCookie('csrftoken') || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
 // Start game
 async function startGame(mode) {
@@ -564,9 +569,17 @@ async function startGame(mode) {
             body: JSON.stringify({ mode }),
         });
 
-        const data = await response.json();
+        let data = null;
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = null;
+        }
+        if (!response.ok || !data) {
+            throw new Error('Unable to start game. Please refresh and try again.');
+        }
         
-        if (data.success) {
+        if (data.success && data.question) {
             gameState.sessionId = data.session_id;
             gameState.score = 0;
             gameState.correctCount = 0;
@@ -635,7 +648,15 @@ async function submitAnswer(guessedState) {
             }),
         });
 
-        const data = await response.json();
+        let data = null;
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = null;
+        }
+        if (!response.ok || !data) {
+            throw new Error('Unable to submit answer. Please try again.');
+        }
         
         if (data.success) {
             gameState.score = data.total_score;
