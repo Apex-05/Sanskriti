@@ -393,3 +393,76 @@ class UserActivity(models.Model):
 		cutoff_time = timezone.now() - timedelta(minutes=5)
 		return self.last_seen > cutoff_time
 
+
+class CultureQuestSession(models.Model):
+	"""
+	Represents a single Culture Quest game session.
+	Players try to guess the region/state of cultural images.
+	"""
+	MODE_CHOICES = [
+		("quick", "Quick Play"),
+		("marathon", "Marathon Mode"),
+		("daily", "Daily Challenge"),
+	]
+
+	user = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.CASCADE,
+		related_name="culture_quest_sessions",
+	)
+	mode = models.CharField(max_length=20, choices=MODE_CHOICES, default="quick")
+	total_questions = models.PositiveIntegerField(default=10)
+	correct_answers = models.PositiveIntegerField(default=0)
+	score = models.PositiveIntegerField(default=0)
+	is_complete = models.BooleanField(default=False)
+	started_at = models.DateTimeField(auto_now_add=True)
+	completed_at = models.DateTimeField(null=True, blank=True)
+
+	class Meta:
+		ordering = ["-started_at"]
+		indexes = [
+			models.Index(fields=["user", "-started_at"], name="cquest_user_started_idx"),
+			models.Index(fields=["mode", "-score"], name="cquest_mode_score_idx"),
+		]
+
+	def __str__(self):
+		return f"{self.user.username} - {self.get_mode_display()} ({self.correct_answers}/{self.total_questions})"
+
+	@property
+	def accuracy_percentage(self):
+		if self.total_questions == 0:
+			return 0
+		return round((self.correct_answers / self.total_questions) * 100)
+
+
+class CultureQuestAnswer(models.Model):
+	"""
+	Individual answer/guess in a Culture Quest game session.
+	"""
+	session = models.ForeignKey(
+		CultureQuestSession,
+		on_delete=models.CASCADE,
+		related_name="answers",
+	)
+	post = models.ForeignKey(
+		CulturalPost,
+		on_delete=models.CASCADE,
+		related_name="culture_quest_answers",
+	)
+	guessed_state = models.CharField(max_length=80, blank=True)
+	correct_state = models.CharField(max_length=80)
+	is_correct = models.BooleanField(default=False)
+	points_earned = models.PositiveIntegerField(default=0)
+	time_taken_seconds = models.PositiveIntegerField(default=0)
+	answered_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		ordering = ["answered_at"]
+		indexes = [
+			models.Index(fields=["session", "answered_at"], name="cquest_ans_session_idx"),
+		]
+
+	def __str__(self):
+		status = "✓" if self.is_correct else "✗"
+		return f"{status} {self.post.title} ({self.guessed_state} vs {self.correct_state})"
+

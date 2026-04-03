@@ -1,0 +1,108 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Culture Quest Leaderboard | Sanskriti{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center mb-4">
+                <h1 class="display-4 fw-bold">🏆 Leaderboard</h1>
+                <p class="lead text-muted">Top players in Culture Quest</p>
+            </div>
+
+            <!-- Mode Filter -->
+            <div class="mb-4 text-center">
+                <div class="btn-group" role="group">
+                    {% for mode in modes %}
+                    <a href="?mode={{ mode.value }}" class="btn btn-outline-secondary {% if selected_mode == mode.value %}active{% endif %}">
+                        {{ mode.label }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    {% if leaderboard %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 60px;" class="text-center">Rank</th>
+                                    <th>Player</th>
+                                    <th class="text-center">Accuracy</th>
+                                    <th class="text-center">Score</th>
+                                    <th>Mode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in leaderboard %}
+                                <tr>
+                                    <td class="text-center">
+                                        <strong class="text-primary" style="font-size: 1.2rem;">
+                                            {% if entry.rank == 1 %}🥇{% elif entry.rank == 2 %}🥈{% elif entry.rank == 3 %}🥉{% else %}#{{ entry.rank }}{% endif %}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ entry.username }}</strong>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-secondary">{{ entry.accuracy }}%</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <strong style="color: #e85d04;">{{ entry.score }}</strong>
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{ entry.mode }}</small>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <p class="text-muted">No leaderboard entries yet. Be the first to play!</p>
+                        <a href="{% url 'culture_quest' %}" class="btn btn-primary">Play Now</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Your Stats -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h3 class="h5 mb-3">Your Stats</h3>
+                    <div class="row text-center">
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="fw-bold text-primary" style="font-size: 2rem;">{{ user_stats.total_games }}</div>
+                            <div class="small text-muted">Games</div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="fw-bold text-primary" style="font-size: 2rem;">{{ user_stats.best_score }}</div>
+                            <div class="small text-muted">Best Score</div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="fw-bold text-primary" style="font-size: 2rem;">{{ user_stats.overall_accuracy }}%</div>
+                            <div class="small text-muted">Accuracy</div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="fw-bold text-primary" style="font-size: 2rem;">{{ user_stats.total_correct }}</div>
+                            <div class="small text-muted">Correct</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="text-center mt-4">
+                <a href="{% url 'culture_quest' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Back to Game
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

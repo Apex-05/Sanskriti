@@ -29,7 +29,7 @@ from .constants import (
     KARMA_REGION_THRESHOLD,
 )
 from .forms import CulturalPostForm, ProfileEditForm, RegisterForm, SanskritiAuthenticationForm
-from .models import Conversation, CulturalPost, Message, PostImage, QuizQuestion, QuizResult, Upvote, UserProfile, UserActivity
+from .models import Conversation, CulturalPost, Message, PostImage, QuizQuestion, QuizResult, Upvote, UserProfile, UserActivity, CultureQuestSession, CultureQuestAnswer
 from .services.categories import (
     ensure_default_categories,
     get_category_name_map,
@@ -1368,10 +1368,22 @@ def explore_india(request):
     for cat_data in top_categories:
         category_stats[cat_data['category']] = cat_data['count']
     
+    # Build state dropdown options for the UI
+    state_dropdown_options = [
+        {
+            'name': item['state'],
+            'slug': item['slug'],
+            'discover_url': item['discover_url'],
+            'count': item['count'],
+        }
+        for item in heatmap_data_sorted if item['count'] > 0
+    ]
+    
     context = {
         'heatmap_data': heatmap_data_sorted,
         'heat_points': heat_points,
         'top_states': top_states,
+        'state_dropdown_options': state_dropdown_options,
         'total_posts': CulturalPost.objects.count(),
         'total_states_with_posts': sum(1 for item in heatmap_data_sorted if item['count'] > 0),
         'category_stats': category_stats,
@@ -1494,6 +1506,8 @@ def _render_discover_page(request, state_slug):
         "total_posts": len(posts),
         "unique_state_clusters": len(grouped_location_posts) if top_posts_mode else len(location_groups),
         "unique_uploaders": len({post.author_id for post in posts}),
+        "show_back_to_explore": bool(selected_state_name),
+        "explore_url": reverse("explore_india"),
     }
     return render(request, "core/discover.html", context)
 
@@ -1765,3 +1779,198 @@ def logout_user(request):
     logout(request)
     messages.info(request, "Logged out successfully.", extra_tags="auto-dismiss center-screen")
     return redirect("home")
+
+
+# ============================================================================
+# CULTURE QUEST VIEWS
+# ============================================================================
+
+@never_cache
+def culture_quest(request):
+    """Main Culture Quest game page."""
+    from .services.culture_quest import get_user_stats, get_leaderboard
+    
+    auth_redirect = _require_auth_for_dashboard(request)
+    if auth_redirect:
+        return auth_redirect
+    
+    user_stats = get_user_stats(request.user)
+    leaderboard = get_leaderboard(mode="all", limit=5)
+    
+    context = {
+        "user_stats": user_stats,
+        "leaderboard_preview": leaderboard,
+        "game_modes": [
+            {
+                "id": "quick",
+                "name": "Quick Play",
+                "description": "10 questions, test your cultural knowledge",
+                "questions": 10,
+                "icon": "bi-lightning-charge-fill",
+            },
+            {
+                "id": "marathon",
+                "name": "Marathon Mode",
+                "description": "25 questions, ultimate challenge",
+                "questions": 25,
+                "icon": "bi-trophy-fill",
+            },
+        ],
+    }
+    
+    return render(request, "core/culture_quest.html", context)
+
+
+@never_cache
+@require_POST
+def culture_quest_start(request):
+    """Start a new Culture Quest game session (API endpoint)."""
+    from .services.culture_quest import create_game_session, get_next_question
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({"success": False, "error": "Authentication required"}, status=401)
+    
+    try:
+        data = json.loads(request.body)
+        mode = data.get("mode", "quick")
+        
+        # Validate mode and set question count
+        if mode == "quick":
+            total_questions = 10
+        elif mode == "marathon":
+            total_questions = 25
+        elif mode == "daily":
+            total_questions = 15
+        else:
+            return JsonResponse({"success": False, "error": "Invalid game mode"}, status=400)
+        
+        # Create session
+        session = create_game_session(request.user, mode=mode, total_questions=total_questions)
+        
+        # Get first question
+        question = get_next_question(session)
+        
+        if not question:
+            return JsonResponse({"success": False, "error": "No questions available"}, status=500)
+        
+        return JsonResponse({
+            "success": True,
+            "session_id": session.id,
+            "question": question,
+        })
+    
+    except (json.JSONDecodeError, ValueError, KeyError) as e:
+        return JsonResponse({"success": False, "error": "Invalid request data"}, status=400)
+
+
+@never_cache
+def culture_quest_question(request):
+    """Get the next question for an active session (API endpoint)."""
+    from .services.culture_quest import get_next_question
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({"success": False, "error": "Authentication required"}, status=401)
+    
+    try:
+        session_id = request.GET.get("session_id")
+        if not session_id:
+            return JsonResponse({"success": False, "error": "Missing session_id"}, status=400)
+        
+        session = get_object_or_404(CultureQuestSession, id=session_id, user=request.user)
+        
+        question = get_next_question(session)
+        
+        if not question:
+            return JsonResponse({
+                "success": True,
+                "session_complete": True,
+                "final_score": session.score,
+                "correct_answers": session.correct_answers,
+                "total_questions": session.total_questions,
+            })
+        
+        return JsonResponse({
+            "success": True,
+            "session_complete": False,
+            "question": question,
+        })
+    
+    except ValueError as e:
+        return JsonResponse({"success": False, "error": "Invalid session"}, status=400)
+
+
+@never_cache
+@require_POST
+def culture_quest_submit(request):
+    """Submit an answer for a Culture Quest question (API endpoint)."""
+    from .services.culture_quest import submit_answer, get_next_question
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({"success": False, "error": "Authentication required"}, status=401)
+    
+    try:
+        data = json.loads(request.body)
+        session_id = data.get("session_id")
+        post_id = data.get("post_id")
+        guessed_state = data.get("guessed_state", "")
+        time_taken = int(data.get("time_taken", 0))
+        
+        if not session_id or not post_id:
+            return JsonResponse({"success": False, "error": "Missing required fields"}, status=400)
+        
+        session = get_object_or_404(CultureQuestSession, id=session_id, user=request.user)
+        
+        # Submit answer
+        result = submit_answer(session, post_id, guessed_state, time_taken)
+        
+        if not result.get("success"):
+            return JsonResponse(result, status=400)
+        
+        # Get next question or session summary
+        if result["is_session_complete"]:
+            response_data = {
+                **result,
+                "session_complete": True,
+                "final_score": session.score,
+                "accuracy_percentage": session.accuracy_percentage,
+            }
+        else:
+            next_question = get_next_question(session)
+            response_data = {
+                **result,
+                "session_complete": False,
+                "next_question": next_question,
+            }
+        
+        return JsonResponse(response_data)
+    
+    except (json.JSONDecodeError, ValueError, KeyError) as e:
+        return JsonResponse({"success": False, "error": "Invalid request data"}, status=400)
+
+
+@never_cache
+def culture_quest_leaderboard(request):
+    """Show Culture Quest leaderboard."""
+    from .services.culture_quest import get_leaderboard, get_user_stats
+    
+    auth_redirect = _require_auth_for_dashboard(request)
+    if auth_redirect:
+        return auth_redirect
+    
+    mode = request.GET.get("mode", "all")
+    
+    leaderboard = get_leaderboard(mode=mode, limit=50)
+    user_stats = get_user_stats(request.user)
+    
+    context = {
+        "leaderboard": leaderboard,
+        "user_stats": user_stats,
+        "selected_mode": mode,
+        "modes": [
+            {"value": "all", "label": "All Modes"},
+            {"value": "quick", "label": "Quick Play"},
+            {"value": "marathon", "label": "Marathon"},
+        ],
+    }
+    
+    return render(request, "core/culture_quest_leaderboard.html", context)
