@@ -140,3 +140,7 @@ LOGIN_URL = '/login/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Ensure cross-origin map tile requests include an origin Referer header.
+# OpenStreetMap blocks anonymous tile usage when Referer is omitted.
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'

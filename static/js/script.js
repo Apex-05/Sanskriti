@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             maxZoom: 19,
             noWrap: true,
             crossOrigin: 'anonymous',
+            referrerPolicy: 'strict-origin-when-cross-origin',
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
         }).addTo(mapInstance);
 
@@ -456,6 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             crossOrigin: 'anonymous',
+            referrerPolicy: 'strict-origin-when-cross-origin',
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
         }).addTo(uploadMap);
 
