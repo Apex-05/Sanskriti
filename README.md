@@ -91,7 +91,7 @@ Follow these steps in order.
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Apex-05/Sanskriti.git
 
 ```
 

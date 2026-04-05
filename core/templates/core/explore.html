@@ -493,33 +493,56 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     map.fitBounds(indiaBounds, { padding: [10, 10] });
 
-    const baseTileLayers = [
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 12,
-            referrerPolicy: "strict-origin-when-cross-origin",
-            attribution: "&copy; OpenStreetMap contributors",
-        }),
-        L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-            maxZoom: 19,
-            subdomains: "abcd",
-            attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
-        }),
+    const tileProviders = [
+        {
+            url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+            options: {
+                maxZoom: 19,
+                subdomains: "abcd",
+                attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+            },
+        },
+        {
+            url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            options: {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap contributors",
+            },
+        },
+        {
+            url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+            options: {
+                maxZoom: 19,
+                attribution: "Tiles &copy; Esri",
+            },
+        },
     ];
 
     let activeBaseLayerIndex = 0;
-    let activeBaseLayer = baseTileLayers[activeBaseLayerIndex].addTo(map);
+    let activeBaseLayer = null;
 
-    const tryNextBaseLayer = () => {
-        if (activeBaseLayerIndex >= baseTileLayers.length - 1) {
-            return;
+    const activateBaseProvider = () => {
+        if (activeBaseLayer) {
+            map.removeLayer(activeBaseLayer);
         }
 
-        map.removeLayer(activeBaseLayer);
-        activeBaseLayerIndex += 1;
-        activeBaseLayer = baseTileLayers[activeBaseLayerIndex].addTo(map);
+        const provider = tileProviders[activeBaseLayerIndex];
+        activeBaseLayer = L.tileLayer(provider.url, {
+            noWrap: true,
+            ...provider.options,
+        }).addTo(map);
+
+        let tileErrors = 0;
+        activeBaseLayer.on("tileerror", function () {
+            tileErrors += 1;
+            if (tileErrors >= 3 && activeBaseLayerIndex < tileProviders.length - 1) {
+                activeBaseLayerIndex += 1;
+                activateBaseProvider();
+            }
+        });
     };
 
-    activeBaseLayer.once("tileerror", tryNextBaseLayer);
+    activateBaseProvider();
 
     const markerLayer = L.layerGroup().addTo(map);
     const markersByKey = {};

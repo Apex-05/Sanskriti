@@ -37,6 +37,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const addResilientTileLayer = (mapInstance, providers = []) => {
+        if (!mapInstance || typeof L === 'undefined') {
+            return null;
+        }
+
+        const normalizedProviders = providers.length
+            ? providers
+            : [
+                {
+                    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+                    options: {
+                        maxZoom: 19,
+                        subdomains: 'abcd',
+                        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+                    }
+                },
+                {
+                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    options: {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
+                    }
+                },
+                {
+                    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+                    options: {
+                        maxZoom: 19,
+                        attribution: 'Tiles &copy; Esri'
+                    }
+                }
+            ];
+
+        let providerIndex = 0;
+        let activeLayer = null;
+
+        const activateProvider = () => {
+            if (activeLayer) {
+                mapInstance.removeLayer(activeLayer);
+            }
+
+            const provider = normalizedProviders[providerIndex];
+            activeLayer = L.tileLayer(provider.url, {
+                noWrap: true,
+                ...provider.options
+            }).addTo(mapInstance);
+
+            let tileErrors = 0;
+            activeLayer.on('tileerror', () => {
+                tileErrors += 1;
+                if (tileErrors >= 3 && providerIndex < normalizedProviders.length - 1) {
+                    providerIndex += 1;
+                    activateProvider();
+                }
+            });
+        };
+
+        activateProvider();
+        return activeLayer;
+    };
+
     const initMapPreview = (mapId, popupMessage, options = {}) => {
         const mapContainer = document.getElementById(mapId);
         if (!mapContainer || typeof L === 'undefined') {
@@ -60,13 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mapInstance.setView([22.5937, 78.9629], 5);
         }
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            noWrap: true,
-            crossOrigin: 'anonymous',
-            referrerPolicy: 'strict-origin-when-cross-origin',
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
-        }).addTo(mapInstance);
+        addResilientTileLayer(mapInstance);
 
         if (popupMessage) {
             L.marker([22.5937, 78.9629])
@@ -454,12 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollWheelZoom: false
         }).setView([22.5937, 78.9629], 5);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            crossOrigin: 'anonymous',
-            referrerPolicy: 'strict-origin-when-cross-origin',
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
-        }).addTo(uploadMap);
+        addResilientTileLayer(uploadMap);
 
         uploadMap.on('click', (event) => {
             const { lat, lng } = event.latlng;
