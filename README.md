@@ -21,16 +21,79 @@ Sanskriti provides the following core capabilities:
 
 ### **1. Home Page**
 
-![Home Page](WebsiteScreenshots/Home1.png)
-
-![Home Page](images/login_invalid_credentials.png)
+![Home Page](Website_Screenshots/Home1.png)
+![Home Page](Website_Screenshots/Home2.png)
+![Home Page](Website_Screenshots/Home3.png)
 
 ---
 
 ## **2. About Page**
 
+![About Page](Website_Screenshots/about.png)
+
+---
+
+## **3. Upload Page**
+
+![Upload Page](Website_Screenshots/upload.png)
+
+---
+
+## **4. Explore Page**
+
+![Explore Page](Website_Screenshots/explore.png)
+
+---
+
+## **5. Culture Page**
+
+![Culture Page](Website_Screenshots/culture.png)
+
+---
+
+## **6. Discover Page**
+
+![Discover Page](Website_Screenshots/discover.png)
+![Discover Page](Website_Screenshots/discover1.png)
 
 
+---
+
+## **7. Spotlight Page**
+
+![Spotlight Page](Website_Screenshots/spotlight.png)
+
+---
+
+## **8. Quiz Page**
+
+![Quiz Page](Website_Screenshots/quiz.png)
+
+---
+
+## **9. Quest Page**
+
+![Quest Page](Website_Screenshots/quest.png)
+
+---
+
+## **10. Chat Page**
+
+![Chat Page](Website_Screenshots/chat.png)
+
+---
+
+## **11. Dashboard Page**
+
+![Dashboard Page](Website_Screenshots/daashboard.png)
+
+---
+
+## **12. Contributions Page**
+
+![Contributions Page](Website_Screenshots/contributions.png)
+
+---
 
 
 
