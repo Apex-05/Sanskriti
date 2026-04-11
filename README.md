@@ -17,6 +17,23 @@ Sanskriti provides the following core capabilities:
 - Chat and activity features
 - Dashboard with user contribution metrics
 
+## Application Screenshots
+
+### **1. Home Page**
+
+![Home Page](WebsiteScreenshots/Home1.png)
+
+![Home Page](images/login_invalid_credentials.png)
+
+---
+
+## **2. About Page**
+
+
+
+
+
+
 ## Tech Stack
 
 - Python 3.10+
